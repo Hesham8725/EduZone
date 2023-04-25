@@ -1,0 +1,13 @@
+﻿
+@{
+    ViewBag.Title = "codeView";
+}
+
+<h2>codeView</h2>
+
+@using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post))
+{
+    @Html.TextBox("code", "", new { });
+
+    <input type="submit" value="Add Role">
+}

@@ -15,6 +15,8 @@ namespace EduZone.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        ApplicationUser applicationUser;
+        ApplicationDbContext context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
@@ -142,7 +144,7 @@ namespace EduZone.Controllers
             return View();
         }
 
-        //
+        //use ===========================>
         // POST: /Account/Register
         [HttpPost]
         [AllowAnonymous]
@@ -151,38 +153,58 @@ namespace EduZone.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
+                applicationUser = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Address = model.Address,
+                    NationalID = model.NationalID,
+                    EmailActive = false
+                };
+                var result = await UserManager.CreateAsync(applicationUser, model.Password);
+                
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login","Account");
                 }
                 AddErrors(result);
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
-
-        //
+        [AllowAnonymous]
+        public async Task<ActionResult> codeView(ApplicationUser user)
+        {
+            return View();
+        }
+        // use ===========================>
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail(string userId, string code)
+        public async Task<ActionResult> ConfirmEmail( string code)
         {
-            if (userId == null || code == null)
+            var user1 = context.MailOfDoctors.FirstOrDefault(e => e.DoctorMail == applicationUser.Email);
+           if(code == TempData["code"])
             {
-                return View("Error");
+                if (user1 != null)
+                {
+                    // Doctor
+                    await SignInManager.SignInAsync(applicationUser, isPersistent: false, rememberBrowser: false);
+
+                    UserManager.AddToRole(applicationUser.Id, "Educator");
+                    return Content("Page Of Doctor");
+                }
+                else
+                {
+                    //Student
+                    await SignInManager.SignInAsync(applicationUser, isPersistent: false, rememberBrowser: false);
+
+                    UserManager.AddToRole(applicationUser.Id, "Student");
+                    return Content("Page Of Student");
+                }
             }
-            var result = await UserManager.ConfirmEmailAsync(userId, code);
-            return View(result.Succeeded ? "ConfirmEmail" : "Error");
+            else
+            {
+                return Content("Error");
+            }
         }
 
         //

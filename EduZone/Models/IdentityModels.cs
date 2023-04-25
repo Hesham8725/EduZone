@@ -16,6 +16,10 @@ namespace EduZone.Models
             // Add custom user claims here
             return userIdentity;
         }
+        public string Address { get; set; }
+        public string NationalID { get; set; }
+        public bool EmailActive { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -25,9 +29,16 @@ namespace EduZone.Models
         {
         }
 
+        public virtual DbSet<MailOfDoctors> MailOfDoctors { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            //modelBuilder.Entity<AspNetUserClaims>().ToTable("");
         }
     }
 }

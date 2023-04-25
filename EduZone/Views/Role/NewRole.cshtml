@@ -1,0 +1,13 @@
+﻿@model EduZone.Models.RoleViewModel
+@{
+    ViewBag.Title = "NewRole";
+    Layout = null;
+}
+
+@using (Html.BeginForm())
+{
+    @Html.TextBoxFor(e => e.RoleName, "", new { });
+
+    <input type="submit" value="Add Role">
+}
+
