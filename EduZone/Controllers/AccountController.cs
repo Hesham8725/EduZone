@@ -105,15 +105,15 @@ namespace EduZone.Controllers
         {
             if (User.IsInRole("Admin"))
             {
-                return Content("Admin Page");
+                return RedirectToAction("Index", "Admin");
             }
             else if (User.IsInRole("Student"))
             {
-                return Content("Student Page");
+                return RedirectToAction("Index","Student");
             }
             else
             {
-                return Content("Educator Page");
+                return RedirectToAction("Index", "Educator");
             }
         }
         //
@@ -178,7 +178,7 @@ namespace EduZone.Controllers
             {
                 applicationUser = new ApplicationUser
                 {
-                    UserName = model.Email,
+                    UserName = model.Email.Split('.')[0],
                     Email = model.Email,
                     Address = model.Address,
                     NationalID = model.NationalID,
@@ -429,12 +429,12 @@ namespace EduZone.Controllers
 
         //
         // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Login");
         }
 
         //

@@ -112,7 +112,7 @@
                     <span class="link_name">Logout</span>
                 </a>
                 <ul class="sub-menu blank">
-                    <li><a class="link_name" href="#">Logout</a></li>
+                    <li><a class="link_name" href="/Account/LogOff">Logout</a></li>
                 </ul>
             </li>
         </ul>
@@ -132,13 +132,26 @@
                 <div class="navbar-items"><a href="#">About us</a></div>
                 <div class="navbar-items"><a href="#">Contact us</a></div>
             </div>
-            <div class="profile">
-                <div class="rounded-circle border d-flex justify-content-center align-items-center"
-                     style="width:45px;height:45px" alt="Avatar">
-                    <a href="#">
+            <div class="profile d-flex justify-content-center align-items-center ">
+                <a href="#">
+                    <div class="me-1">
+                        @{
+                            if (Request.IsAuthenticated)
+                            {
+                                <h6>@User.Identity.Name.Split('.')[0]</h6>
+                            }
+                        }
+                    </div>
+                    <div class="rounded-circle border d-flex justify-content-center align-items-center"
+                         style="width:45px;height:45px" alt="Avatar">
+
+
                         <i class='bx bx-user'></i>
-                    </a>
-                </div>
+
+
+
+                    </div>
+                </a>
             </div>
         </div>
         <!-- End -->
