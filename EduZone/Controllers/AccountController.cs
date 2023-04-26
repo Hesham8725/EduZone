@@ -69,30 +69,53 @@ namespace EduZone.Controllers
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
-        {
+            {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
+            var user = context.Users.FirstOrDefault(e => e.Email == model.Email);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (user.EmailActive == true)
+                    {
+                       return RetureToYourRole();
+                    }
+                    else
+                    {
+                        string code = RandomPasswordCode.GetCode();
+                        SendEmail send = new SendEmail(code);
+                        TempData["code"] = code;
+                        await send.SendEmailAsync(model.Email);
+                        return RedirectToAction("codeView", "Account");
+                    }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
             }
         }
-
+        public ActionResult RetureToYourRole()
+        {
+            if (User.IsInRole("Admin"))
+            {
+                return Content("Admin Page");
+            }
+            else if (User.IsInRole("Student"))
+            {
+                return Content("Student Page");
+            }
+            else
+            {
+                return Content("Educator Page");
+            }
+        }
         //
         // GET: /Account/VerifyCode
         [AllowAnonymous]
@@ -162,9 +185,17 @@ namespace EduZone.Controllers
                     EmailActive = false
                 };
                 var result = await UserManager.CreateAsync(applicationUser, model.Password);
-                
+                var user1 = context.MailOfDoctors.FirstOrDefault(e => e.DoctorMail == applicationUser.Email);
                 if (result.Succeeded)
                 {
+                    if(user1 != null)
+                    {
+                        await UserManager.AddToRoleAsync(applicationUser.Id, "Educator");
+                    }
+                    else
+                    {
+                        await UserManager.AddToRoleAsync(applicationUser.Id, "Student");
+                    }
                     return RedirectToAction("Login","Account");
                 }
                 AddErrors(result);
@@ -172,34 +203,23 @@ namespace EduZone.Controllers
             return View(model);
         }
         [AllowAnonymous]
-        public async Task<ActionResult> codeView(ApplicationUser user)
+        public ActionResult codeView()
         {
             return View();
         }
         // use ===========================>
         // GET: /Account/ConfirmEmail
         [AllowAnonymous]
-        public async Task<ActionResult> ConfirmEmail( string code)
+        public async Task<ActionResult> ConfirmEmail(string code)
         {
-            var user1 = context.MailOfDoctors.FirstOrDefault(e => e.DoctorMail == applicationUser.Email);
-           if(code == TempData["code"])
+           
+           if(code == (string)TempData["code"])
             {
-                if (user1 != null)
-                {
-                    // Doctor
-                    await SignInManager.SignInAsync(applicationUser, isPersistent: false, rememberBrowser: false);
-
-                    UserManager.AddToRole(applicationUser.Id, "Educator");
-                    return Content("Page Of Doctor");
-                }
-                else
-                {
-                    //Student
-                    await SignInManager.SignInAsync(applicationUser, isPersistent: false, rememberBrowser: false);
-
-                    UserManager.AddToRole(applicationUser.Id, "Student");
-                    return Content("Page Of Student");
-                }
+                var user = User.Identity.GetUserId();
+                var User1 = context.Users.FirstOrDefault(e => e.Id == user);
+                User1.EmailActive = true;
+                context.SaveChanges();
+                return RetureToYourRole();
             }
             else
             {

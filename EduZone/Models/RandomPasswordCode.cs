@@ -12,15 +12,12 @@ namespace EduZone.Models
         {
             code = "";
         }
+     
         public static string GetCode()
         {
             Random random = new Random();
+            code = random.Next(10000000, 100000000).ToString();
 
-            for(int i = 0; i < 8; i++)
-            {
-               int value = random.Next(0, 10);
-                code += value.ToString();
-            }
             return code;
         }
     }

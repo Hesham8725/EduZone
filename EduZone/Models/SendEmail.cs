@@ -25,13 +25,13 @@ namespace EduZone.Models
         public IList<IFormFile> Attachments { get; set; }
         public SendEmail(string calback)
         {
-            Email = "Shooping930@outlook.com";
-            DisplayName = "Shopping System";
-            Password = "Hesham256##";
+            Email = "EduZone_Mai1@outlook.com";
+            DisplayName = "EduZone Mail System";
+            Password = "EduZoneMail1";
             Host = "smtp-mail.outlook.com";
             Port = 587;
-            Body = "Click down link To Reset Password \n" + calback;
-            Subject = "Reset Password";
+            Body = "This is the confirmation code \n" + calback;
+            Subject = "System Mail";
 
         }
         public async Task SendEmailAsync(string mailTo, IList<IFormFile> attachments = null)
@@ -67,7 +67,7 @@ namespace EduZone.Models
             email.From.Add(new MailboxAddress(DisplayName, Email));
 
             var smtp = new SmtpClient();
-            
+
             smtp.Connect(Host, Port, SecureSocketOptions.StartTls);
             smtp.Authenticate(Email, Password);
             await smtp.SendAsync(email);
