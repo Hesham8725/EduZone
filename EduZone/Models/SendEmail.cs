@@ -23,14 +23,21 @@ namespace EduZone.Models
         public string Subject { get; set; }
         public string Body { get; set; }
         public IList<IFormFile> Attachments { get; set; }
-        public SendEmail(string calback)
+        public SendEmail(string calback,int Num)
         {
             Email = "EduZone_Mai1@outlook.com";
             DisplayName = "EduZone Mail System";
             Password = "EduZoneMail1";
             Host = "smtp-mail.outlook.com";
             Port = 587;
-            Body = "This is the confirmation code \n" + calback;
+            if(Num == 1)
+            {
+                Body = "This is the confirmation code \n" + calback;
+            }
+            else
+            {
+                Body = "<h1>Click down link To Reset Password </h1>" + $"<a href= \"{calback}\" > Click Here</a>";
+            }
             Subject = "System Mail";
 
         }

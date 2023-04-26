@@ -88,7 +88,7 @@ namespace EduZone.Controllers
                     else
                     {
                         string code = RandomPasswordCode.GetCode();
-                        SendEmail send = new SendEmail(code);
+                        SendEmail send = new SendEmail(code,1);
                         TempData["code"] = code;
                         await send.SendEmailAsync(model.Email);
                         return RedirectToAction("codeView", "Account");
@@ -244,22 +244,18 @@ namespace EduZone.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                var user = await UserManager.FindByEmailAsync(model.Email);
+                if (user == null)
                 {
-                    // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                string Calback = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                // why SendEmail(Calback, --> 0  <--) to send Link Not Code
+                SendEmail email = new SendEmail(Calback,0);
+                await email.SendEmailAsync(model.Email);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -271,12 +267,27 @@ namespace EduZone.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPasswordConfirmation(string code)
+        {
+            if(code == (string)TempData["code1"])
+            {
+                return RedirectToAction("ResetPassword");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Invalid login attempt.");
+                return View();
+            }
+        }
         //
         // GET: /Account/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
-            return code == null ? View("Error") : View();
+            return code == null ? View("Error") : View();   
         }
 
         //
@@ -293,7 +304,6 @@ namespace EduZone.Controllers
             var user = await UserManager.FindByNameAsync(model.Email);
             if (user == null)
             {
-                // Don't reveal that the user does not exist
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
