@@ -10,7 +10,7 @@ using System.Web.Mvc;
 
 namespace EduZone.Controllers
 {
-    [Authorize(Roles ="Admin")]
+  //  [Authorize(Roles ="Admin")]
     public class RoleController : Controller
     {
         // GET: Role
