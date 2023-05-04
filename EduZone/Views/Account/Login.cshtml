@@ -27,10 +27,11 @@
             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", placeholder = "Example@compit.aun.edu.eg" })
             @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
 
-            <div class="wrapper mt-2">
-                @Html.PasswordFor(m => m.Password, new { @class = "form-control pass-inpt", placeholder = "Password" })
-                <span class="show-btn"> <i class="fa-solid fa-eye"> </i></span>
-            </div>
+        <div class="form-floating wrapper mb-2 mt-3">
+            <input type="password" name="Password" class="form-control pass-inpt" placeholder="Enter Password" id="floatingInputGrid2" required>
+            <span class="show-btn"> <i class="fa-solid fa-eye"> </i></span>
+            <label for="floatingInputGrid2">Password</label>
+        </div>
             @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
             <a href="/Account/ForgotPassword" class="forget mt-1">Forget Password?</a>
 
@@ -60,5 +61,9 @@
                 showBtn[i].classList.remove("hide-btn");
             }
         });
+    }
+    
+    onload = function () {
+        document.getElementById("Password").removeAttribute("value");
     }
 </script>

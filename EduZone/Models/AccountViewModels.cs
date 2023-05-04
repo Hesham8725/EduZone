@@ -43,6 +43,7 @@ namespace EduZone.Models
     {
         [Required]
         [Display(Name = "Email")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@(compit\.aun\.edu\.eg)$", ErrorMessage = "Not valid academic mail")]
         public string Email { get; set; }
     }
 
@@ -50,7 +51,7 @@ namespace EduZone.Models
     {
         [Required]
         [Display(Name = "Email")]
-       // [RegularExpression("*@compit.aun.edu.eg",ErrorMessage = "Not valid academic mail")]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@(compit\.aun\.edu\.eg)$", ErrorMessage = "Not valid academic mail")]
         public string Email { get; set; }
 
         [Required]
@@ -65,11 +66,10 @@ namespace EduZone.Models
     public class RegisterViewModel
     {
         [Required]
-
         public string Name  { get; set; }
 
         [Required]
-        //[RegularExpression("[1-9](0-9)*" ,ErrorMessage ="Must be Number Not charactor")]
+        [RegularExpression("/^\\d+$/", ErrorMessage ="Must be Number Not charactor")]
         [MaxLength(14,ErrorMessage ="Must be 14 Number")]
         public string NationalID { get; set; }
 
@@ -95,7 +95,7 @@ namespace EduZone.Models
     public class ResetPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@(compit\.aun\.edu\.eg)$", ErrorMessage = "Not valid academic mail")]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
@@ -116,7 +116,7 @@ namespace EduZone.Models
     public class ForgotPasswordViewModel
     {
         [Required]
-        [EmailAddress]
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@(compit\.aun\.edu\.eg)$", ErrorMessage = "Not valid academic mail")]
         [Display(Name = "Email")]
         public string Email { get; set; }
     }

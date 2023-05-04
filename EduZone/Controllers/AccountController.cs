@@ -178,7 +178,8 @@ namespace EduZone.Controllers
             {
                 applicationUser = new ApplicationUser
                 {
-                    UserName = model.Email.Split('.')[0],
+                    Name = model.Name,
+                    UserName = model.Email,
                     Email = model.Email,
                     Address = model.Address,
                     NationalID = model.NationalID,
