@@ -111,9 +111,13 @@ namespace EduZone.Controllers
             {
                 return RedirectToAction("Index","Student");
             }
-            else
+            else if(User.IsInRole("Educator"))
             {
                 return RedirectToAction("Index", "Educator");
+            }
+            else
+            {
+                return View("Error");
             }
         }
         //
