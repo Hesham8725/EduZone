@@ -209,9 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202304260948323_Teat1.cs" />
-    <Compile Include="Migrations\202304260948323_Teat1.designer.cs">
-      <DependentUpon>202304260948323_Teat1.cs</DependentUpon>
+    <Compile Include="Migrations\202304270940215_Name.cs" />
+    <Compile Include="Migrations\202304270940215_Name.designer.cs">
+      <DependentUpon>202304270940215_Name.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -394,8 +394,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202304260948323_Teat1.resx">
-      <DependentUpon>202304260948323_Teat1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202304270940215_Name.resx">
+      <DependentUpon>202304270940215_Name.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

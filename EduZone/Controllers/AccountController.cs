@@ -91,7 +91,7 @@ namespace EduZone.Controllers
                         SendEmail send = new SendEmail(code,1);
                         TempData["code"] = code;
                         await send.SendEmailAsync(model.Email);
-                        return RedirectToAction("codeView", "Account");
+                        return RedirectToAction("codeView", "Account",new { Error = 1});
                     }
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -111,9 +111,13 @@ namespace EduZone.Controllers
             {
                 return RedirectToAction("Index","Student");
             }
-            else
+            else if(User.IsInRole("Educator"))
             {
                 return RedirectToAction("Index", "Educator");
+            }
+            else
+            {
+                return View("Error");
             }
         }
         //
@@ -178,7 +182,8 @@ namespace EduZone.Controllers
             {
                 applicationUser = new ApplicationUser
                 {
-                    UserName = model.Email.Split('.')[0],
+                    Name = model.Name,
+                    UserName = model.Email,
                     Email = model.Email,
                     Address = model.Address,
                     NationalID = model.NationalID,
@@ -196,16 +201,28 @@ namespace EduZone.Controllers
                     {
                         await UserManager.AddToRoleAsync(applicationUser.Id, "Student");
                     }
-                    return RedirectToAction("Login","Account");
+                    string code = RandomPasswordCode.GetCode();
+                    SendEmail send = new SendEmail(code, 1);
+                    TempData["code"] = code;
+                    await send.SendEmailAsync(model.Email);
+                    return RedirectToAction("codeView", "Account", new { Error = 1 });
                 }
                 AddErrors(result);
             }
             return View(model);
         }
         [AllowAnonymous]
-        public ActionResult codeView()
+        public ActionResult codeView(int Error)
         {
-            return View();
+            if(Error == 0)
+            {
+                ModelState.AddModelError("", "Invalid code ! ");
+                return View();
+            }
+            else
+            {
+                return View();
+            }
         }
         // use ===========================>
         // GET: /Account/ConfirmEmail
@@ -223,7 +240,8 @@ namespace EduZone.Controllers
             }
             else
             {
-                return Content("Error");
+                TempData.Keep("code");
+                return RedirectToAction(nameof(codeView),new { Error = 0});
             }
         }
 

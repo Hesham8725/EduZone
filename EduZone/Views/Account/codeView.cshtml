@@ -1,13 +1,15 @@
 ﻿
 @{
     ViewBag.Title = "codeView";
+    Layout = null;
 }
-
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
 <h2>codeView</h2>
 
-@using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post))
+@using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post) )
 {
-    @Html.TextBox("code", "", new { });
+    @Html.ValidationSummary(false, "", new {@class = "text-danger"})
+    @Html.TextBox("code", "", new {@class = "form-control w-25 m-3 " });
 
-    <input type="submit" value="submit">
+    <input type="submit" value="submit" class="btn btn-primary w-25 p-2 m-3">
 }

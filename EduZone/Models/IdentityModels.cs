@@ -17,6 +17,7 @@ namespace EduZone.Models
             return userIdentity;
         }
         public string Address { get; set; }
+        public string Name { get; set; }
         public string NationalID { get; set; }
         public bool EmailActive { get; set; }
 
