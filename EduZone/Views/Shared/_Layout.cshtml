@@ -18,6 +18,7 @@
     <!-- End -->
     <!-- CSS Main File -->
     <link href="~/Content/StyleSheet/math-2.css" rel="stylesheet" />
+    @RenderSection("Top_Link",false);
 </head>
 
 <body>
@@ -133,7 +134,7 @@
                 <div class="navbar-items"><a href="#">Contact us</a></div>
             </div>
             <div class="profile d-flex justify-content-center align-items-center ">
-                <a href="#">
+                <a href="/Manage/Index">
                     <div class="me-1">
                         @{
                             if (Request.IsAuthenticated)
@@ -144,12 +145,7 @@
                     </div>
                     <div class="rounded-circle border d-flex justify-content-center align-items-center"
                          style="width:45px;height:45px" alt="Avatar">
-
-
                         <i class='bx bx-user'></i>
-
-
-
                     </div>
                 </a>
             </div>
@@ -177,6 +173,7 @@
     <script src="~/Scripts/bootstrap.bundle.min.js"></script>
     <script src="~/Scripts/main.js"></script>
     <!-- End -->
+    @RenderSection("bottom_Link", false);
 </body>
 
 </html>
