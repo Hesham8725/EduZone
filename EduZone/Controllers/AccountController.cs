@@ -9,12 +9,15 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using EduZone.Models;
+using System.Web.Security;
+using System.Collections.Generic;
 
 namespace EduZone.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
+        IList<String> RolesForUser ;
         ApplicationUser applicationUser;
         ApplicationDbContext context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
@@ -41,7 +44,6 @@ namespace EduZone.Controllers
                 _signInManager = value; 
             }
         }
-
         public ApplicationUserManager UserManager
         {
             get
@@ -75,6 +77,7 @@ namespace EduZone.Controllers
                 return View(model);
             }
             var user = context.Users.FirstOrDefault(e => e.Email == model.Email);
+            RolesForUser = UserManager.GetRoles(user.Id);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(user.UserName, model.Password, model.RememberMe, shouldLockout: false);
@@ -83,7 +86,7 @@ namespace EduZone.Controllers
                 case SignInStatus.Success:
                     if (user.EmailActive == true)
                     {
-                       return RetureToYourRole();
+                        return RetureToYourRole(RolesForUser[0].Split(' ')[0]);
                     }
                     else
                     {
@@ -101,23 +104,18 @@ namespace EduZone.Controllers
                     return View(model);
             }
         }
-        public ActionResult RetureToYourRole()
+        public ActionResult RetureToYourRole(string Role)
         {
-            if (User.IsInRole("Admin"))
+            switch (Role)
             {
-                return RedirectToAction("Index", "Admin");
-            }
-            else if (User.IsInRole("Student"))
-            {
-                return RedirectToAction("Index","Student");
-            }
-            else if(User.IsInRole("Educator"))
-            {
-                return RedirectToAction("Index", "Educator");
-            }
-            else
-            {
-                return View("Error");
+                case "Admin":
+                    return RedirectToAction("Index", "Admin");
+                case "Student":
+                    return RedirectToAction("Index", "Student");
+                case "Educator":
+                    return RedirectToAction("Index", "Educator");
+                default:
+                    return View("Error");
             }
         }
         //
@@ -236,7 +234,7 @@ namespace EduZone.Controllers
                 var User1 = context.Users.FirstOrDefault(e => e.Id == user);
                 User1.EmailActive = true;
                 context.SaveChanges();
-                return RetureToYourRole();
+                return RetureToYourRole(GetRole());
             }
             else
             {
@@ -244,7 +242,20 @@ namespace EduZone.Controllers
                 return RedirectToAction(nameof(codeView),new { Error = 0});
             }
         }
-
+        public string GetRole()
+        {
+            string role = "";
+            if (User.Identity.IsAuthenticated)
+            {
+                var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
+                var roleClaim = identity.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role);
+                if (roleClaim != null)
+                {
+                    role = roleClaim.Value;
+                }
+            }
+            return role;
+        } 
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]
@@ -327,6 +338,7 @@ namespace EduZone.Controllers
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
+
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);
