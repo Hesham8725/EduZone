@@ -51,7 +51,8 @@ namespace EduZone.Models
     {
         [Required]
         [Display(Name = "Email")]
-        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@(compit\.aun\.edu\.eg)$", ErrorMessage = "Not valid academic mail")]
+        //phyedu
+        [RegularExpression(@"^[a-zA-Z0-9._%+-]+@((compit)\.aun\.edu\.eg)$", ErrorMessage = "Not valid academic mail")]
         public string Email { get; set; }
 
         [Required]

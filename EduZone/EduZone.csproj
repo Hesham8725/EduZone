@@ -216,7 +216,9 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
+    <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Batch.cs" />
+    <Compile Include="Models\Educator.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MailOfDoctors.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
