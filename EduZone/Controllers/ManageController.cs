@@ -13,66 +13,59 @@ namespace EduZone.Controllers
     [Authorize]
     public class ManageController : Controller
     {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+            private ApplicationSignInManager _signInManager;
+            private ApplicationUserManager _userManager;
 
-        public ManageController()
-        {
-        }
-
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
-
-        public ApplicationSignInManager SignInManager
-        {
-            get
+            public ManageController()
             {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
-            }
-        }
 
-        public ApplicationUserManager UserManager
-        {
-            get
+            public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
             {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                UserManager = userManager;
+                SignInManager = signInManager;
             }
-            private set
+
+            public ApplicationSignInManager SignInManager
             {
-                _userManager = value;
+                get
+                {
+                    return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+                }
+                private set 
+                { 
+                    _signInManager = value; 
+                }
             }
-        }
+
+            public ApplicationUserManager UserManager
+            {
+                get
+                {
+                    return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                }
+                private set
+                {
+                    _userManager = value;
+                }
+            }
 
         //
         // GET: /Manage/Index
-        public async Task<ActionResult> Index(ManageMessageId? message)
+        public async Task<ActionResult> Index()
         {
-            ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.SetTwoFactorSuccess ? "Your two-factor authentication provider has been set."
-                : message == ManageMessageId.Error ? "An error has occurred."
-                : message == ManageMessageId.AddPhoneSuccess ? "Your phone number was added."
-                : message == ManageMessageId.RemovePhoneSuccess ? "Your phone number was removed."
-                : "";
-
-            var userId = User.Identity.GetUserId();
-            var model = new IndexViewModel
+            if (User.IsInRole("Admin"))
             {
-                HasPassword = HasPassword(),
-                PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
-                TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
-                Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
-            };
-            return View(model);
+                return RedirectToAction("Profile", "Admin");
+            }
+            else if (User.IsInRole("Educator"))
+            {
+                return RedirectToAction("Profile", "Educator");
+            }
+            else
+            {
+                return RedirectToAction("Profile", "Student");
+            }
         }
 
         //

@@ -69,7 +69,7 @@ namespace EduZone.Models
         public string Name  { get; set; }
 
         [Required]
-        [RegularExpression("/^\\d+$/", ErrorMessage ="Must be Number Not charactor")]
+        [RegularExpression(@"^[0-9]+$", ErrorMessage ="Must be Number Not charactor")]
         [MaxLength(14,ErrorMessage ="Must be 14 Number")]
         public string NationalID { get; set; }
 
