@@ -19,6 +19,7 @@
     <!-- CSS Main File -->
     <link href="~/Content/StyleSheet/style.css" rel="stylesheet" />
     <link href="~/Content/StyleSheet/sidebar.css" rel="stylesheet" />
+    <link href="~/Content/StyleSheet/ProfileCSS.css" rel="stylesheet" />
     @RenderSection("Top_Link", false);
 </head>
 
@@ -54,6 +55,7 @@
 
 
         }
+
         <!-- Sidebar Section -->
         <div class="sidebar closee">
             <!-- logo -->
@@ -178,24 +180,84 @@
 
                     </a>
                 </div>
+
             </div>
             <!-- End -->
             <!-- Render Section (: -->
             <main class="container my-3">
-                @RenderBody()
+                <section class="py-5 my-5">
+                    <div class="container">
+                        <div class="bg-white shadow rounded-lg d-block d-sm-flex">
+                            <div class="profile-tab-nav border-right">
+                                <div class="p-4">
+
+                                    <div class="img-circle text-center mb-3">
+
+                                        <img src="~/images/@path" alt="Image" class="shadow">
+                                    </div>
+                                    @*<h4 class="text-center">@Model.FirstName  @Model.LastName</h4>*@
+                                </div>
+                                <div class="nav flex-column nav-pills" id="v-pills-tab">
+                                    <a class="nav-link  item1" href="/Profile/BasicInfo">
+                                        <i class="fa fa-home text-center mr-1"></i>
+                                        Account
+                                    </a>
+                                    @if (User.IsInRole("Student"))
+                                    {
+                                        <a class="nav-link item2" href="/Profile/CollegeInfo">
+                                            <i class="fa-solid fa-address-card"></i>
+                                            Educational information
+                                        </a>
+                                    }
+                                    <a class="nav-link item5" href="/Profile/ChanageEmail">
+                                        <i class="fa-solid fa-at"></i>
+                                        Chanage Email
+                                    </a>
+                                    <a class="nav-link item3" href="/Profile/ChangeImage">
+                                        <i class="fa-solid fa-user"></i>
+                                        Chanage photo
+                                    </a>
+                                    <a class="nav-link item4" href="/Profile/ChangePassword">
+                                        <i class="fa fa-key text-center mr-1"></i>
+                                        Password
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="tab-content p-4 p-md-5" id="v-pills-tabContent">
+                                <!--Here ================-->
+                                @if (ViewBag.Show == true)
+                                {
+
+                                    <div class="alert alert-success alert-dismissible" role="alert">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        Update successful
+                                    </div>
+                                    ViewBag.Show = false;
+                                }
+
+                                @RenderBody()
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
             </main>
             <!-- End Section -->
         </section>
         <!-- End -->
         <!-- JS dependences -->
-
         <script src="~/Scripts/jquery-3.6.4.js"></script>
-        <script src="~/lib/font-awesome/js/all.js"></script>
+        <script src="~/Scripts/jquery.validate.js"></script>
+        <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
         <script src="~/Scripts/bootstrap.js"></script>
+
+        <script src="~/lib/font-awesome/js/all.js"></script>
         <script src="~/Scripts/bootstrap.bundle.js"></script>
         <script src="~/Scripts/main.js"></script>
         <!-- End -->
-        RenderSection("bottom_Link", false);
+        @RenderSection("bottom_Link", false)
     }
 </body>
 
