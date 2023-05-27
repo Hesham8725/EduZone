@@ -7,6 +7,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Security.Claims;
 using System.IO;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using Microsoft.AspNet.SignalR;
+using EduZone.MyHubs;
 
 namespace EduZone.Controllers
 {
@@ -18,6 +22,14 @@ namespace EduZone.Controllers
         {
             return View();
         }
-        
+        public async Task<ActionResult> TimeLine()
+        {
+            var data = await context.Posts.OrderByDescending(x => x.Date).ToListAsync();
+           /* var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.NewPostAdded(post);
+*/
+            return View(data);
+        }
+
     }
 }

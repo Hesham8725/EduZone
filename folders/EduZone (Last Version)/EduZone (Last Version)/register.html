@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register</title>
+  <!-- Render All Elemnts Normally-->
+  <!-- <link rel="stylesheet" href="CSS/normalize.css" /> -->
+
+  <!-- Fonts Awesome-->
+  <link rel="stylesheet" href="CSS/all.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+  <!-- CSS Main File -->
+  <link rel="stylesheet" href="CSS/register.css" />
+  <link rel="icon" href="Images/logo.png">
+  <link rel="stylesheet" href="CSS/bootstrap.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="overlay"></div>
+    <form action="#">
+      <div class="left">
+        <img src="Images/logo.png" class="logo" />
+        <h2>
+          Sign Up To
+          <h1>EduZone!</h1>
+          <span>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quos
+            ipsam deleniti omnis quibusdam itaque quidem beatae doloremque
+            enim illum, inventore perferendis vel quo facilis et, iusto,
+            veritatis odit veniam soluta.</span>
+        </h2>
+        <img src="Images/register.png" class="log" />
+      </div>
+      <div class="right">
+        <h2>Register</h2>
+        <input type="text" class="form-control ebail" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Your Name" pattern="[A-Za-z ]{1,32}" required>
+        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" pattern="^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$" required>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="National ID" pattern="(2|3)[0-9][1-9][0-1][1-9][0-3][1-9](01|02|03|04|11|12|13|14|15|16|17|18|19|21|22|23|24|25|26|27|28|29|31|32|33|34|35|88)\d\d\d\d\d" required>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Address" required>
+        <input type="Password" class="form-control" id="txtPassword" aria-describedby="emailHelp" placeholder="Password" title="Password must contain: Minimum 8 characters atleast 1 Alphabet and 1 Number" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"  required>
+        <input type="Password" class="form-control" id="txtConfirmPassword" aria-describedby="emailHelp" placeholder="Confirm Password" pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"  required>  
+        <select class="form-select" required>
+          <option selected hidden>Register as</option>
+          <option value="1">One</option>
+          <option value="2">Two</option>
+          <option value="3">Three</option>
+        </select>
+        <button type="submit" class="btn btn-success nn  my-2 btn-width p-3" >Submit</button>
+
+        <span>Already Have An Account?
+          <a href="login.html" class="sign">Log In</a></span>
+      </div>
+    </form>
+  </div>
+
+  <script src="JS/bootstrap.bundle.min.js"></script>
+  <script src="JS/script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+﻿@using EduZone.Models
+@model List<Post>
+
+<link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
+<main class="container my-3 pb-4">
+    @using (Html.BeginForm("AddPost", "Educator", FormMethod.Post, new { @class = "mt-5" }))
+    {
+        <div class="timeline ">
+            <div class="photo-name">
+                <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="doctor" />
+                <div class="info">
+                    <h2 class="info-name">@User.Identity.Name</h2>
+                    <span class="info-date text-dark"><b class="me-1">Group</b> <i class="fa-solid fa-sort-down"></i></span>
+                </div>
+            </div>
+            @Html.AntiForgeryToken()
+            @*@Html.TextArea("Content", new { placeholder = "Write new announcement..." })*@
+            <input type="hidden" name="AuthorName" value="@User.Identity.Name" />
+            <input type="hidden" name="Date" value="@DateTime.Now" />
+
+            <textarea class="m-3" name="ContentOfPost" id="" placeholder="Write new announcement..."></textarea>
+            <div class="line"></div>
+            <div class="like-comment live-photo">
+                <div> <a href=""> <i class="fa-solid fa-video "></i> </a> <span class="text-secondary ms-2">Live class</span>   </div>
+                <div> <a href=""> <i class="fa-solid fa-photo-film"></i> </a> <span class="text-secondary ms-2">Photo/video</span>   </div>
+                <button type="submit" class="btn btn-outline-success"> POST </button>
+                @*<input type="button" name="send" value="PostHub" id="send" />*@
+            </div>
+        </div>
+    }
+   
+<div class="timeline" id="timeline" style="display:none">
+    <div class="photo-name">
+        <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
+        <div class="info">
+            <h2 class="info-name" id="info-name"><a href="">        </a> </h2>
+            <p class="info-date" id="info-date">         </p>
+        </div>
+    </div>
+    <p class="news" id="news">
+
+
+    </p>
+    <div class="line"></div>
+    <div class="like-comment-p">
+        <div class="like-comment">
+            <p><i class="fa-solid fa-thumbs-up me-2"></i> <span class="text-secondary">Like</span></p>
+            <p><i class="fa-solid fa-message me-2"></i> <span class="text-secondary">Comment</span> </p>
+        </div>
+        <div class="number-like-comment">
+            <p><b>250</b><span class="ms-2 text-secondary">Like</span> </p>
+            <p><b>250</b><span class="ms-2 text-secondary">Comment</span> </p>
+        </div>
+    </div>
+</div>
+
+    @foreach (var item in Model)
+    {
+        <div class="timeline">
+            <div class="photo-name">
+                <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
+                <div class="info">
+                    <h2 class="info-name"><a href="">@item.AuthorName</a> </h2>
+                    <p class="info-date">@item.Date</p>
+                </div>
+            </div>
+            <p class="news">
+                @item.ContentOfPost
+            </p>
+            <div class="line"></div>
+            <div class="like-comment-p">
+                <div class="like-comment">
+                    <p><i class="fa-solid fa-thumbs-up me-2"></i> <span class="text-secondary">Like</span></p>
+                    <p><i class="fa-solid fa-message me-2"></i> <span class="text-secondary">Comment</span> </p>
+                </div>
+                <div class="number-like-comment">
+                    <p><b>250</b><span class="ms-2 text-secondary">Like</span> </p>
+                    <p><b>250</b><span class="ms-2 text-secondary">Comment</span> </p>
+                </div>
+            </div>
+        </div>
+    }
+
+
+
+    @*real time links*@
+
+    @section bottom_Link
+{
+        <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+        <script src="~/Signalr/hubs"></script>
+        <script>
+            $(function () {
+                var con = $.hubConnection();
+                var proxy = con.createHubProxy("HubClass");
+                con.start();
+                proxy.on("NewPostAdded", function (NewPost) {
+                    window.alert('new post add');
+                    $('#timeline').css('display', 'block');
+                    $('.news').append(NewPost.ContentOfPost);
+                    $('#info-date').append(NewPost.Date);
+                    $('#info-name').append(NewPost.AuthorName);
+
+                });
+
+            });
+
+        </script>
+    }
+</main>
+
+
+
+
+

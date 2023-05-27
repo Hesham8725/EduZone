@@ -109,11 +109,11 @@ namespace EduZone.Controllers
             switch (Role)
             {
                 case "Admin":
-                    return RedirectToAction("Index", "Admin");
+                    return RedirectToAction("TimeLine", "Admin");
                 case "Student":
-                    return RedirectToAction("Index", "Student");
+                    return RedirectToAction("TimeLine", "Student");
                 case "Educator":
-                    return RedirectToAction("Index", "Educator");
+                    return RedirectToAction("TimeLine", "Educator");
                 default:
                     return View("Error");
             }

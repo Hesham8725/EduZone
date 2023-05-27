@@ -32,6 +32,9 @@ namespace EduZone.Models
 
         public virtual DbSet<MailOfDoctors> MailOfDoctors { get; set; }
         public virtual DbSet<Student> GetStudents { get; set; }
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

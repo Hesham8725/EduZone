@@ -1,0 +1,93 @@
+
+.timeline {
+    border: 2px solid #1e8243;
+    border-radius: 10px;
+    width: 80%;
+    margin: auto;
+    height: fit-content;
+    padding: 40px;
+    margin-top: 50px;
+}
+
+.photo-name {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    align-content: center;
+}
+
+    .photo-name > * {
+        margin-right: 10px;
+        align-self: center;
+    }
+
+.timeline .photo-profile {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #1e8243;
+}
+
+.info .info-name{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.info .info-date{
+    margin-top: -5px;
+    color: gray;
+}
+
+.timeline .news{
+    direction: rtl;
+}
+
+textarea {
+    padding: 10px 0;
+    padding-bottom: 0;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    width: 100%;
+    resize: none;
+    margin-bottom: -30px;
+}
+
+.timeline .line {
+    height: 2px !important;
+    background-color: #1e8243;
+    margin-top: 50px;
+}
+
+.like-comment-p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+}
+
+.like-comment,
+.number-like-comment {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    align-content: center;
+    padding: 15px 0;
+}
+
+    .like-comment > *, .number-like-comment > * {
+        margin-right: 10px;
+    }
+
+.live-photo .fa-video, .live-photo .fa-photo-film {
+    color: #1e8243;
+}
+
+.like-comment .fa-solid {
+    font-size: 22px;
+    margin-top: 5px;
+}
+
+a {
+    color: black;
+}
