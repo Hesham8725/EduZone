@@ -76,7 +76,7 @@ namespace EduZone.Controllers
             {
                 return View(model);
             }
-            var user = context.Users.FirstOrDefault(e => e.Email == model.Email);
+           var user = context.Users.FirstOrDefault(e => e.Email == model.Email);
             RolesForUser = UserManager.GetRoles(user.Id);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
@@ -301,6 +301,8 @@ namespace EduZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPasswordConfirmation(string code)
         {
+            // not work ...
+
             if(code == (string)TempData["code1"])
             {
                 return RedirectToAction("ResetPassword");
@@ -330,15 +332,14 @@ namespace EduZone.Controllers
             {
                 return View(model);
             }
-            var user = await UserManager.FindByNameAsync(model.Email);
+            var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("ResetPassword", "Account", model.Code);
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-
                 return RedirectToAction("ResetPasswordConfirmation", "Account");
             }
             AddErrors(result);

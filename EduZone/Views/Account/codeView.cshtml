@@ -1,15 +1,51 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "codeView";
     Layout = null;
 }
-<link href="~/Content/bootstrap.css" rel="stylesheet" />
-<h2>codeView</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <!--Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap"
+          rel="stylesheet" />
+    <!-- CSS Main File -->
+    <link href="~/Content/StyleSheet/verifycode.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="containerr">
+        <div class="overlay"></div>
 
-@using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post) )
-{
-    @Html.ValidationSummary(false, "", new {@class = "text-danger"})
-    @Html.TextBox("code", "", new {@class = "form-control w-25 m-3 " });
+        @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post))
+        {
+            <div class="right">
+                <i class="fa-solid fa-key"></i>
+                <h2>Forget Password?</h2>
+                <h4>No worries, we'll send you reset instructions.</h4>
+                <div class="inputbox">
+                    <input required="required" type="number" name="code" />
+                    <span>Enter Verification Code</span>
+                    <i></i>
+                </div>
+                <input type="submit"
+                       value="Verify"
+                       name="submit"
+                       style="
+              background-color: #14e31f;
+              width: 304px;
+              color: black;
+              font-size: 20px;
+              border-radius: 15px;
+              outline: none;
+              border-color: #14e31f;
+              box-shadow: rgb(18 17 17) -1px 1px 7px;
+              margin-bottom: 20px;
+              cursor: pointer;
+            " />
+            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+            </div>
+        }
+    </div>
+</body>
+</html>
 
-    <input type="submit" value="submit" class="btn btn-primary w-25 p-2 m-3">
-}

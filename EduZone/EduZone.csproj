@@ -269,8 +269,11 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\doctor.jpg" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\StyleSheet\verifycode.css" />
+    <Content Include="Content\StyleSheet\resetpass.css" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
+    <Content Include="Content\StyleSheet\forgetpass.css" />
     <Content Include="Content\StyleSheet\LoginStyle.css" />
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
