@@ -335,7 +335,7 @@ namespace EduZone.Controllers
             var user = await UserManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
-                return RedirectToAction("ResetPassword", "Account", model.Code);
+                return RedirectToAction("ResetPasswordConfirmation", "Account", model.Code);
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
