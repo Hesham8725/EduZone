@@ -72,6 +72,12 @@
     <Reference Include="Microsoft.AspNet.Identity.Owin, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNet.Identity.Owin.2.2.3\lib\net45\Microsoft.AspNet.Identity.Owin.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.4.3\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.4.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.4.3\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.AspNetCore.Http.Features, Version=5.0.17.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.AspNetCore.Http.Features.5.0.17\lib\net461\Microsoft.AspNetCore.Http.Features.dll</HintPath>
     </Reference>
@@ -212,9 +218,11 @@
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\PostHub.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -250,6 +258,7 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
+    <Content Include="Content\StyleSheet\ForgetPssword.css" />
     <Content Include="Content\StyleSheet\LoginStyle.css" />
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
@@ -257,6 +266,7 @@
     <Content Include="Content\StyleSheet\RegisterStyle.css" />
     <Content Include="Content\StyleSheet\sidebar.css" />
     <Content Include="Content\StyleSheet\style.css" />
+    <Content Include="Content\StyleSheet\time-line-for-dector.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -343,6 +353,8 @@
     <Content Include="Scripts\jquery-3.6.4.slim.js" />
     <Content Include="Scripts\jquery-3.6.4.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.js" />
+    <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -406,6 +418,7 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\Profile\ChangeImage.cshtml" />
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
+    <Content Include="Views\Timeline\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -4,12 +4,43 @@
     Layout = null;
 }
 <link href="~/Content/bootstrap.css" rel="stylesheet" />
-<h2>codeView</h2>
+<style>
+    body {
+        font-family: "Montserrat", sans-serif;
+        background-image: url(/Images/banner4-cssxk4.jpg);
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-attachment: fixed;
+    }
 
-@using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post) )
-{
-    @Html.ValidationSummary(false, "", new {@class = "text-danger"})
-    @Html.TextBox("code", "", new {@class = "form-control w-25 m-3 " });
+    .overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgb(52 129 64 / 60%);
+    }
+</style>
+<div class="overlay">
+    <div class="card text-center w-50 align-content-center" style=" font-family: 'Signika', sans-serif;margin-top:25vh;margin-left:25%">
+        <div class="card-header h5 text-white bg-primary">Enter verification code</div>
+        @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post))
+        {
+            <div class="form-floating mb-3">
+                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
+                <input type="text" class="form-control w-75 mt-5" style="margin-left:80px;" name="code" id="floatingInput" placeholder="Enter code">
+                <label style="margin-left:80px;" for="floatingInput">Add Code Here</label>
+            </div>
+            <input type="submit" value="submit" class="btn btn-primary w-75 p-2 m-3">
+        }
+    </div>
 
-    <input type="submit" value="submit" class="btn btn-primary w-25 p-2 m-3">
-}
+</div>
+
+
+<script src="~/Scripts/bootstrap.js"></script>
+<script src="~/Scripts/bootstrap.bundle.js"></script>
+
+
