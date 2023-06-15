@@ -232,6 +232,8 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupsMembers.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -242,6 +244,7 @@
     <Compile Include="Models\MailOfDoctors.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\RandomPasswordCode.cs" />
+    <Compile Include="Models\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\SendEmail.cs" />
     <Compile Include="Models\Student.cs" />
