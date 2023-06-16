@@ -43,7 +43,7 @@
             }
             var user1 = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
 
-            if (user1.Image == null || user1.Image == null)
+            if (user1== null || user1.Image == null)
             {
                 path = "malefemale.jpg";
             }
