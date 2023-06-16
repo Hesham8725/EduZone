@@ -29,10 +29,7 @@ namespace EduZone.Models
             context.SaveChanges();
             return Content("Add");
         }
-        public ActionResult Profile()
-        {
-            return View();
-        }
+        
 
     }
 }
