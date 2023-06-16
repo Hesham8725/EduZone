@@ -215,6 +215,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
@@ -225,11 +226,23 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Migrations\202306162006498_init.cs" />
-    <Compile Include="Migrations\202306162006498_init.designer.cs">
-      <DependentUpon>202306162006498_init.cs</DependentUpon>
+    <Compile Include="Migrations\202306151126472_EducatorProfile1.cs" />
+    <Compile Include="Migrations\202306151126472_EducatorProfile1.Designer.cs">
+      <DependentUpon>202306151126472_EducatorProfile1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
+    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
+      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306161344426_Group.cs" />
+    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
+      <DependentUpon>202306161344426_Group.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Educator.cs" />
+    <Compile Include="Models\Group.cs" />
+    <Compile Include="Models\GroupsMembers.cs" />
+    <Compile Include="Models\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Batch.cs" />
@@ -416,23 +429,9 @@
     <Content Include="Views\Profile\ChangeImage.cshtml" />
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
     <Content Include="Views\Timeline\Index.cshtml" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.7.0.slim.min.map" />
-    <Content Include="Scripts\jquery-3.7.0.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306162006498_init.resx">
-      <DependentUpon>202306162006498_init.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
