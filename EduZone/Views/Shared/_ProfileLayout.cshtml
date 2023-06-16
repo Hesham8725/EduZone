@@ -42,7 +42,7 @@
                     id = userIdClaim.Value;
                 }
             }
-            var user1 = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
+            var user1 = context.Users.FirstOrDefault(e => e.Id == id);
 
             if (user1 == null || user1.Image == null)
             {
@@ -76,12 +76,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/Group/Index">
                         <i class="bx bx-group"></i>
                         <span class="link_name">Groups</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Groups</a></li>
+                        <li><a class="link_name" href="/Group/Index">Groups</a></li>
                     </ul>
                 </li>
                 <li>
