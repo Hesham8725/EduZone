@@ -20,7 +20,9 @@ namespace EduZone.Models
         public string Name { get; set; }
         public string NationalID { get; set; }
         public bool EmailActive { get; set; }
-
+        public int Age { get; set; }
+        public string Image { get; set; }
+        public string Gender { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -35,6 +37,9 @@ namespace EduZone.Models
         public virtual DbSet<Post> Posts { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
 
+        public virtual DbSet<Group> GetGroups { get; set; }
+        public virtual DbSet<GroupsMembers> GetGroupsMembers { get; set; }
+        public virtual DbSet<Educator> GetEducators { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

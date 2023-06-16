@@ -214,13 +214,28 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Hubs\PostHub.cs" />
+    <Compile Include="Migrations\202306151126472_EducatorProfile1.cs" />
+    <Compile Include="Migrations\202306151126472_EducatorProfile1.Designer.cs">
+      <DependentUpon>202306151126472_EducatorProfile1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
+    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
+      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306161344426_Group.cs" />
+    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
+      <DependentUpon>202306161344426_Group.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202305270208376_new.cs" />
     <Compile Include="Migrations\202305270208376_new.Designer.cs">
@@ -231,8 +246,6 @@
       <DependentUpon>202305270257520_post_com.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -273,7 +286,6 @@
     <Content Include="Content\StyleSheet\resetpass.css" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
-    <Content Include="Content\StyleSheet\forgetpass.css" />
     <Content Include="Content\StyleSheet\LoginStyle.css" />
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
@@ -428,29 +440,9 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\Profile\ChangeImage.cshtml" />
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
-    <Content Include="Views\Educator\TimeLine.cshtml" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.6.4.slim.min.map" />
-    <Content Include="Scripts\jquery-3.6.4.min.map" />
-    <Content Include="Views\Student\TimeLine.cshtml" />
-    <Content Include="Views\Admin\TimeLine.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202305270208376_new.resx">
-      <DependentUpon>202305270208376_new.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305270257520_post_com.resx">
-      <DependentUpon>202305270257520_post_com.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

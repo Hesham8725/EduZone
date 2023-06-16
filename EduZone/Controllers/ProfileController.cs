@@ -60,22 +60,15 @@ namespace EduZone.Controllers
 
             string id = GetUser();
             var user = context.Users.FirstOrDefault(e => e.Id == id);
-            var user1 = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
-            if (user1 == null)
-            {
-                user1 = new Student();
-                user1.AccountID = GetUser();
-                context.GetStudents.Add(user1);
-                context.SaveChanges();
-            }
+            
             BasicInfo info = new BasicInfo()
             {
                 Name = user.Name,
                 NationalID = user.NationalID,
                 Address = user.Address,
-                Age = user1.Age,
-                Phone = user1.Phone,
-                Gender = user1.Gender
+                Age = user.Age,
+                Phone = user.PhoneNumber,
+                Gender = user.Gender
             };
             return View(info);
         }
@@ -87,13 +80,12 @@ namespace EduZone.Controllers
             {
                 string id = GetUser();
                 var user = context.Users.FirstOrDefault(e => e.Id == id);
-                var user1 = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
                 user.Name = info.Name;
                 user.NationalID = info.NationalID;
                 user.Address = info.Address;
-                user1.Age = info.Age;
-                user1.Phone = info.Phone;
-                user1.Gender = info.Gender;
+                user.Age = info.Age;
+                user.PhoneNumber = info.Phone;
+                user.Gender = info.Gender;
                 context.SaveChanges();
                 ViewBag.Show = true;
             }
@@ -133,6 +125,7 @@ namespace EduZone.Controllers
                 user1.GroupNo = info.GroupNo;
                 user1.CollegeID = info.CollegeID;
                 user1.Department = info.Department;
+                user1.Section = info.Section;
                 context.SaveChanges();
                 ViewBag.Show = true;
             }
@@ -176,7 +169,7 @@ namespace EduZone.Controllers
         {
 
             string UserID = User.Identity.GetUserId();
-            var Client = context.GetStudents.FirstOrDefault(e => e.AccountID == UserID);
+            var Client = context.Users.FirstOrDefault(e => e.Id == UserID);
             string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(ChangeImg.FileName));
             ChangeImg.SaveAs(path);
             Client.Image = ChangeImg.FileName;

@@ -16,36 +16,8 @@
     <div class="containerr">
         <div class="overlay"></div>
 
-        @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post))
-        {
-            <div class="right">
-                <i class="fa-solid fa-key"></i>
-                <h2>Forget Password?</h2>
-                <h4>No worries, we'll send you reset instructions.</h4>
-                <div class="inputbox">
-                    <input required="required" type="number" name="code" />
-                    <span>Enter Verification Code</span>
-                    <i></i>
-                </div>
-                <input type="submit"
-                       value="Verify"
-                       name="submit"
-                       style="
-              background-color: #14e31f;
-              width: 304px;
-              color: black;
-              font-size: 20px;
-              border-radius: 15px;
-              outline: none;
-              border-color: #14e31f;
-              box-shadow: rgb(18 17 17) -1px 1px 7px;
-              margin-bottom: 20px;
-              cursor: pointer;
-            " />
-            @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-            </div>
-        }
-    </div>
-</body>
-</html>
+@using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post) )
+{
+    @Html.ValidationSummary(false, "", new {@class = "text-danger"})
+    @Html.TextBox("code", "", new {@class = "form-control w-25 m-3 " });
 
