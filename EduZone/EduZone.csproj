@@ -55,11 +55,32 @@
     <Reference Include="BouncyCastle.Cryptography, Version=2.0.0.0, Culture=neutral, PublicKeyToken=072edcf4a5328938, processorArchitecture=MSIL">
       <HintPath>..\packages\BouncyCastle.Cryptography.2.2.1\lib\net461\BouncyCastle.Cryptography.dll</HintPath>
     </Reference>
+    <Reference Include="Browser.Blob, Version=1.1.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fable.Browser.Blob.1.1.4\lib\netstandard2.0\Browser.Blob.dll</HintPath>
+    </Reference>
+    <Reference Include="Browser.Dom, Version=2.9.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fable.Browser.Dom.2.9.0\lib\netstandard2.0\Browser.Dom.dll</HintPath>
+    </Reference>
+    <Reference Include="Browser.Event, Version=1.4.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fable.Browser.Event.1.4.6\lib\netstandard2.0\Browser.Event.dll</HintPath>
+    </Reference>
+    <Reference Include="Browser.Gamepad, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fable.Browser.Gamepad.1.0.3\lib\netstandard2.0\Browser.Gamepad.dll</HintPath>
+    </Reference>
+    <Reference Include="Browser.WebStorage, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fable.Browser.WebStorage.1.0.4\lib\netstandard2.0\Browser.WebStorage.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Fable.Core, Version=3.6.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fable.Core.3.6.1\lib\netstandard2.0\Fable.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="FSharp.Core, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\FSharp.Core.6.0.2\lib\netstandard2.0\FSharp.Core.dll</HintPath>
     </Reference>
     <Reference Include="MailKit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=4e064fe7c44a8f1b, processorArchitecture=MSIL">
       <HintPath>..\packages\MailKit.4.0.0\lib\net48\MailKit.dll</HintPath>
@@ -226,17 +247,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Migrations\202306151126472_EducatorProfile1.cs" />
-    <Compile Include="Migrations\202306151126472_EducatorProfile1.Designer.cs">
-      <DependentUpon>202306151126472_EducatorProfile1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
-      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306161344426_Group.cs" />
-    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
-      <DependentUpon>202306161344426_Group.cs</DependentUpon>
+    <Compile Include="Migrations\202306162149132_iniy1.cs" />
+    <Compile Include="Migrations\202306162149132_iniy1.designer.cs">
+      <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Educator.cs" />
@@ -281,6 +294,7 @@
     <Content Include="Content\StyleSheet\LoginStyle.css" />
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
+    <Content Include="Content\StyleSheet\profile.css" />
     <Content Include="Content\StyleSheet\ProfileCSS.css" />
     <Content Include="Content\StyleSheet\RegisterStyle.css" />
     <Content Include="Content\StyleSheet\sidebar.css" />
@@ -366,6 +380,7 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="packages.config" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -429,9 +444,15 @@
     <Content Include="Views\Profile\ChangeImage.cshtml" />
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
     <Content Include="Views\Timeline\Index.cshtml" />
+    <Content Include="Views\Profile\std_profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202306162149132_iniy1.resx">
+      <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

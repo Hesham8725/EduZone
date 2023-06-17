@@ -54,6 +54,15 @@ namespace EduZone.Controllers
                 _userManager = value;
             }
         }
+        public ActionResult std_profile(string id)
+        {
+            var user = context.Users.FirstOrDefault(c => c.Id == id);
+            var student = context.GetStudents.FirstOrDefault(c => c.AccountID == id);
+            ViewBag.image = user.Image;
+            ViewBag.address = user.Address;
+            ViewBag.name = user.Name;
+            return View(student);
+        }
         // GET: Profile
         public ActionResult BasicInfo()
         {
@@ -119,6 +128,7 @@ namespace EduZone.Controllers
             if (ModelState.IsValid)
             {
                 string id = GetUser();
+
                 var user1 = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
                 user1.Batch = info.Batch;
                 user1.GPA = info.GPA;
@@ -238,6 +248,8 @@ namespace EduZone.Controllers
                 }
             }
             return UserID;
+            TempData["userProfil"] = UserID;
+
         }
         private void AddErrors(IdentityResult result)
         {
