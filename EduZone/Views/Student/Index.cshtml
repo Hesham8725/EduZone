@@ -1,9 +1,11 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+
 @{
     ViewBag.Title = "Index";
-   
+    string current_user = User.Identity.GetUserId();
+
 }
 
 <h2>Welcame Student</h2>
 
-@Html.ActionLink("student profile","std_profile","Profile",new { id= ViewBag.userProfil },new { @class = "btn btn-outline-dark mt-auto" })
+@Html.ActionLink("student profile", "std_profile", "Profile", new { id = current_user }, new { @class = "btn btn-outline-dark mt-auto" })

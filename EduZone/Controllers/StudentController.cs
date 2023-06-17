@@ -16,27 +16,9 @@ namespace EduZone.Controllers
         // GET: User
         public ActionResult Index()
         {
-
-            ViewBag.userProfil = GetUser();
             return View();
         }
-        public string GetUser()
-        {
-            string UserID = "";
-            var claimsIdentity = User.Identity as ClaimsIdentity;
-            if (claimsIdentity != null)
-            {
-                var userIdClaim = claimsIdentity.Claims
-                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
-                if (userIdClaim != null)
-                {
-                    UserID = userIdClaim.Value;
-                }
-            }
-            return UserID;
-         
-
-        }
+        
 
     }
 }

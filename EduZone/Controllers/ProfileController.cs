@@ -61,6 +61,8 @@ namespace EduZone.Controllers
             ViewBag.image = user.Image;
             ViewBag.address = user.Address;
             ViewBag.name = user.Name;
+            ViewBag.email = user.Email;
+            ViewBag.nationalId = user.NationalID;
             return View(student);
         }
         // GET: Profile
@@ -248,7 +250,6 @@ namespace EduZone.Controllers
                 }
             }
             return UserID;
-            TempData["userProfil"] = UserID;
 
         }
         private void AddErrors(IdentityResult result)
