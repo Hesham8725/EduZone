@@ -12,6 +12,12 @@ namespace EduZone.Models
     [Table("PostInGroup")]   
     public class PostInGroup
     {
+        public PostInGroup() 
+        {
+            LikeForPostInGroup = new List<LikeForPostInGroup>();
+            CommentForPostInGroup = new List<CommentForPostInGroup>();
+        }
+      
         public int Id { get; set; }
 
         [Display(Name ="Contant Of Post")]
@@ -35,10 +41,10 @@ namespace EduZone.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         [Display(Name = "Likes")]
-        public virtual ICollection<LikeForPostInGroup> LikeForPostInGroup { get; set; }
+        public virtual List<LikeForPostInGroup> LikeForPostInGroup { get; set; }
 
         [Display(Name = "Comments")]
-        public virtual ICollection<CommentForPostInGroup> CommentForPostInGroup { get; set; }
+        public virtual List<CommentForPostInGroup> CommentForPostInGroup { get; set; }
 
     }
 }

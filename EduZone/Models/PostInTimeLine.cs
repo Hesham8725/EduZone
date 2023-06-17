@@ -10,6 +10,11 @@ namespace EduZone.Models
 {
     public class PostInTimeLine
     {
+        public PostInTimeLine() 
+        {
+            LikeForPostInTimeLines = new List<LikeForPostInTimeLine>();
+            CommentForPostInGroup = new List<CommentForPostInGroup>();
+        }
         public int Id { get; set; }
 
         [Display(Name = "Contant Of Post")]
@@ -31,10 +36,10 @@ namespace EduZone.Models
         public ApplicationUser ApplicationUser { get; set; }
 
         [Display(Name = "Likes")]
-        public virtual ICollection<LikeForPostInTimeLine> LikeForPostInTimeLines { get; set; }
+        public virtual List<LikeForPostInTimeLine> LikeForPostInTimeLines { get; set; } 
 
         [Display(Name = "Comments")]
-        public virtual ICollection<CommentForPostInGroup> CommentForPostInGroup { get; set; }
+        public virtual List<CommentForPostInGroup> CommentForPostInGroup { get; set; }
 
     }
 }
