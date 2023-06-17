@@ -1,5 +1,8 @@
 ﻿@using System.Security.Claims;
 @using EduZone.Models;
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,13 +25,13 @@
 
 <body>
     @{
-        string path="s";
+        string path = "";
         if (User.Identity.IsAuthenticated)
         {
 
             ApplicationDbContext context = new ApplicationDbContext();
 
-            string id ="s";
+            string id = "";
             var claimsIdentity = User.Identity as ClaimsIdentity;
             if (claimsIdentity != null)
             {
@@ -39,9 +42,9 @@
                     id = userIdClaim.Value;
                 }
             }
-            var user1 = context.Users.FirstOrDefault(e => e.Id == id);
+            var user1 = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
 
-            if (user1 == null || user1.Image == null)
+            if (user1.Image == null || user1.Image == null)
             {
                 path = "malefemale.jpg";
             }
@@ -49,6 +52,8 @@
             {
                 path = user1.Image;
             }
+
+
         }
         <!-- Sidebar Section -->
         <div class="sidebar closee">
@@ -70,12 +75,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="/Group/Index">
+                    <a href="#">
                         <i class="bx bx-group"></i>
                         <span class="link_name">Groups</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="/Group/Index">Groups</a></li>
+                        <li><a class="link_name" href="#">Groups</a></li>
                     </ul>
                 </li>
                 <li>
@@ -162,7 +167,7 @@
                 </div>
                 <div class="profile ">
                     <a href="/Profile/BasicInfo" class="d-flex align-items-center">
-                        <span class=" me-2" style="color:#69B986">
+                        <span class="mt-lg-2 me-2" style="color:#69B986">
                             @if (Request.IsAuthenticated)
                             {
                                 <h6>@User.Identity.Name.Split('.', '@')[0]</h6>
@@ -177,7 +182,7 @@
             </div>
             <!-- End -->
             <!-- Render Section (: -->
-            <main class="container ">
+            <main class="container my-3">
                 @RenderBody()
             </main>
             <!-- End Section -->

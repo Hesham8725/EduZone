@@ -12,6 +12,13 @@ namespace EduZone.Models
     {
         [Key]
         public int ID { get; set; }
+        public int Age { get; set; }
+
+        public string Image { get; set; }
+
+        public string Gender { get; set; }
+
+        public string Phone { get; set; }
        
         public int CollegeID { get; set; }
 
@@ -20,12 +27,8 @@ namespace EduZone.Models
         public double GPA { get; set; }
 
         public int Batch { get; set; }
-        public string Department { get; set; }
-        public int Section { get; set; }
 
-
-
-        // for connect tables
         public string AccountID { get; set; }
+        public string Department { get; set; }
     }
 }

@@ -20,9 +20,7 @@ namespace EduZone.Models
         public string Name { get; set; }
         public string NationalID { get; set; }
         public bool EmailActive { get; set; }
-        public int Age { get; set; }
-        public string Image { get; set; }
-        public string Gender { get; set; }
+
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
