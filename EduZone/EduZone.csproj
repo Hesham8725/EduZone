@@ -252,6 +252,18 @@
     <Compile Include="Migrations\202306162149132_iniy1.designer.cs">
       <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
+    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
+      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306161344426_Group.cs" />
+    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
+      <DependentUpon>202306161344426_Group.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306171113358_12.cs" />
+    <Compile Include="Migrations\202306171113358_12.Designer.cs">
+      <DependentUpon>202306171113358_12.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Educator.cs" />
     <Compile Include="Models\Group.cs" />
@@ -296,7 +308,9 @@
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
+    <Content Include="Content\StyleSheet\chat2.css" />
     <Content Include="Content\StyleSheet\ForgetPssword.css" />
+    <Content Include="Content\StyleSheet\list-groups.css" />
     <Content Include="Content\StyleSheet\LoginStyle.css" />
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
@@ -311,6 +325,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\banner4-cssxk4.jpg" />
     <Content Include="Images\Femala.png" />
+    <Content Include="Images\Gimage.jpg" />
     <Content Include="Images\log.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Mala.png" />
@@ -454,7 +469,7 @@
     <Content Include="Views\Profile\ChangeImage.cshtml" />
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
     <Content Include="Views\Timeline\Index.cshtml" />
-    <Content Include="Views\Profile\std_profile.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -462,6 +477,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306162149132_iniy1.resx">
       <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306171113358_12.resx">
+      <DependentUpon>202306171113358_12.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

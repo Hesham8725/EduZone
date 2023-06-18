@@ -18,7 +18,14 @@ namespace EduZone.Controllers
         {
             return View();
         }
-        
+        public ActionResult CourseEnrollment()
+        {
+            return View();
+        }
 
+        public ActionResult GetBatches()
+        {
+            return View();
+        }
     }
 }
