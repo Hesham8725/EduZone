@@ -1,5 +1,4 @@
-﻿@using Microsoft.AspNet.Identity.EntityFramework
-@model List<IdentityRole>
+﻿@model EduZone.Models.RoleViewModel
 @{
     ViewBag.Title = "NewRole";
 
@@ -66,11 +65,8 @@ else if (ViewBag.curd == "delete")
                         <td>@item.Name</td>
                         <td>
 
-                            <a href="@Url.Action("Update","role",new { roleid=item.Id })" class="btn btn-outline-success">Update</a>
-                            <a href="@Url.Action("delete","role",new { roleid=item.Id })" class="btn btn-danger" @*onclick="confirmDelete()"*@>Delete</a>
-                        </td>
-                    </tr>
-                }
+    <input type="submit" value="Add Role">
+}
 
             </tbody>
         </table>

@@ -94,5 +94,73 @@ namespace EduZone.Controllers
                 return Content("Not found");
             }
         }
+
+        public ActionResult Group_Post(string GroupCode)
+        {
+            // first Get Group
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            ViewBag.GCR7 = GroupValue.CreatorID;
+
+            return View();
+        }
+        public ActionResult Group_Material(string GroupCode)
+        {
+            // first Get Group
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            // GCR --> Group Creater
+            // 7 --> Childhood love player
+            ViewBag.GCR7 = GroupValue.CreatorID;
+
+            return View();
+        }
+        public ActionResult Group_Member(string GroupCode)
+        {
+            // first Get Group
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            ViewBag.GCR7 = GroupValue.CreatorID;
+
+            return View();
+        }
+        public ActionResult Group_Chat(string GroupCode)
+        {
+            // first Get Group
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            ViewBag.GCR7 = GroupValue.CreatorID;
+
+            return View();
+        }
+        public ActionResult Group_About(string GroupCode)
+        {
+            // first Get Group
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            ViewBag.GCR7 = GroupValue.CreatorID;
+
+            return View();
+        }
+
+        public ActionResult LeaveGroup(string GroupCode)
+        {
+            return View();
+        }
+        public ActionResult DeleteGroup(string GroupCode)
+        {
+            return View();
+        }
+
     }
 }

@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Group_Material";
+}
+@Html.Partial("_GroupPartialView")
+
+<div class="tab-content p-3 my-3">
+    <div class="tab-pane active" id="Materials">
+        <div class="input-group mb-3 col-10">
+            <input type="file" class="form-control" id="inputGroupFile02">
+            <label class="input-group-text" for="inputGroupFile02">Upload</label>
+        </div>
+        <button class="btn btn-sm btn-outline-primary col-2" type="submit">Upload</button>
+        <table class="table table-light border border-2 border-dark table-striped mt-3">
+            <thead>
+                <tr class="table-dark">
+                    <td scope="col">#</td>
+                    <td scope="col">Name</td>
+                    <td scope="col">Size</td>
+                    <td scope="col">Type</td>
+                    <td scope="col">Operations</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Lec 1 - Arrays and Pointers</td>
+                    <td>1GB</td>
+                    <td>video</td>
+                    <td>
+                        <a href="#"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
+                        <a href="#"> <i class="fa-solid fa-trash-can text-danger"></i></a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Lec 2 - Arrays and Pointers</td>
+                    <td>200MB</td>
+                    <td>record</td>
+                    <td>
+                        <a href="#"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
+                        <a href="#"> <i class="fa-solid fa-trash-can text-danger"></i> </a>
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td>Lec 3 - Arrays and Pointers</td>
+                    <td>20MB</td>
+                    <td>slide</td>
+                    <td>
+                        <a href="#"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
+                        <a href="#"> <i class="fa-solid fa-trash-can text-danger"></i> </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

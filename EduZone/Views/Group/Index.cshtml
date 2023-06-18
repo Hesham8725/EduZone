@@ -4,60 +4,112 @@
     ViewBag.Title = "Index";
 }
 
-<div class="d-flex justify-content-between align-items-center bg-light p-3 ">
+<div class="d-flex justify-content-between align-items-center bg-light p-3 fixed-top " style="margin-top:65px; margin-left:78px">
     <h5>Groups</h5>
-    <button role="button" class="btn btn-light" onclick="ShowCard(1)">
-        <i class="fa-solid fa-folder-plus fa-beat-fade"></i> Create Group
-    </button>
+    <div>
+        @if (User.IsInRole("Educator"))
+        {
+            <button role="button" class="btn btn-light" onclick="ShowCard(1)">
+                <i class="fa-solid fa-folder-plus fa-beat-fade"></i> Create
+            </button>
+        }
+        <button role="button" class="btn btn-light" onclick="ShowCard1(1)">
+            <i class="fa-solid fa-calendar-plus fa-beat-fade"></i> Join
+        </button>
+    </div>
 </div>
-<div class="bg-light card w-50 h-50 fixed-bottom border-5 border-light" id="add_group"
-     style="margin-bottom: 10%;margin-left: 25%;display:none; ">
-
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken();
-        <h4>Create your Group</h4>
-        <div class="form-floating mb-3 mt-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="ML2023" required name="GroupName">
-            <label for="floatingInput">Group Name</label>
-        </div>
-        <div class="form-floating mb-3 mt-3">
-            <input type="text" class="form-control" id="floatingInput" placeholder="ML2023" required name="Description">
-            <label for="floatingInput">Description</label>
-        </div>
-
-        <div class="d-flex justify-content-end mt-5">
-            <button class="btn btn-light " onclick="ShowCard(0)">close</button>
-            <input type="submit" value="Create" class="btn btn-light ms-3">
-        </div>
-    }
+<div class="bg-light card w-50 h-50 fixed-bottom border-5 shadow-lg border-opacity-75 border-dark rounded-2" id="add_group"
+     style="margin-bottom: 10%;margin-left: 25%; display:none;">
+    <div class="ms-5 me-2 mt-5">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken();
+            <h4>Create your Group</h4>
+            <div class="form-floating mb-2 mt-3">
+                <input type="text" class="form-control" id="floatingInput" placeholder="ML2023" required name="GroupName">
+                <label for="floatingInput">Group Name</label>
+            </div>
+            <div class="form-floating mb-2 ">
+                <input type="text" class="form-control" id="floatingInput" placeholder="ML2023" required name="Description">
+                <label for="floatingInput">Description</label>
+            </div>
+            <div class="mb-2">
+                <label>Group Image </label>
+                <input type="file" name="GImage" />
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-light " onclick="ShowCard(0)">Close</button>
+                <input type="submit" value="Create" class="btn btn-light ms-3">
+            </div>
+        }
+    </div>
 </div>
-<div class="">
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 mt-3">
     @foreach (var item in Model)
     {
-        <h1 class="m-2">@item.GroupName</h1>
+        <div class="col">
+            <div class="card h-100">
+                <img src="~/Images/@item.image" class="card-img-top" alt="group-img" height="250px">
+                <div class="card-body">
+                    <h5 class="card-title">@item.GroupName</h5>
+                    <p class="card-text small">
+                        Code : <span class="badge text-bg-info">@item.Code</span>
+                    </p>
+                    <p class="card-text small text-secondary">
+                        @item.Description
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="@Url.Action("Group_Post", "Group", new { GroupCode = @item.Code })" class="btn btn-sm btn-outline-success w-100"> Open </a>
+                </div>
+            </div>
+        </div>
     }
 </div>
 
-<div>
-    @using (Html.BeginForm("JoinGroup","Group",FormMethod.Post))
-    {
-        @Html.AntiForgeryToken()
-        <label> Code </label>
-        <input type="text" name="CodeOfGroup" />
+<div class="bg-light card w-50 h-25 fixed-bottom border-5 shadow-lg border-opacity-75 border-dark rounded-2" id="add_group1"
+     style="margin-bottom: 20%;margin-left: 25%; display:none">
+    <div class="ms-5 me-2 mt-5">
+        @using (Html.BeginForm("JoinGroup", "Group", FormMethod.Post))
+        {
 
-        <input type="submit" value="Join Group" />
-    }
+            @Html.AntiForgeryToken()
+            <div class="form-floating mb-2 ">
+                <input type="text" class="form-control" id="floatingInput11" placeholder="ML2023" required name="CodeOfGroup">
+                <label for="floatingInput11">Code</label>
+            </div>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-light " onclick="ShowCard1(0)">Close</button>
+                <input type="submit" value="Join" class="btn btn-light" />
+            </div>
+
+        }
+    </div>
 </div>
 
 @section bottom_Link{
     <script>
+        var card = document.getElementById("add_group");
+        var card1 = document.getElementById("add_group1");
         function ShowCard(val) {
-            var card = document.getElementById("add_group");
             if (val === 1) {
                 card.style.display = "block";
+                card1.style.display = "none";
+
             } else {
                 card.style.display = "none";
+                card1.style.display = "none";
+            }
+        }
+
+        function ShowCard1(val) {
+            if (val === 1) {
+                card1.style.display = "block";
+                card.style.display = "none";
+
+            } else {
+                card.style.display = "none";
+                card1.style.display = "none";
             }
         }
     </script>
