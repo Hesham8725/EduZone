@@ -214,6 +214,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
+    <Compile Include="Controllers\EducatorTestController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -410,7 +411,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Role\NewRole.cshtml" />
     <Content Include="Views\Admin\AddEducatorMail.cshtml" />
     <Content Include="Views\Account\codeView.cshtml" />
     <None Include="packages.config" />
@@ -436,6 +436,12 @@
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
     <Content Include="Views\Timeline\Index.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\EducatorTest\Create.cshtml" />
+    <Content Include="Views\EducatorTest\Delete.cshtml" />
+    <Content Include="Views\EducatorTest\Details.cshtml" />
+    <Content Include="Views\EducatorTest\Edit.cshtml" />
+    <Content Include="Views\EducatorTest\Index.cshtml" />
+    <Content Include="Views\Role\NewRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
