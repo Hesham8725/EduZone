@@ -252,17 +252,13 @@
     <Compile Include="Migrations\202306162149132_iniy1.designer.cs">
       <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
-      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306161344426_Group.cs" />
-    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
-      <DependentUpon>202306161344426_Group.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\202306171113358_12.cs" />
     <Compile Include="Migrations\202306171113358_12.Designer.cs">
       <DependentUpon>202306171113358_12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306182103210_sasa.cs" />
+    <Compile Include="Migrations\202306182103210_sasa.designer.cs">
+      <DependentUpon>202306182103210_sasa.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Educator.cs" />
@@ -470,6 +466,13 @@
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
     <Content Include="Views\Timeline\Index.cshtml" />
     <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\Group\Group_Member.cshtml" />
+    <Content Include="Views\Group\Group_Material.cshtml" />
+    <Content Include="Views\Group\Group_Chat.cshtml" />
+    <Content Include="Views\Group\Group_About.cshtml" />
+    <Content Include="Views\Group\Group_Post.cshtml" />
+    <Content Include="Views\Profile\Educator_profile.cshtml" />
+    <Content Include="Views\Profile\std_profile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -480,6 +483,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306171113358_12.resx">
       <DependentUpon>202306171113358_12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306182103210_sasa.resx">
+      <DependentUpon>202306182103210_sasa.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

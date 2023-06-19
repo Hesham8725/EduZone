@@ -65,6 +65,18 @@ namespace EduZone.Controllers
             ViewBag.nationalId = user.NationalID;
             return View(student);
         }
+
+        public ActionResult Educator_profile(string id)
+        {
+            var user = context.Users.FirstOrDefault(c => c.Id == id);
+            var educator = context.GetEducators.FirstOrDefault(c => c.AccountID == id);
+            ViewBag.image = user.Image;
+            ViewBag.address = user.Address;
+            ViewBag.name = user.Name;
+            ViewBag.email = user.Email;
+            ViewBag.nationalId = user.NationalID;
+            return View(educator);
+        }
         // GET: Profile
         public ActionResult BasicInfo()
         {

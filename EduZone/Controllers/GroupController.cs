@@ -16,6 +16,7 @@ namespace EduZone.Controllers
         {
             List<Group> _groups = new List<Group>();
             string userid = User.Identity.GetUserId();
+            
             var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
             if (Groups != null)
             {
@@ -52,6 +53,7 @@ namespace EduZone.Controllers
             GroupsMembers GM = new GroupsMembers();
             GM.GroupId = codex;
             GM.IsCreate = true;
+            GM.creationData = DateTime.Now;
             GM.MemberId = User.Identity.GetUserId();
             context.GetGroupsMembers.Add(GM);
             context.SaveChanges();
@@ -82,6 +84,7 @@ namespace EduZone.Controllers
                     GM.GroupId = CodeOfGroup;
                     GM.IsCreate = false;
                     GM.MemberId = userId;
+                    GM.creationData = DateTime.Now;
                     context.GetGroupsMembers.Add(GM);
                     context.SaveChanges();
 
@@ -121,15 +124,29 @@ namespace EduZone.Controllers
         }
         public ActionResult Group_Member(string GroupCode)
         {
+            
             // first Get Group
             var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
-            ViewBag.GN = GroupValue.GroupName;
-            ViewBag.GC = GroupValue.Code;
-            ViewBag.GD = GroupValue.Description;
-            ViewBag.GCR7 = GroupValue.CreatorID;
-
-            return View();
+            var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == GroupCode).ToList();
+            //ViewBag.GN = GroupValue.GroupName;
+            //ViewBag.GC = GroupValue.Code;
+            //ViewBag.GD = GroupValue.Description;
+           // ViewBag.GCR7 = GroupValue.CreatorID;
+            TempData["GroupCode"] = GroupCode;
+            return View(GroupMembers);
         }
+        public ActionResult Delete_Member(string id)
+        {
+            var ss = context.GetGroupsMembers.FirstOrDefault(c => c.MemberId == id);
+            context.GetGroupsMembers.Remove(ss);
+            context.SaveChanges();
+            string code = TempData["GroupCode"].ToString();
+            return RedirectToAction("Group_Member", new { GroupCode = code });
+        }
+        //public ActionResult search_Member(string Name)
+        //{
+
+        //}
         public ActionResult Group_Chat(string GroupCode)
         {
             // first Get Group
@@ -145,10 +162,14 @@ namespace EduZone.Controllers
         {
             // first Get Group
             var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            var s = GroupValue.CreatorID;
+            var ss = context.Users.FirstOrDefault(c => c.Id == s);
+            var members = context.GetGroupsMembers.Count(c => c.GroupId == GroupCode);
             ViewBag.GN = GroupValue.GroupName;
             ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
-            ViewBag.GCR7 = GroupValue.CreatorID;
+            ViewBag.GCR7 = ss.Name;
+            ViewBag.memberCount = members;
 
             return View();
         }

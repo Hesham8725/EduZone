@@ -16,6 +16,7 @@ namespace EduZone.Models
         public string MemberId { get; set; }
 
         public bool IsCreate { get; set; }
+        public DateTime creationData { get; set; }
 
     }
 }
