@@ -3,7 +3,7 @@ namespace EduZone.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class add : DbMigration
+    public partial class mrg : DbMigration
     {
         public override void Up()
         {
@@ -22,16 +22,19 @@ namespace EduZone.Migrations
                 .Index(t => t.PostId);
             
             AddColumn("dbo.Comments", "UserId", c => c.String());
+            AddColumn("dbo.Posts", "UserName", c => c.String());
             AddColumn("dbo.Posts", "UserId", c => c.String());
             AlterColumn("dbo.Comments", "PostID", c => c.Int(nullable: false));
             CreateIndex("dbo.Comments", "PostID");
             AddForeignKey("dbo.Comments", "PostID", "dbo.Posts", "Id", cascadeDelete: true);
             DropColumn("dbo.Comments", "AuthorName");
             DropColumn("dbo.Posts", "AuthorName");
+            DropColumn("dbo.Posts", "Likes");
         }
         
         public override void Down()
         {
+            AddColumn("dbo.Posts", "Likes", c => c.Int(nullable: false));
             AddColumn("dbo.Posts", "AuthorName", c => c.String(nullable: false, maxLength: 50));
             AddColumn("dbo.Comments", "AuthorName", c => c.String(nullable: false, maxLength: 50));
             DropForeignKey("dbo.Comments", "PostID", "dbo.Posts");
@@ -40,6 +43,7 @@ namespace EduZone.Migrations
             DropIndex("dbo.Comments", new[] { "PostID" });
             AlterColumn("dbo.Comments", "PostID", c => c.Int());
             DropColumn("dbo.Posts", "UserId");
+            DropColumn("dbo.Posts", "UserName");
             DropColumn("dbo.Comments", "UserId");
             DropTable("dbo.Likes");
             RenameColumn(table: "dbo.Comments", name: "PostID", newName: "Post_Id");

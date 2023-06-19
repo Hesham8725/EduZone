@@ -225,29 +225,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Migrations\202306190958070_mrg.cs" />
-    <Compile Include="Migrations\202306190958070_mrg.Designer.cs">
-      <DependentUpon>202306190958070_mrg.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202305270257520_post_com.cs" />
-    <Compile Include="Migrations\202305270257520_post_com.Designer.cs">
-      <DependentUpon>202305270257520_post_com.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306171307437_init.cs" />
-    <Compile Include="Migrations\202306171307437_init.Designer.cs">
-      <DependentUpon>202306171307437_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306181607008_add.cs" />
-    <Compile Include="Migrations\202306181607008_add.Designer.cs">
-      <DependentUpon>202306181607008_add.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306181621151_rmvLik.cs" />
-    <Compile Include="Migrations\202306181621151_rmvLik.Designer.cs">
-      <DependentUpon>202306181621151_rmvLik.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306190843432_addNm.cs" />
-    <Compile Include="Migrations\202306190843432_addNm.Designer.cs">
-      <DependentUpon>202306190843432_addNm.cs</DependentUpon>
+    <Compile Include="Migrations\202306191021346_mrg.cs" />
+    <Compile Include="Migrations\202306191021346_mrg.Designer.cs">
+      <DependentUpon>202306191021346_mrg.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -489,20 +469,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306190958070_mrg.resx">
-      <DependentUpon>202306190958070_mrg.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306171307437_init.resx">
-      <DependentUpon>202306171307437_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306181607008_add.resx">
-      <DependentUpon>202306181607008_add.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306181621151_rmvLik.resx">
-      <DependentUpon>202306181621151_rmvLik.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306190843432_addNm.resx">
-      <DependentUpon>202306190843432_addNm.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306191021346_mrg.resx">
+      <DependentUpon>202306191021346_mrg.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
