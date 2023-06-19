@@ -199,11 +199,7 @@ namespace EduZone.Controllers
                     {
                         await UserManager.AddToRoleAsync(applicationUser.Id, "Student");
                     }
-                    string code = RandomPasswordCode.GetCode();
-                    SendEmail send = new SendEmail(code, 1);
-                    TempData["code"] = code;
-                    await send.SendEmailAsync(model.Email);
-                    return RedirectToAction("codeView", "Account", new { Error = 1 });
+                    return RedirectToAction("Login", "Account");
                 }
                 AddErrors(result);
             }

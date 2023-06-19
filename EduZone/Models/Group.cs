@@ -23,5 +23,7 @@ namespace EduZone.Models
 
         [Required]
         public string CreatorID { get; set; }
+
+        public string image { get; set; }
     }
 }

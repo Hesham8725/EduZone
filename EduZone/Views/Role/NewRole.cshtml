@@ -1,4 +1,6 @@
-﻿@model EduZone.Models.RoleViewModel
+﻿@using Microsoft.AspNet.Identity;
+
+@model EduZone.Models.RoleViewModel
 @{
     ViewBag.Title = "NewRole";
     Layout = null;
@@ -9,5 +11,7 @@
     @Html.TextBoxFor(e => e.RoleName, "", new { });
 
     <input type="submit" value="Add Role">
+    @User.Identity.GetUserId();
+    
 }
 
