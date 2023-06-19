@@ -12,10 +12,8 @@ namespace EduZone.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Author name is required")]
-        [StringLength(50, ErrorMessage = "Author name must be between 1 and 50 characters", MinimumLength = 1)]
-        [Display(Name = "Author")]
-        public string AuthorName { get; set; }
+        [Display(Name = "UserId")]
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Content is required")]
         [StringLength(500, ErrorMessage = "Content must be between 1 and 500 characters", MinimumLength = 1)]
@@ -24,5 +22,10 @@ namespace EduZone.Models
         [Display(Name = "Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
+
+        [ForeignKey("Post")]
+        public int PostID { get; set; }
+
+        public virtual Post Post { get; set; }
     }
 }

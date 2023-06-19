@@ -16,18 +16,19 @@ namespace EduZone.Models
         [StringLength(500, ErrorMessage = "Content must be between 1 and 500 characters", MinimumLength = 1)]
         public string ContentOfPost { get; set; }
 
-        [Required(ErrorMessage = "Author name is required")]
-        [StringLength(50, ErrorMessage = "Author name must be between 1 and 50 characters", MinimumLength = 1)]
-        [Display(Name = "Author")]
-        public string AuthorName { get; set; }
+
+        [Display(Name = "UserName")]
+        public string UserName { get; set; }
+
+
+        [Display(Name = "UserId")]
+        public string UserId { get; set; }
 
         [Display(Name = "Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
 
-        [Display(Name = "Likes")]
-        public int Likes { get; set; }
-
-        public List<Comment> Comments { get; set; }
+        public ICollection<Like> likes { get; set; }
+        public ICollection<Comment> Comments { get; set; }
     }
 }

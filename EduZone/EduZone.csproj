@@ -230,10 +230,27 @@
     <Compile Include="Migrations\202305270257520_post_com.Designer.cs">
       <DependentUpon>202305270257520_post_com.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306171307437_init.cs" />
+    <Compile Include="Migrations\202306171307437_init.Designer.cs">
+      <DependentUpon>202306171307437_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306181607008_add.cs" />
+    <Compile Include="Migrations\202306181607008_add.Designer.cs">
+      <DependentUpon>202306181607008_add.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306181621151_rmvLik.cs" />
+    <Compile Include="Migrations\202306181621151_rmvLik.Designer.cs">
+      <DependentUpon>202306181621151_rmvLik.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306190843432_addNm.cs" />
+    <Compile Include="Migrations\202306190843432_addNm.Designer.cs">
+      <DependentUpon>202306190843432_addNm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
+    <Compile Include="Models\Like.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -272,6 +289,8 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\doctor.jpg" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\StyleSheet\time-line-for-dector.css" />
+    <Content Include="Content\StyleSheet\time-line.css" />
     <Content Include="Content\StyleSheet\verifycode.css" />
     <Content Include="Content\StyleSheet\resetpass.css" />
     <Content Include="Content\StyleSheet\all.css" />
@@ -284,7 +303,6 @@
     <Content Include="Content\StyleSheet\RegisterStyle.css" />
     <Content Include="Content\StyleSheet\sidebar.css" />
     <Content Include="Content\StyleSheet\style.css" />
-    <Content Include="Content\StyleSheet\time-line-for-dector.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -453,6 +471,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202305270257520_post_com.resx">
       <DependentUpon>202305270257520_post_com.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306171307437_init.resx">
+      <DependentUpon>202306171307437_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306181607008_add.resx">
+      <DependentUpon>202306181607008_add.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306181621151_rmvLik.resx">
+      <DependentUpon>202306181621151_rmvLik.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306190843432_addNm.resx">
+      <DependentUpon>202306190843432_addNm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -1,5 +1,6 @@
 ﻿using EduZone.Models;
 using EduZone.MyHubs;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
@@ -33,17 +34,34 @@ namespace EduZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult AddPost(Post post)
         {
+            post.UserName = User.Identity.Name;
+            post.UserId = User.Identity.GetUserId();
+            post.Date = DateTime.Now;
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(TimeLine), context.Posts.OrderByDescending(x => x.Date).ToListAsync());
             }
-           
+
             context.Posts.Add(post);
             context.SaveChanges();
 
-            var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
-            adminhubcontext.Clients.All.NewPostAdded(post);
+              var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+              adminhubcontext.Clients.All.NewPostAdded(post);
 
+            return RedirectToAction(nameof(TimeLine));
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Addcomment(Comment comment)
+        {
+            comment.UserId = User.Identity.GetUserId();
+            comment.Date = DateTime.Now;
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(TimeLine), context.Posts.OrderByDescending(x => x.Date).ToListAsync());
+            }
+            context.Comments.Add(comment);
+            context.SaveChanges();
             return RedirectToAction(nameof(TimeLine));
         }
     }
