@@ -22,14 +22,14 @@ namespace EduZone.Controllers
         {
             return View();
         }
-        public async Task<ActionResult> TimeLine()
+        public ActionResult CourseEnrollment()
         {
-            var data = await context.Posts.OrderByDescending(x => x.Date).ToListAsync();
-           /* var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
-            adminhubcontext.Clients.All.NewPostAdded(post);
-*/
-            return View(data);
+            return View();
         }
 
+        public ActionResult GetBatches()
+        {
+            return View();
+        }
     }
 }

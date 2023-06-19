@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace EduZone.Models.ViewModels
+namespace EduZone.Models
 {
     public static class RandomGroupCode
     {
@@ -14,6 +14,7 @@ namespace EduZone.Models.ViewModels
         }
         public static string GetCode()
         {
+            string Code = "";
             Random rand = new Random();
             for (int i = 0; i < 5; i++)
             {

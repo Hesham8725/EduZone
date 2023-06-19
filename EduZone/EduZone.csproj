@@ -214,17 +214,20 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
+    <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
+    <Compile Include="Controllers\TimelineController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202305270208376_new.cs" />
-    <Compile Include="Migrations\202305270208376_new.Designer.cs">
-      <DependentUpon>202305270208376_new.cs</DependentUpon>
+    <Compile Include="Hubs\PostHub.cs" />
+    <Compile Include="Migrations\202306190958070_mrg.cs" />
+    <Compile Include="Migrations\202306190958070_mrg.Designer.cs">
+      <DependentUpon>202306190958070_mrg.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\202305270257520_post_com.cs" />
     <Compile Include="Migrations\202305270257520_post_com.Designer.cs">
@@ -256,15 +259,21 @@
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Admin.cs" />
     <Compile Include="Models\Batch.cs" />
+    <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Educator.cs" />
+    <Compile Include="Models\RandomGroupCode.cs" />
+    <Compile Include="Models\GroupsMembers.cs" />
+    <Compile Include="Models\Group.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MailOfDoctors.cs" />
-    <Compile Include="Models\ViewModels\ManageViewModels.cs" />
+    <Compile Include="Models\Post.cs" />
     <Compile Include="Models\RandomPasswordCode.cs" />
-    <Compile Include="Models\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\SendEmail.cs" />
     <Compile Include="Models\Student.cs" />
+    <Compile Include="Models\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\ViewModels\ManageViewModels.cs" />
+    <Compile Include="Models\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\ViewModels\StudentProfile.cs" />
     <Compile Include="MyHubs\HubClass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -289,13 +298,17 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\doctor.jpg" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\StyleSheet\chat2.css" />
+    <Content Include="Content\StyleSheet\forgetpass.css" />
+    <Content Include="Content\StyleSheet\ForgetPssword.css" />
     <Content Include="Content\StyleSheet\time-line-for-dector.css" />
     <Content Include="Content\StyleSheet\time-line.css" />
     <Content Include="Content\StyleSheet\verifycode.css" />
     <Content Include="Content\StyleSheet\resetpass.css" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
-    <Content Include="Content\StyleSheet\forgetpass.css" />
+    <Content Include="Content\StyleSheet\ForgetPssword.css" />
+    <Content Include="Content\StyleSheet\list-groups.css" />
     <Content Include="Content\StyleSheet\LoginStyle.css" />
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
@@ -308,10 +321,12 @@
     <Content Include="Content\Site.css" />
     <Content Include="Images\banner4-cssxk4.jpg" />
     <Content Include="Images\Femala.png" />
+    <Content Include="Images\Gimage.jpg" />
     <Content Include="Images\log.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Mala.png" />
     <Content Include="Images\malefemale.jpg" />
+    <Content Include="Images\Me.jpg" />
     <Content Include="Images\register.png" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
@@ -387,11 +402,20 @@
     <Content Include="Scripts\bootstrap.esm.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="packages.config" />
+    <Content Include="Scripts\bootstrap.bundle.js.map" />
+    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
+    <Content Include="Scripts\bootstrap.esm.js.map" />
+    <Content Include="Scripts\bootstrap.esm.min.js.map" />
+    <Content Include="Scripts\bootstrap.js.map" />
+    <Content Include="Scripts\bootstrap.min.js.map" />
     <None Include="Scripts\jquery-3.6.4.intellisense.js" />
     <Content Include="Scripts\jquery-3.6.4.js" />
     <Content Include="Scripts\jquery-3.6.4.min.js" />
     <Content Include="Scripts\jquery-3.6.4.slim.js" />
     <Content Include="Scripts\jquery-3.6.4.slim.min.js" />
+    <Content Include="Scripts\jquery-3.6.4.min.map" />
+    <Content Include="Scripts\jquery-3.6.4.slim.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
@@ -449,28 +473,24 @@
     <Content Include="Views\Profile\ChangePassword.cshtml" />
     <Content Include="Views\Profile\ChangeImage.cshtml" />
     <Content Include="Views\Profile\ChanageEmail.cshtml" />
-    <Content Include="Views\Educator\TimeLine.cshtml" />
-    <None Include="packages.config" />
-    <Content Include="Scripts\bootstrap.min.js.map" />
-    <Content Include="Scripts\bootstrap.js.map" />
-    <Content Include="Scripts\bootstrap.esm.min.js.map" />
-    <Content Include="Scripts\bootstrap.esm.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.min.js.map" />
-    <Content Include="Scripts\bootstrap.bundle.js.map" />
-    <Content Include="Scripts\jquery-3.6.4.slim.min.map" />
-    <Content Include="Scripts\jquery-3.6.4.min.map" />
-    <Content Include="Views\Student\TimeLine.cshtml" />
+    <Content Include="Views\Timeline\Index.cshtml" />
     <Content Include="Views\Admin\TimeLine.cshtml" />
+    <Content Include="Views\Educator\TimeLine.cshtml" />
+    <Content Include="Views\Student\TimeLine.cshtml" />
+    <Content Include="Views\Group\Index.cshtml" />
+    <Content Include="Views\Group\Group_Post.cshtml" />
+    <Content Include="Views\Shared\_GroupPartialView.cshtml" />
+    <Content Include="Views\Group\Group_Material.cshtml" />
+    <Content Include="Views\Group\Group_Member.cshtml" />
+    <Content Include="Views\Group\Group_Chat.cshtml" />
+    <Content Include="Views\Group\Group_About.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202305270208376_new.resx">
-      <DependentUpon>202305270208376_new.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202305270257520_post_com.resx">
-      <DependentUpon>202305270257520_post_com.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306190958070_mrg.resx">
+      <DependentUpon>202306190958070_mrg.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306171307437_init.resx">
       <DependentUpon>202306171307437_init.cs</DependentUpon>

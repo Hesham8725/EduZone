@@ -9,20 +9,21 @@ namespace EduZone.Models
 {
     public class Group
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
-        
-        [Required(ErrorMessage = "Content is required")]
+        [Key]
+        public string Code { get; set; }
+
+        [Required(ErrorMessage = "Group Name is required")]
         public string GroupName { get; set; }
 
+        [Required(ErrorMessage = "Description is required")]
+        public string Description { get; set; }
+
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
-        public DateTime Date { get; set; }
-        [Required]
-        public string Code { get; set; }
-        [Required]
-        public int CreatorID { get; set; }
+        public DateTime DateOfCreate { get; set; }
 
-        public ICollection<ApplicationUser> Member { get; set; }
+        [Required]
+        public string CreatorID { get; set; }
 
+        public string image { get; set; }
     }
 }

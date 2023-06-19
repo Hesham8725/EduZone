@@ -11,9 +11,11 @@ namespace EduZone.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public int GroupId { get; set; }
+        public string GroupId { get; set; }
 
-        public int MemberId { get; set; }
+        public string MemberId { get; set; }
+
+        public bool IsCreate { get; set; }
 
     }
 }

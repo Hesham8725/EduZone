@@ -36,5 +36,7 @@ namespace EduZone.Models
         public string AcademicDegree { get; set; }
         //public string Address { get; set; }
 
+        // for connect tables
+        public string AccountID { get; set; }
     }
 }

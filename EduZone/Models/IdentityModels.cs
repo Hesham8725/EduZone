@@ -37,6 +37,9 @@ namespace EduZone.Models
         public virtual DbSet<Like> Likes { get; set; }
 
 
+        public virtual DbSet<Group> GetGroups { get; set; }
+        public virtual DbSet<GroupsMembers> GetGroupsMembers { get; set; }
+        public virtual DbSet<Educator> GetEducators { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
