@@ -225,21 +225,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Migrations\202306170902554_init.cs" />
-    <Compile Include="Migrations\202306170902554_init.Designer.cs">
-      <DependentUpon>202306170902554_init.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
-      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306161344426_Group.cs" />
-    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
-      <DependentUpon>202306161344426_Group.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306171113358_12.cs" />
-    <Compile Include="Migrations\202306171113358_12.Designer.cs">
-      <DependentUpon>202306171113358_12.cs</DependentUpon>
+    <Compile Include="Migrations\202306190958070_mrg.cs" />
+    <Compile Include="Migrations\202306190958070_mrg.Designer.cs">
+      <DependentUpon>202306190958070_mrg.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -283,6 +271,7 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\doctor.jpg" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\StyleSheet\chat2.css" />
     <Content Include="Content\StyleSheet\forgetpass.css" />
     <Content Include="Content\StyleSheet\ForgetPssword.css" />
     <Content Include="Content\StyleSheet\verifycode.css" />
@@ -472,11 +461,8 @@
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306170902554_init.resx">
-      <DependentUpon>202306170902554_init.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306171113358_12.resx">
-      <DependentUpon>202306171113358_12.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306190958070_mrg.resx">
+      <DependentUpon>202306190958070_mrg.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
