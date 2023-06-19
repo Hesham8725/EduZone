@@ -20,7 +20,7 @@ namespace EduZone.Controllers
         public ActionResult NewRole()
         {
             ViewBag.curd =null;
-          
+
             var roles = context.Roles.ToList();
             return View(roles);
         }

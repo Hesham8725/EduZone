@@ -1,13 +1,80 @@
-﻿
-
+﻿﻿@using EduZone.Models.ViewModels
+@model List<ExtraInfoOfMailOfDoctorViewModel>
 @{
     ViewBag.Title = "AddEducatorMail";
-    Layout = null;
+    string action = "/admin/AddEducatorMail";
+    string method = "post";
+    string valueOfbtn = "Add";
 }
 
-@using (Html.BeginForm())
+@if (ViewBag.curd == "update")
 {
-   <input type="text" name="Mail" required />
-
-    <input type="submit" value="Add Mail">
+    action = "/admin/UpdateEducatorMail";
+    method = "Post";
+    valueOfbtn = "Update";
 }
+else if (ViewBag.curd == "delete")
+{
+    action = "/admin/DeleteEducatorMail";
+    method = "Post";
+    valueOfbtn = "Delete";
+}
+
+<div class=" d-flex rounded-2 mt-3">
+    <div class="border shadow  rounded-3 p-2" style="width: 40%">
+        <form action="@action" method="@method">
+            <h1 style="text-align:center">Educator Mail</h1>
+            @if (ViewBag.mailExist != null)
+            {
+                <h5 style="color:red">@ViewBag.mailExist</h5>
+            }
+            <label class="form-label fw-semibold mt-2">Mail</label>
+            @if (ViewBag.mail != null)
+            {
+                <input class="form-control" type="email" name="email" value="@ViewBag.mail.DoctorMail">
+                @Html.Hidden("mailId", new { ViewBag.mail.ID })
+            }
+            else
+            {
+                <input class="form-control" type="email" name="email" value="">
+            }
+
+            @if (valueOfbtn == "Delete")
+            {
+                <input type="submit" value="@valueOfbtn" class="btn btn-danger mt-2" style="width:100%;">
+            }
+            else
+            {
+                <input type="submit" value="@valueOfbtn" class="btn btn-success mt-2" style="width:100%;">
+
+            }
+        </form>
+    </div>
+    <div class="w-50" style="margin-left:30px;">
+        <table class="table shadow table-hover table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Name </th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th scope="row">@item.ID</th>
+                        <td>@item.DoctorMail</td>
+                        <td>@item.DoctorName</td>
+                        <td>
+                            <a href="@Url.Action("UpdateEducatorMail","admin",new { mailId=item.ID })" class="btn btn-outline-success">Update</a>
+                            <a href="@Url.Action("DeleteEducatorMail","admin",new { mailId=item.ID })" class="btn btn-danger" >Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

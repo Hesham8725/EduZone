@@ -226,21 +226,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Migrations\202306170651198_Abdallah_1.cs" />
-    <Compile Include="Migrations\202306170651198_Abdallah_1.designer.cs">
-      <DependentUpon>202306170651198_Abdallah_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.cs" />
-    <Compile Include="Migrations\202306151159141_EducatorProfile2.Designer.cs">
-      <DependentUpon>202306151159141_EducatorProfile2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306161344426_Group.cs" />
-    <Compile Include="Migrations\202306161344426_Group.Designer.cs">
-      <DependentUpon>202306161344426_Group.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306171113358_12.cs" />
-    <Compile Include="Migrations\202306171113358_12.Designer.cs">
-      <DependentUpon>202306171113358_12.cs</DependentUpon>
+    <Compile Include="Migrations\202306181811206_Abdallah_1.cs" />
+    <Compile Include="Migrations\202306181811206_Abdallah_1.designer.cs">
+      <DependentUpon>202306181811206_Abdallah_1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\CommentForPostInGroup.cs" />
@@ -258,6 +246,7 @@
     <Compile Include="Models\Batch.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MailOfDoctors.cs" />
+    <Compile Include="Models\ViewModels\ExtraInfoOfMailOfDoctorViewModel.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\RandomPasswordCode.cs" />
     <Compile Include="Models\ViewModels\RoleViewModel.cs" />
@@ -426,7 +415,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Admin\AddEducatorMail.cshtml" />
     <Content Include="Views\Account\codeView.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\bootstrap.min.js.map" />
@@ -439,7 +427,6 @@
     <Content Include="Scripts\jquery-3.6.4.min.map" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Educator\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
     <Content Include="Views\Student\Index.cshtml" />
     <Content Include="Views\Shared\_PartialPage1.cshtml" />
     <Content Include="Views\Profile\_ViewStart.cshtml" />
@@ -457,16 +444,15 @@
     <Content Include="Views\Group\Group_Member.cshtml" />
     <Content Include="Views\Group\Group_Chat.cshtml" />
     <Content Include="Views\Group\Group_About.cshtml" />
+    <Content Include="Views\Role\NewRole.cshtml" />
+    <Content Include="Views\Admin\AddEducatorMail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306170651198_Abdallah_1.resx">
-      <DependentUpon>202306170651198_Abdallah_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306171113358_12.resx">
-      <DependentUpon>202306171113358_12.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306181811206_Abdallah_1.resx">
+      <DependentUpon>202306181811206_Abdallah_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
