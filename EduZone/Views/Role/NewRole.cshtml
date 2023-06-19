@@ -67,7 +67,7 @@ else if (ViewBag.curd == "delete")
                         <td>
 
                             <a href="@Url.Action("Update","role",new { roleid=item.Id })" class="btn btn-outline-success">Update</a>
-                            <a href="@Url.Action("delete","role",new { roleid=item.Id })" class="btn btn-danger" @*onclick="confirmDelete()"*@>Delete</a>
+                            <a href="@Url.Action("delete","role",new { roleid=item.Id })" class="btn btn-danger" onclick="confirmDelete()">Delete</a>
                         </td>
                     </tr>
                 }
@@ -76,7 +76,7 @@ else if (ViewBag.curd == "delete")
         </table>
     </div>
 </div>
-@*@section Top_Link
+@section Top_Link
     {
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     }
@@ -91,7 +91,7 @@ else if (ViewBag.curd == "delete")
                 cancelButtonColor: '#d33',
                 confirmButtonText: 'Yes, delete it!'
             }).then((result) => {
-                if (result.isConfirmed) {
+                if (!result.isConfirmed) {
                     event.preventDefault();
                     Swal.fire(
                         'Deleted!',
@@ -101,4 +101,4 @@ else if (ViewBag.curd == "delete")
                 }
             })
         }
-    </script>*@
+    </script>

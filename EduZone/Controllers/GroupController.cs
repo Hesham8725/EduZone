@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
 
@@ -29,7 +30,7 @@ namespace EduZone.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(string GroupName,string Description)
+        public ActionResult Index(string GroupName, string Description)
         {
             //Add Group
             Group group = new Group();
@@ -39,7 +40,7 @@ namespace EduZone.Controllers
             group.CreatorID = User.Identity.GetUserId();
             string codex = RandomGroupCode.GetCode();
             var len = context.GetGroups.Where(e => e.Code == codex);
-            while (len.Count()!=0)
+            while (len.Count() != 0)
             {
                 codex = RandomGroupCode.GetCode();
                 len = context.GetGroups.Where(e => e.Code == codex);
@@ -66,12 +67,12 @@ namespace EduZone.Controllers
         public ActionResult JoinGroup(string CodeOfGroup)
         {
             string userId = User.Identity.GetUserId();
-            var IsFound = context.GetGroups.FirstOrDefault(e=>e.Code == CodeOfGroup);
+            var IsFound = context.GetGroups.FirstOrDefault(e => e.Code == CodeOfGroup);
             if (IsFound != null)
             {
 
                 var YouInGroup = context.GetGroupsMembers.Where(e => e.GroupId == CodeOfGroup && e.MemberId == userId).ToList();
-                if (YouInGroup.Count!=0)
+                if (YouInGroup.Count != 0)
                 {
                     return Content("You Are allredy Joined !");
                 }
@@ -85,7 +86,7 @@ namespace EduZone.Controllers
                     context.GetGroupsMembers.Add(GM);
                     context.SaveChanges();
 
-                    return Content("joined");
+                    return RedirectToAction("Index");
                 }
 
             }
@@ -155,11 +156,30 @@ namespace EduZone.Controllers
 
         public ActionResult LeaveGroup(string GroupCode)
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var MyGroup = context.GetGroupsMembers.FirstOrDefault(e => e.GroupId == GroupCode && e.MemberId == userId);
+            context.GetGroupsMembers.Remove(MyGroup);
+            context.SaveChanges();
+            return RedirectToAction("Index");
         }
         public ActionResult DeleteGroup(string GroupCode)
         {
-            return View();
+            var userId = User.Identity.GetUserId();
+            var Group = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode && e.CreatorID == userId);
+            if (Group != null)
+            {
+                var MembersINGroupe = context.GetGroupsMembers.Where(e => e.GroupId == GroupCode).ToList();
+                foreach (var Member in MembersINGroupe)
+                {
+                    context.GetGroupsMembers.Remove(Member);
+                    context.SaveChanges();
+                }
+                context.GetGroups.Remove(Group);
+                context.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return RedirectToAction("Group_Post", new { GroupCode = GroupCode });
         }
 
     }
