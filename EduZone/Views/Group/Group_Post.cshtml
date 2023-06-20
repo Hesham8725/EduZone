@@ -61,12 +61,24 @@
                     <div class="like-comment">
                         @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
                         {
-                            <div> <a href="@Url.Action("AddLike","Group",new {UserId=User.Identity.GetUserId(),PostId=item.Id,ok=true ,GrpCode=ViewBag.GC})"><i class="fa-solid fa-thumbs-up me-2 text-primary"></i></a>  <span class="text-secondary">Like</span></div>
+                            <div>
+                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
+                                    <i class="fa-solid fa-thumbs-up me-2 text-primary text-success" style="cursor: pointer;"></i>
+                                </a>
+                                <span class="text-secondary">Like</span>
+                            </div>
+                           
                         }
                         else
                         {
-                            <div> <a href="@Url.Action("AddLike","Group",new {UserId=User.Identity.GetUserId(),PostId=item.Id,ok=false,GrpCode=ViewBag.GC})"><i class="fa-solid fa-thumbs-up me-2"></i></a>  <span class="text-secondary">Like</span></div>
+                            <div>
+                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
+                                    <i class="fa-solid fa-thumbs-up me-2 text-secondary" style="cursor: pointer;"></i>
+                                </a>
+                                <span class="text-secondary">Like</span>
+                            </div>
                         }
+
                     </div>
                     <div class="number-like-comment">
                         @{
@@ -82,36 +94,41 @@
         {
             <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
             <script src="~/Signalr/hubs"></script>
+         
             <script>
+                let proxy;
                 $(function () {
                     var con = $.hubConnection();
-                    var proxy = con.createHubProxy("HubClass");
+                    proxy = con.createHubProxy("HubClass");
                     con.start();
+
+                    // new post subscribtion
                     proxy.on("NewPostAddedInGroup", function (NewPost) {
                         window.alert('new post add');
                         var con = `
-                                                                 <div class="timeline">
-                                                                    <div class="photo-name">
-                                                                        <img class="photo-profile" src="/Images/Femala.png" alt="">
-                                                                        <div class="info">
-                                                                            <a href=""><h6 class="info-nm">     </h6></a>
-                                                                            <p class="info-dt">    </p>
-                                                                        </div>
-                                                                    </div>
-                                                                    <pre class="news news-en">
+                                    <div class="timeline">
+                                    <div class="photo-name">
+                                        <img class="photo-profile" src="/Images/Femala.png" alt="">
+                                        <div class="info">
+                                            <a href=""><h6 class="info-nm">     </h6></a>
+                                            <p class="info-dt">    </p>
+                                        </div>
+                                    </div>
+                                    <pre class="news news-en">
 
-                                                                    </pre>
-                                                                    <div class="line"></div>
-                                                                    <div class="like-comment-p">
-                                                                        <div class="like-comment">
-                                                                            <div> <a href="#"><i class="fa-solid fa-thumbs-up me-2"></i></a>  <span class="text-secondary">Like</span></div>
-                                                                        </div>
-                                                                        <div class="number-like-comment">
-                                                                            <div><b>250</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                 `
+                                    </pre>
+                                    <div class="line"></div>
+                                    <div class="like-comment-p">
+                                        <div class="like-comment">
+                                            <div> <a href="#" ><i class="fa-solid fa-thumbs-up me-2"></i></a>  <span class="text-secondary">Like</span></div>
+                                        </div>
+                                        <div class="number-like-comment">
+                                            <div><b> 0 </b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                `
                         $('#here').prepend(con);
                         let num = Math.floor(Math.random() * 100000) + 1;
                         $(".news-en").removeClass("news-en").addClass("neww" + num.toString());
@@ -128,7 +145,19 @@
                         let str3 = ".info-nm" + num.toString();
                         $(str3).append(NewPost.UserName);
                     });
+
+                    // new like subscribtion
+                    proxy.on("NewLikeAdded", function (uid, pid, clr) {
+                        var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
+                        icon.removeClass("text-primary").addClass("text-" + clr);
+                        location.reload();
+                    });
                 });
+
+                // call server method
+                function funlike(uid,pid, flag) {
+                    proxy.invoke("Addlike", uid, pid, flag);
+                };
             </script>
         }
     </div>

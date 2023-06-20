@@ -126,26 +126,13 @@ namespace EduZone.Controllers
             context.PostInGroups.Add(post);
             context.SaveChanges();
 
-            var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
             adminhubcontext.Clients.All.NewPostAddedInGroup(post);
 
             return RedirectToAction(nameof(Group_Post), new { GroupCode= GrpCode });
         }
 
-        public ActionResult AddLike(LikeForPostInGroup likeForPost,bool ok, string GrpCode)
-        {
-            if (ok == false)
-            {
-                context.LikeForPostInGroups.Add(likeForPost);
-            }
-            else
-            {
-                var query = context.LikeForPostInGroups.FirstOrDefault(id => id.PostId == likeForPost.PostId && id.UserID == likeForPost.UserID);
-                context.LikeForPostInGroups.Remove(query);
-            }
-            context.SaveChanges();
-            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
-        }
+       
         public ActionResult Group_Material(string GroupCode)
         {
             // first Get Group
