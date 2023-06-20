@@ -33,9 +33,11 @@ namespace EduZone.Models
         public virtual DbSet<MailOfDoctors> MailOfDoctors { get; set; }
         public virtual DbSet<Student> GetStudents { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<PostInGroup> PostInGroups { get; set; }
         public virtual DbSet<Comment> Comments { get; set; }
-        public virtual DbSet<Like> Likes { get; set; }
 
+        public virtual DbSet<Like> Likes { get; set; }
+        public virtual DbSet<LikeForPostInGroup> LikeForPostInGroups { get; set; }
 
         public virtual DbSet<Group> GetGroups { get; set; }
         public virtual DbSet<GroupsMembers> GetGroupsMembers { get; set; }

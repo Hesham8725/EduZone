@@ -25,5 +25,7 @@ namespace EduZone.Models
         public string CreatorID { get; set; }
 
         public string image { get; set; }
+
+        public virtual ICollection<PostInGroup> PostInGroups { get; set; }
     }
 }

@@ -26,6 +26,7 @@ namespace EduZone.Controllers
         }
         public async Task<ActionResult> TimeLine()
         {
+            User.Identity.GetUserId();
             var data = await context.Posts.OrderByDescending(x => x.Date).ToListAsync();
             return View(data);
         }
@@ -39,7 +40,7 @@ namespace EduZone.Controllers
             post.Date = DateTime.Now;
             if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(TimeLine), context.Posts.OrderByDescending(x => x.Date).ToListAsync());
+                return RedirectToAction(nameof(TimeLine));
             }
 
             context.Posts.Add(post);
@@ -50,6 +51,7 @@ namespace EduZone.Controllers
 
             return RedirectToAction(nameof(TimeLine));
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Addcomment(Comment comment)

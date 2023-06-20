@@ -229,12 +229,26 @@
     <Compile Include="Migrations\202306191021346_mrg.Designer.cs">
       <DependentUpon>202306191021346_mrg.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306200949191_postInGroup.cs" />
+    <Compile Include="Migrations\202306200949191_postInGroup.Designer.cs">
+      <DependentUpon>202306200949191_postInGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306201038077_EditpostInGroup.cs" />
+    <Compile Include="Migrations\202306201038077_EditpostInGroup.Designer.cs">
+      <DependentUpon>202306201038077_EditpostInGroup.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306201409244_EditpostInGroups.cs" />
+    <Compile Include="Migrations\202306201409244_EditpostInGroups.Designer.cs">
+      <DependentUpon>202306201409244_EditpostInGroups.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
     <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\LikeForPostInGroup.cs" />
     <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostInGroup.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -471,6 +485,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306191021346_mrg.resx">
       <DependentUpon>202306191021346_mrg.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306200949191_postInGroup.resx">
+      <DependentUpon>202306200949191_postInGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306201038077_EditpostInGroup.resx">
+      <DependentUpon>202306201038077_EditpostInGroup.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306201409244_EditpostInGroups.resx">
+      <DependentUpon>202306201409244_EditpostInGroups.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

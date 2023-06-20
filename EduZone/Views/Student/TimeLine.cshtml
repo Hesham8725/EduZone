@@ -1,68 +1,51 @@
 ﻿@using EduZone.Models
 @model List<Post>
-
 <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
+@{
+    ApplicationDbContext context = new ApplicationDbContext();
+}
 <main class="container my-3 pb-4">
-   
+  
+    <div id="ishere">
 
-    <div class="timeline" id="timeline" style="display:none">
-        <div class="photo-name">
-            <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
-            <div class="info">
-                <h2 class="info-name" id="info-name"><a href="">        </a> </h2>
-                <p class="info-date" id="info-date">         </p>
-            </div>
-        </div>
-        <p class="news" id="news">
-
-
-        </p>
-        <div class="line"></div>
-        <div class="like-comment-p">
-            <div class="like-comment">
-                <p><i class="fa-solid fa-thumbs-up me-2"></i> <span class="text-secondary">Like</span></p>
-                <p><i class="fa-solid fa-message me-2"></i> <span class="text-secondary">Comment</span> </p>
-            </div>
-            <div class="number-like-comment">
-                <p><b>250</b><span class="ms-2 text-secondary">Like</span> </p>
-                <p><b>250</b><span class="ms-2 text-secondary">Comment</span> </p>
-            </div>
-        </div>
     </div>
-
     @foreach (var item in Model)
     {
+        <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
         <div class="timeline">
             <div class="photo-name">
                 <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
                 <div class="info">
-                    <h2 class="info-name"><a href="">@item.AuthorName</a> </h2>
-                    <p class="info-date">@item.Date</p>
+                    <h6 class="info-name"><a href=""> @item.UserName </a> </h6>
+                    <p class="info-date"> @item.Date </p>
                 </div>
             </div>
-            <p class="news">
-                @item.ContentOfPost
-            </p>
+            <pre class="news news-ar">
+                           @item.ContentOfPost
+            </pre>
             <div class="line"></div>
             <div class="like-comment-p">
                 <div class="like-comment">
-                    <p><i class="fa-solid fa-thumbs-up me-2"></i> <span class="text-secondary">Like</span></p>
-                    <p><i class="fa-solid fa-message me-2"></i> <span class="text-secondary">Comment</span> </p>
+                    <div> <a href="#"><i class="fa-solid fa-thumbs-up me-2"></i> <span class="text-secondary">Like</span> </a></div>
+                    <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2"></i> <span class="text-secondary">Comment</span> </a></div>
                 </div>
                 <div class="number-like-comment">
-                    <p><b>250</b><span class="ms-2 text-secondary">Like</span> </p>
-                    <p><b>250</b><span class="ms-2 text-secondary">Comment</span> </p>
+                    @{
+                        int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
+                        int numLk = item.likes?.Count ?? 0;
+                        //int numcom = item.Comments?.Count ?? 0;
+                    }
+                    <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+                    <div><b>@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
                 </div>
             </div>
         </div>
     }
 
-
-
     @*real time links*@
 
     @section bottom_Link
-{
+        {
         <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
         <script src="~/Signalr/hubs"></script>
         <script>
@@ -72,13 +55,54 @@
                 con.start();
                 proxy.on("NewPostAdded", function (NewPost) {
                     window.alert('new post add');
-                    $('#timeline').css('display', 'block');
-                    $('.news').append(NewPost.ContentOfPost);
-                    $('#info-date').append(NewPost.Date);
-                    $('#info-name').append(NewPost.AuthorName);
+                    var con = `
+                                        <div class="timeline">
+                                            <div class="photo-name">
+                                                <img class="photo-profile" src="/Content/Images/doctor.jpg" alt="photo" />
+                                                <div class="info">
+                                                    <a href="#"> <h2 class="info-nam">    </h2></a>
+                                                    <p class="info-dat">       </p>
+                                                </div>
+                                            </div>
+                                            <pre class="news news-ar">
+
+                                            </pre>
+                                            <div class="line"></div>
+                                            <div class="like-comment-p">
+                                                <div class="like-comment">
+                                                    <div> <a href="#"><i class="fa-solid fa-thumbs-up me-2"></i></a>  <span class="text-secondary">Like</span></div>
+                                                    <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2"></i></a> <span class="text-secondary">Comment</span> </div>
+                                                </div>
+                                                <div class="number-like-comment">
+                                                    <div><b>250</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                                    <div><b>250</b><span class="ms-2 text-secondary">Comment</span> </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                       `
+                    $('#ishere').prepend(con);
+                    let num = Math.floor(Math.random() * 100000) + 1;
+                    $(".news-ar").removeClass("news-ar").addClass("new" + num.toString());
+                    let str1 = ".new" + num.toString();
+                    $(str1).append(NewPost.ContentOfPost);
+                    $(".info-dat").removeClass("info-dat").addClass("info-dat" + num.toString());
+                    let str2 = ".info-dat" + num.toString();
+
+                    const date = new Date();
+                    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                    $(str2).append(formattedDate);
+
+                    $(".info-nam").removeClass("info-nam").addClass("info-nam" + num.toString());
+                    let str3 = ".info-nam" + num.toString();
+                    $(str3).append(NewPost.UserName);
                 });
             });
 
         </script>
     }
 </main>
+
+
+
+
+
