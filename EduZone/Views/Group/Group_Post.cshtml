@@ -5,7 +5,6 @@
 @{
     ViewBag.Title = "Group_Post";
     ApplicationDbContext context = new ApplicationDbContext();
-
 }
 @section Top_Link{
     <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
@@ -105,8 +104,11 @@
                     // new post subscribtion
                     proxy.on("NewPostAddedInGroup", function (NewPost) {
                         window.alert('new post add');
+
+                        let numid = NewPost.Id;
+
                         var con = `
-                                    <div class="timeline">
+                                    <div class="timeline" data-numid="${numid}">
                                     <div class="photo-name">
                                         <img class="photo-profile" src="/Images/Femala.png" alt="">
                                         <div class="info">
@@ -120,13 +122,17 @@
                                     <div class="line"></div>
                                     <div class="like-comment-p">
                                         <div class="like-comment">
-                                            <div> <a href="#" ><i class="fa-solid fa-thumbs-up me-2"></i></a>  <span class="text-secondary">Like</span></div>
+                                            <div>
+                                                <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${numid}" onclick="funlike('@User.Identity.GetUserId()', $(this).closest('.timeline').data('numid'), false)">
+                                                    <i class="fa-solid fa-thumbs-up me-2" style="cursor: pointer;"></i>
+                                                </a>
+                                                <span class="text-secondary">Like</span>
+                                            </div>
                                         </div>
                                         <div class="number-like-comment">
-                                            <div><b> 0 </b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                            <div><b>0</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 `
                         $('#here').prepend(con);
@@ -149,7 +155,7 @@
                     // new like subscribtion
                     proxy.on("NewLikeAdded", function (uid, pid, clr) {
                         var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
-                        icon.removeClass("text-primary").addClass("text-" + clr);
+                        icon.addClass("text-" + clr);
                         location.reload();
                     });
                 });

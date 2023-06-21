@@ -125,7 +125,7 @@ namespace EduZone.Controllers
             }
             context.PostInGroups.Add(post);
             context.SaveChanges();
-
+            ViewBag.NewPost = post.Id;
             IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
             adminhubcontext.Clients.All.NewPostAddedInGroup(post);
 

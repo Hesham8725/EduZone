@@ -12,11 +12,7 @@ namespace EduZone.MyHubs
     public class HubClass : Hub
     {
         ApplicationDbContext context = new ApplicationDbContext();
-       /* [HubMethodName("Add")]
-        public void Add()
-        {
-            Clients.All.NewPostAdded();
-        }*/
+     
        [HubMethodName("Addlike")]
        public void Addlike(string uid,int pid,bool flag)
         {
