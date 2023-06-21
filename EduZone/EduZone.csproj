@@ -241,6 +241,10 @@
     <Compile Include="Migrations\202306201409244_EditpostInGroups.Designer.cs">
       <DependentUpon>202306201409244_EditpostInGroups.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306211142188_likes.cs" />
+    <Compile Include="Migrations\202306211142188_likes.Designer.cs">
+      <DependentUpon>202306211142188_likes.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Group.cs" />
@@ -494,6 +498,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306201409244_EditpostInGroups.resx">
       <DependentUpon>202306201409244_EditpostInGroups.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306211142188_likes.resx">
+      <DependentUpon>202306211142188_likes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

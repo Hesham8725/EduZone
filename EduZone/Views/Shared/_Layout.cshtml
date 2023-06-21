@@ -62,15 +62,27 @@
             <!-- logo -->
             <!-- Sidebar nav links -->
             <ul class="nav-links">
-                <li>
-                    <a href="/Educator/TimeLine">
-                        <i class='bx bx-home'></i>
-                        <span class="link_name">Timeline</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="/Educator/TimeLine">Timeline</a></li>
-                    </ul>
-                </li>
+                    <li>
+                        @if (User.IsInRole("Educator"))
+                        {
+                            string rol = "Educator";
+                        }
+                        else if(User.IsInRole("Student"))
+                        {
+                            string rol = "Student";
+                        }
+                        else
+                        {
+                            string rol = "Admin";
+                        }
+                        <a href="/rol/TimeLine">
+                            <i class='bx bx-home'></i>
+                            <span class="link_name">Timeline</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="/rol/TimeLine">Timeline</a></li>
+                        </ul>
+                    </li>
                 <li>
                     <a href="/Group/Index">
                         <i class="bx bx-group"></i>

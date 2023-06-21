@@ -48,13 +48,15 @@
                 <div class="photo-name">
                     <img class="photo-profile" src="~/Images/Femala.png" alt="">
                     <div class="info">
-                        <a href=""><h6 class="info-name">@item.UserName </h6></a>
+                        <a  data-user-id=@item.UserId data-item-id=@item.Id href=""><h6 class="info-name">@item.UserName </h6></a>
                         <p class="info-date">@item.Date</p>
                     </div>
                 </div>
-                <pre class="news news-en">
+                <div data-user-id=@item.UserId data-item-id=@item.Id>
+                    <pre  class="news news-en">
                    @item.ContentOfPost
                 </pre>
+                </div>
                 <div class="line"></div>
                 <div class="like-comment-p">
                     <div class="like-comment">
@@ -62,9 +64,9 @@
                         {
                             <div>
                                 <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
-                                    <i class="fa-solid fa-thumbs-up me-2 text-primary text-success" style="cursor: pointer;"></i>
+                                    <i class="fa-solid fa-thumbs-up me-2 text-success" style="cursor: pointer;"></i>
+                                    <span class="text-secondary">Like</span>
                                 </a>
-                                <span class="text-secondary">Like</span>
                             </div>
                            
                         }
@@ -73,8 +75,8 @@
                             <div>
                                 <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
                                     <i class="fa-solid fa-thumbs-up me-2 text-secondary" style="cursor: pointer;"></i>
+                                    <span class="text-secondary">Like</span>
                                 </a>
-                                <span class="text-secondary">Like</span>
                             </div>
                         }
 
@@ -103,30 +105,29 @@
 
                     // new post subscribtion
                     proxy.on("NewPostAddedInGroup", function (NewPost) {
-                        window.alert('new post add');
-
-                        let numid = NewPost.Id;
 
                         var con = `
-                                    <div class="timeline" data-numid="${numid}">
+                                    <div class="timeline">
                                     <div class="photo-name">
                                         <img class="photo-profile" src="/Images/Femala.png" alt="">
                                         <div class="info">
-                                            <a href=""><h6 class="info-nm">     </h6></a>
+                                            <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href=""><h6 class="info-name">     </h6></a>
                                             <p class="info-dt">    </p>
                                         </div>
                                     </div>
-                                    <pre class="news news-en">
+                                    <div  data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id}>
+                                        <pre class="news news-en">
 
-                                    </pre>
+                                        </pre>
+                                    </div>
                                     <div class="line"></div>
                                     <div class="like-comment-p">
                                         <div class="like-comment">
                                             <div>
-                                                <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${numid}" onclick="funlike('@User.Identity.GetUserId()', $(this).closest('.timeline').data('numid'), false)">
-                                                    <i class="fa-solid fa-thumbs-up me-2" style="cursor: pointer;"></i>
+                                                <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlike('@User.Identity.GetUserId()', ${NewPost.Id}, false)">
+                                                    <i class="fa-solid fa-thumbs-up me-2 text-secondary" style="cursor: pointer;"></i>
+                                                    <span class="text-secondary">Like</span>
                                                 </a>
-                                                <span class="text-secondary">Like</span>
                                             </div>
                                         </div>
                                         <div class="number-like-comment">
@@ -136,20 +137,22 @@
                                 </div>
                                 `
                         $('#here').prepend(con);
+                        //CONTENT
+                        var contentPost = $("div[data-user-id='" + NewPost.UserId + "'][data-item-id='" + NewPost.Id + "']").find("pre.news");
+                        contentPost.append(NewPost.ContentOfPost);
+
+                        //USERNAME
+                        var usrnm = $("a[data-user-id='" + NewPost.UserId + "'][data-item-id='" + NewPost.Id + "']").find("h6.info-name");
+                        usrnm.append(NewPost.UserName);
+
+                        //DATE
                         let num = Math.floor(Math.random() * 100000) + 1;
-                        $(".news-en").removeClass("news-en").addClass("neww" + num.toString());
-                        let str1 = ".neww" + num.toString();
-                        $(str1).append(NewPost.ContentOfPost);
                         $(".info-dt").removeClass("info-dt").addClass("info-dt" + num.toString());
                         let str2 = ".info-dt" + num.toString();
-
                         const date = new Date();
                         const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
                         $(str2).append(formattedDate);
 
-                        $(".info-nm").removeClass("info-nm").addClass("info-nm" + num.toString());
-                        let str3 = ".info-nm" + num.toString();
-                        $(str3).append(NewPost.UserName);
                     });
 
                     // new like subscribtion

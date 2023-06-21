@@ -1,11 +1,13 @@
 ﻿@using EduZone.Models
+@using Microsoft.AspNet.Identity;
+@using System.Linq;
 @model List<Post>
 <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
 @{
     ApplicationDbContext context = new ApplicationDbContext();
 }
 <main class="container my-3 pb-4">
-  
+
     <div id="ishere">
 
     </div>
@@ -16,23 +18,43 @@
             <div class="photo-name">
                 <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
                 <div class="info">
-                    <h6 class="info-name"><a href=""> @item.UserName </a> </h6>
+                    <a data-user-id=@item.UserId data-item-id=@item.Id href=""><h6 class="info-name">@item.UserName </h6></a>
                     <p class="info-date"> @item.Date </p>
                 </div>
             </div>
-            <pre class="news news-ar">
-                           @item.ContentOfPost
-            </pre>
+            <div data-user-id=@item.UserId data-item-id=@item.Id>
+                <pre class="news news-en">
+                   @item.ContentOfPost
+                </pre>
+            </div>
             <div class="line"></div>
             <div class="like-comment-p">
                 <div class="like-comment">
-                    <div> <a href="#"><i class="fa-solid fa-thumbs-up me-2"></i> <span class="text-secondary">Like</span> </a></div>
-                    <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2"></i> <span class="text-secondary">Comment</span> </a></div>
+                    @if (context.Likes.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
+                    {
+                        <div style="cursor: pointer;">
+                            <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, true)">
+                                <i class="fa-solid fa-thumbs-up me-2 text-success"></i>
+                                <span class="text-secondary">Like</span>
+                            </a>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <div style="cursor: pointer;">
+                            <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, false)">
+                                <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
+                                <span class="text-secondary">Like</span>
+                            </a>
+                        </div>
+                    }
+                    <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a></div>
                 </div>
                 <div class="number-like-comment">
                     @{
                         int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
-                        int numLk = item.likes?.Count ?? 0;
+                        int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
                         //int numcom = item.Comments?.Count ?? 0;
                     }
                     <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
@@ -49,54 +71,76 @@
         <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
         <script src="~/Signalr/hubs"></script>
         <script>
-            $(function () {
-                var con = $.hubConnection();
-                var proxy = con.createHubProxy("HubClass");
-                con.start();
-                proxy.on("NewPostAdded", function (NewPost) {
-                    window.alert('new post add');
-                    var con = `
-                                        <div class="timeline">
-                                            <div class="photo-name">
-                                                <img class="photo-profile" src="/Content/Images/doctor.jpg" alt="photo" />
-                                                <div class="info">
-                                                    <a href="#"> <h2 class="info-nam">    </h2></a>
-                                                    <p class="info-dat">       </p>
-                                                </div>
-                                            </div>
-                                            <pre class="news news-ar">
+                let proxy;
+                $(function () {
+                    var con = $.hubConnection();
+                    proxy = con.createHubProxy("HubClass");
+                    con.start();
+                    proxy.on("NewPostAdded", function (NewPost) {
 
-                                            </pre>
-                                            <div class="line"></div>
-                                            <div class="like-comment-p">
-                                                <div class="like-comment">
-                                                    <div> <a href="#"><i class="fa-solid fa-thumbs-up me-2"></i></a>  <span class="text-secondary">Like</span></div>
-                                                    <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2"></i></a> <span class="text-secondary">Comment</span> </div>
-                                                </div>
-                                                <div class="number-like-comment">
-                                                    <div><b>250</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                                                    <div><b>250</b><span class="ms-2 text-secondary">Comment</span> </div>
-                                                </div>
+                        var con = `
+                                    <div class="timeline">
+                                        <div class="photo-name">
+                                            <img class="photo-profile" src="/Content/Images/doctor.jpg" alt="photo" />
+                                            <div class="info">
+                                                <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href=""><h6 class="info-name">     </h6></a>
+                                                <p class="info-dt">       </p>
                                             </div>
                                         </div>
-                                       `
-                    $('#ishere').prepend(con);
-                    let num = Math.floor(Math.random() * 100000) + 1;
-                    $(".news-ar").removeClass("news-ar").addClass("new" + num.toString());
-                    let str1 = ".new" + num.toString();
-                    $(str1).append(NewPost.ContentOfPost);
-                    $(".info-dat").removeClass("info-dat").addClass("info-dat" + num.toString());
-                    let str2 = ".info-dat" + num.toString();
+                                        <div  data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id}>
+                                            <pre class="news news-en">
 
-                    const date = new Date();
-                    const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-                    $(str2).append(formattedDate);
+                                            </pre>
+                                        </div>
+                                        <div class="line"></div>
+                                        <div class="like-comment-p">
+                                            <div class="like-comment">
+                                                <div style="cursor: pointer;">
+                                                        <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlikeTime('@User.Identity.GetUserId()',${NewPost.Id}, false)">
+                                                            <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
+                                                            <span class="text-secondary">Like</span>
+                                                        </a>
+                                                </div>
+                                                <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i></a> <span class="text-secondary">Comment</span> </div>
+                                            </div>
+                                            <div class="number-like-comment">
+                                                <div><b>0</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                                <div><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    `
+                        $('#ishere').prepend(con);
 
-                    $(".info-nam").removeClass("info-nam").addClass("info-nam" + num.toString());
-                    let str3 = ".info-nam" + num.toString();
-                    $(str3).append(NewPost.UserName);
+                        //CONTENT
+                        var contentPost = $("div[data-user-id='" + NewPost.UserId + "'][data-item-id='" + NewPost.Id + "']").find("pre.news");
+                        contentPost.append(NewPost.ContentOfPost);
+
+                        //USERNAME
+                        var usrnm = $("a[data-user-id='" + NewPost.UserId + "'][data-item-id='" + NewPost.Id + "']").find("h6.info-name");
+                        usrnm.append(NewPost.UserName);
+
+                        //DATE
+                        let num = Math.floor(Math.random() * 100000) + 1;
+                        $(".info-dt").removeClass("info-dt").addClass("info-dt" + num.toString());
+                        let str2 = ".info-dt" + num.toString();
+                        const date = new Date();
+                        const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+                        $(str2).append(formattedDate);
+                    });
+
+                    // new like subscribtion
+                    proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr) {
+                        var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
+                        icon.addClass("text-" + clr);
+                        location.reload();
+                    });
                 });
-            });
+
+                // call server method
+                function funlikeTime(uid, pid, flag) {
+                    proxy.invoke("AddlikeInTimeLine", uid, pid, flag);
+                };
 
         </script>
     }

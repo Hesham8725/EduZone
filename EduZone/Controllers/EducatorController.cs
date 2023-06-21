@@ -46,8 +46,8 @@ namespace EduZone.Controllers
             context.Posts.Add(post);
             context.SaveChanges();
 
-              var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
-              adminhubcontext.Clients.All.NewPostAdded(post);
+            var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.NewPostAdded(post);
 
             return RedirectToAction(nameof(TimeLine));
         }

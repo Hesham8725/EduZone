@@ -1,4 +1,5 @@
 ﻿using EduZone.MyHubs;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
@@ -47,6 +48,9 @@ namespace EduZone.Models
         [ValidateAntiForgeryToken]
         public ActionResult AddPost(Post post)
         {
+            post.UserName = User.Identity.Name;
+            post.UserId = User.Identity.GetUserId();
+            post.Date = DateTime.Now;
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(TimeLine), context.Posts.OrderByDescending(x => x.Date).ToListAsync());

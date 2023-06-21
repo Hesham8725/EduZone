@@ -13,6 +13,7 @@ namespace EduZone.MyHubs
     {
         ApplicationDbContext context = new ApplicationDbContext();
      
+        // like in group posts
        [HubMethodName("Addlike")]
        public void Addlike(string uid,int pid,bool flag)
         {
@@ -22,6 +23,7 @@ namespace EduZone.MyHubs
                 {
                     PostId = pid,
                     UserID = uid
+                    
                 };
                 var query = context.LikeForPostInGroups.FirstOrDefault(i => i.PostId == pid && i.UserID == uid);
                 if (query == null)
@@ -36,6 +38,34 @@ namespace EduZone.MyHubs
             context.SaveChanges();
             string clr = flag ? "secondary" : "primary";
             Clients.All.NewLikeAdded(uid,pid, clr);
+        }
+
+        // like in timeline posts
+        [HubMethodName("AddlikeInTimeLine")]
+        public void AddlikeInTimeLine(string uid, int pid, bool flag)
+        {
+            if (flag == false)
+            {
+                var obj = new Like()
+                {
+                    PostId = pid,
+                    UserID = uid
+
+                };
+                var query = context.Likes.FirstOrDefault(i => i.PostId == pid && i.UserID == uid);
+                if (query == null)
+                    context.Likes.Add(obj);
+            }
+            else
+            {
+                var query = context.Likes.FirstOrDefault(i => i.PostId == pid && i.UserID == uid);
+                if (query != null)
+                    context.Likes.Remove(query);
+            }
+              context.SaveChanges();
+
+            string clr = flag ? "secondary" : "primary";
+            Clients.All.NewLikeAddedInTimeLine(uid, pid, clr);
         }
     }
 }
