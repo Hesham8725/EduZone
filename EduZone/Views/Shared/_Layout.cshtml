@@ -1,5 +1,8 @@
 ﻿@using System.Security.Claims;
 @using EduZone.Models;
+@{ 
+    string rol;
+}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -65,22 +68,22 @@
                     <li>
                         @if (User.IsInRole("Educator"))
                         {
-                            string rol = "Educator";
+                             rol = "Educator";
                         }
-                        else if(User.IsInRole("Student"))
+                        else if(User.IsInRole("Admin"))
                         {
-                            string rol = "Student";
+                             rol = "Admin";
                         }
                         else
                         {
-                            string rol = "Admin";
+                             rol = "Student";
                         }
-                        <a href="/rol/TimeLine">
+                        <a href="/@rol/TimeLine">
                             <i class='bx bx-home'></i>
                             <span class="link_name">Timeline</span>
                         </a>
                         <ul class="sub-menu blank">
-                            <li><a class="link_name" href="/rol/TimeLine">Timeline</a></li>
+                            <li><a class="link_name" href="/@rol/TimeLine">Timeline</a></li>
                         </ul>
                     </li>
                 <li>

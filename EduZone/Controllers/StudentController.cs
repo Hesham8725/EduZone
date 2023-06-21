@@ -39,5 +39,6 @@ namespace EduZone.Controllers
             return View(data);
         }
 
+        
     }
 }

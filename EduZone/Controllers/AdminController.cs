@@ -53,7 +53,7 @@ namespace EduZone.Models
             post.Date = DateTime.Now;
             if (!ModelState.IsValid)
             {
-                return RedirectToAction(nameof(TimeLine), context.Posts.OrderByDescending(x => x.Date).ToListAsync());
+                return RedirectToAction(nameof(TimeLine));
             }
 
             context.Posts.Add(post);
