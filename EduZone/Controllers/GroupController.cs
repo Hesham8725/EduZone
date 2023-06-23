@@ -2,8 +2,10 @@
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Security.Policy;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -24,6 +26,7 @@ namespace EduZone.Controllers
                 {
                     var GName = context.GetGroups.FirstOrDefault(e => e.Code == item.GroupId);
                     _groups.Add(GName);
+
                 }
             }
             return View(_groups);
@@ -83,6 +86,7 @@ namespace EduZone.Controllers
                     GM.GroupId = CodeOfGroup;
                     GM.IsCreate = false;
                     GM.MemberId = userId;
+                    GM.TimeGoin= DateTime.Now;
                     context.GetGroupsMembers.Add(GM);
                     context.SaveChanges();
 
@@ -140,7 +144,38 @@ namespace EduZone.Controllers
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
 
-            return View();
+            string userId = User.Identity.GetUserId();
+            var membar = context.GetGroupsMembers.FirstOrDefault(e => e.MemberId == userId);
+            var datOfJoin = membar.TimeGoin;
+
+            var chatGroup = context.GetChatGroups.OrderBy(e=>e.CreatedAt).Where(e => e.GroupName == GroupValue.GroupName &&e.CreatedAt>=datOfJoin).ToList();
+            foreach (var item in chatGroup)
+            {
+                if (DateTime.Now.Day - item.CreatedAt.Day == 0 && DateTime.Now.Month - item.CreatedAt.Month == 0
+                                        && DateTime.Now.Year - item.CreatedAt.Year == 0)
+                {
+                    item.time = item.CreatedAt.ToString("h: mm tt") + " Today";
+                }
+                else if (DateTime.Now.Day - item.CreatedAt.Day == 1
+                                        && DateTime.Now.Month - item.CreatedAt.Month == 0
+                                        && DateTime.Now.Year - item.CreatedAt.Year == 0)
+                {
+                    item.time = item.CreatedAt.ToString("h: mm tt") + " Yestarday";
+                }
+                else if (DateTime.Now.Day - item.CreatedAt.Day <= 7
+                                        && DateTime.Now.Month - item.CreatedAt.Month == 0
+                                        && DateTime.Now.Year - item.CreatedAt.Year == 0)
+                {
+                    item.time = item.CreatedAt.ToString("h: mm tt") + item.CreatedAt.DayOfWeek;
+                }
+                else
+                {
+                    item.time = item.CreatedAt.ToString("MM/dd/yyyy hh:mmtt");
+                }
+            }
+            //chatGroup.Reverse();
+
+            return View(chatGroup);
         }
         public ActionResult Group_About(string GroupCode)
         {

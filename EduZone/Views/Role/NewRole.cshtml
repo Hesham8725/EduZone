@@ -37,15 +37,8 @@ else if (ViewBag.curd == "delete")
                 <input class="form-control" type="text" name="rolename" value="">
             }
 
-            @if (valueOfbtn == "Delete")
-            {
-                <input type="submit" value="@valueOfbtn" class="btn btn-danger mt-2" style="width:100%;">
-            }
-            else
-            {
-                <input type="submit" value="@valueOfbtn" class="btn btn-success mt-2" style="width:100%;">
+            <input type="submit" value="@valueOfbtn" class="btn btn-success mt-2" style="width:100%;">
 
-            }
         </form>
     </div>
     <div class="w-50" style="margin-left:30px;">
@@ -67,7 +60,8 @@ else if (ViewBag.curd == "delete")
                         <td>
 
                             <a href="@Url.Action("Update","role",new { roleid=item.Id })" class="btn btn-outline-success">Update</a>
-                            <a href="@Url.Action("delete","role",new { roleid=item.Id })" class="btn btn-danger" onclick="confirmDelete()">Delete</a>
+                           @* <a href="@Url.Action("delete","role",new { roleid=item.Id })" class="btn btn-danger" onclick="confirmDelete()">Delete</a>*@
+                            @Html.ActionLink("Delete", "delete", new { roleid = item.Id }, new { onclick = "return confirm('Are sure wants to delete?');", @class = "btn btn-danger" })
                         </td>
                     </tr>
                 }

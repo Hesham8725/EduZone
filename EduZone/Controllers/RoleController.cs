@@ -83,15 +83,15 @@ namespace EduZone.Controllers
 
             return RedirectToAction("NewRole");
         }
+        //public ActionResult Delete(string roleid)
+        //{
+        //    ViewBag.curd = "delete";
+        //    ViewBag.rolename = context.Roles.FirstOrDefault(e => e.Id == roleid);
+        //    var roles = context.Roles.ToList();
+        //    return View("NewRole", roles);
+        //}
+        //[HttpPost]
         public ActionResult Delete(string roleid)
-        {
-            ViewBag.curd = "delete";
-            ViewBag.rolename = context.Roles.FirstOrDefault(e => e.Id == roleid);
-            var roles = context.Roles.ToList();
-            return View("NewRole", roles);
-        }
-        [HttpPost]
-        public ActionResult Delete(string roleid, string rolename)
         {
             RoleStore<IdentityRole> store = new RoleStore<IdentityRole>(context);
             RoleManager<IdentityRole> manger = new RoleManager<IdentityRole>(store);
