@@ -245,6 +245,10 @@
     <Compile Include="Migrations\202306211142188_likes.Designer.cs">
       <DependentUpon>202306211142188_likes.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306221528401_upcom.cs" />
+    <Compile Include="Migrations\202306221528401_upcom.Designer.cs">
+      <DependentUpon>202306221528401_upcom.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Group.cs" />
@@ -299,6 +303,7 @@
     <Content Include="Content\StyleSheet\chat2.css" />
     <Content Include="Content\StyleSheet\forgetpass.css" />
     <Content Include="Content\StyleSheet\ForgetPssword.css" />
+    <Content Include="Content\StyleSheet\time-line-comments.css" />
     <Content Include="Content\StyleSheet\time-line-for-dector.css" />
     <Content Include="Content\StyleSheet\time-line.css" />
     <Content Include="Content\StyleSheet\verifycode.css" />
@@ -482,6 +487,9 @@
     <Content Include="Views\Group\Group_Member.cshtml" />
     <Content Include="Views\Group\Group_Chat.cshtml" />
     <Content Include="Views\Group\Group_About.cshtml" />
+    <Content Include="Views\Educator\ShowCommentOfPost.cshtml" />
+    <Content Include="Views\Student\ShowCommentOfPost.cshtml" />
+    <Content Include="Views\Admin\ShowCommentOfPost.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -501,6 +509,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306211142188_likes.resx">
       <DependentUpon>202306211142188_likes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306221528401_upcom.resx">
+      <DependentUpon>202306221528401_upcom.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

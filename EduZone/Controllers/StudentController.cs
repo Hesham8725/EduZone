@@ -38,7 +38,11 @@ namespace EduZone.Controllers
             var data = await context.Posts.OrderByDescending(x => x.Date).ToListAsync();
             return View(data);
         }
+        public ActionResult ShowCommentOfPost(int id)
+        {
+            var pst = context.Posts.FirstOrDefault(i => i.Id == id);
+            return View(pst);
+        }
 
-        
     }
 }

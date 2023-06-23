@@ -31,7 +31,6 @@
         </div>
         @foreach (var item in Model)
         {
-            <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
             <div class="timeline">
                 <div class="photo-name">
                     <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
@@ -67,13 +66,12 @@
                                 </a>
                             </div>
                         }
-                        <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a></div>
+                        <div> <a href="@Url.Action("ShowCommentOfPost",new {item.Id})" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a></div>
                     </div>
                     <div class="number-like-comment">
                         @{
                             int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
                             int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
-                            //int numcom = item.Comments?.Count ?? 0;
                         }
                         <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
                         <div><b>@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>

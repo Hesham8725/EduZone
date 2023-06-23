@@ -64,5 +64,10 @@ namespace EduZone.Models
 
             return RedirectToAction(nameof(TimeLine));
         }
+        public ActionResult ShowCommentOfPost(int id)
+        {
+            var pst = context.Posts.FirstOrDefault(i => i.Id == id);
+            return View(pst);
+        }
     }
 }

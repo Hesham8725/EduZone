@@ -63,8 +63,8 @@
                         @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
                         {
                             <div>
-                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
-                                    <i class="fa-solid fa-thumbs-up me-2 text-success" style="cursor: pointer;"></i>
+                                <a  style="cursor: pointer;" data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
+                                    <i class="fa-solid fa-thumbs-up me-2 text-success"></i>
                                     <span class="text-secondary">Like</span>
                                 </a>
                             </div>

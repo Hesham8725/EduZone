@@ -1,0 +1,136 @@
+﻿@using EduZone.Models
+@using Microsoft.AspNet.Identity;
+@using System.Linq;
+@model Post
+@{
+    ViewBag.Title = "ShowCommentOfPost";
+    ApplicationDbContext context = new ApplicationDbContext();
+}
+<link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
+@*<link href="~/Content/StyleSheet/time-line-comments.css" rel="stylesheet" />
+*@<div class="timeline">
+    <div class="photo-name">
+        <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
+        <div class="info">
+            <a data-user-id=@Model.UserId data-item-id=@Model.Id href=""><h6 class="info-name">@Model.UserName </h6></a>
+            <p class="info-date"> @Model.Date </p>
+        </div>
+    </div>
+    <div data-user-id=@Model.UserId data-item-id=@Model.Id>
+        <pre class="news news-en">
+                   @Model.ContentOfPost
+                </pre>
+    </div>
+    <div class="line"></div>
+    <div class="like-comment-p">
+        <div class="like-comment">
+            @if (context.Likes.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == Model.Id) != null)
+            {
+                <div style="cursor: pointer;">
+                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, true)">
+                        <i class="fa-solid fa-thumbs-up me-2 text-success"></i>
+                        <span class="text-secondary">Like</span>
+                    </a>
+                </div>
+
+            }
+            else
+            {
+                <div style="cursor: pointer;">
+                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, false)">
+                        <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
+                        <span class="text-secondary">Like</span>
+                    </a>
+                </div>
+            }
+            <div> <a href="@Url.Action("ShowCommentOfPost",new {Model.Id})" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a></div>
+        </div>
+        <div class="number-like-comment">
+            @{
+                int numcom = context.Comments.Where(s => s.PostID == Model.Id).Count();
+                int numLk = context.Likes.Where(p => p.PostId == Model.Id).Count();
+            }
+            <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+            <div><b class="comnt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
+
+        </div>
+    </div>
+    <div class="input-group my-4 rounded-3">
+        <input type="text" id="inp" class="form-control" placeholder="COMMENT" value="">
+
+        <button class="btn btn-outline-success" type="button" onclick="funComment(@Model.Id)" id="button-addon2">comment</button>
+    </div>
+</div>
+<div class="comments_repos p-3">
+    @if (context.Comments.FirstOrDefault(pi => pi.PostID == Model.Id) != null)
+    {
+
+        var cmnts = context.Comments.Where(id => id.PostID == Model.Id);
+        foreach (var comment in cmnts)
+        {
+            <div class="comment row" style="padding: 10px; margin: 10px 10px; ">
+
+                <div class="comment_info col-2" style="display:flex;">
+                    <div class="avatar">
+                        <img src="" class="comment-avatar" alt="">
+                    </div>
+                    <a href="#" class="username">@context.Users.FirstOrDefault(i => i.Id == @comment.UserId).Email.Split('.')[0]</a>
+                </div>
+                <p class="comment_content col-10">  @comment.ContentOfComment </p>
+            </div>
+        }
+    }
+</div>
+
+@section bottom_Link
+{
+
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/Signalr/hubs"></script>
+    <script>
+        console.log("done");
+            let proxy;
+            $(function () {
+                var con = $.hubConnection();
+                proxy = con.createHubProxy("HubClass");
+                con.start();
+                proxy.on("NewCommentAdded", function (msg, usr, comid, numComents) {
+                    var con = `
+                         <div data-comment-id=${comid} class="comment row style="padding: 10px; margin: 10px 10px;">
+                            <div class="comment_info col-2" style="display:flex;">
+                                <div class="avatar">
+                                    <img src="" class="comment-avatar" alt="">
+                                </div>
+                                <a href="#" class="username">      </a>
+                            </div>
+                            <p class="comment_content col-10">      </p>
+                        </div>
+                              `
+                    $('.comments_repos').prepend(con);
+
+                    //Message Content
+                    var contentPost = $("div[data-comment-id='" + comid + "']").find("p.comment_content");
+                    contentPost.append(msg);
+
+                    //USERNAME
+                    var usrnm = $("div[data-comment-id='" + comid + "']").find("a.username");
+                    usrnm.append(usr);
+                    $(".comnt").text(numComents);
+                });
+                proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr) {
+                    var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
+                    icon.addClass("text-" + clr);
+                    location.reload();
+                });
+            });
+        function funComment(PostID) {
+            var msg = document.getElementById('inp').value;
+            document.getElementById('inp').value = '';
+            proxy.invoke("AddComment", PostID, msg,'@User.Identity.GetUserId()');
+        };
+        function funlikeTime(uid, pid, flag) {
+            proxy.invoke("AddlikeInTimeLine", uid, pid, flag);
+        };
+
+    </script>
+}

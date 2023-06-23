@@ -29,6 +29,6 @@ namespace EduZone.Models
         public DateTime Date { get; set; }
 
         public ICollection<Like> likes { get; set; }
-        public ICollection<Comment> Comments { get; set; }
+        public List<Comment> coment { get; set; }
     }
 }

@@ -67,5 +67,23 @@ namespace EduZone.MyHubs
             string clr = flag ? "secondary" : "primary";
             Clients.All.NewLikeAddedInTimeLine(uid, pid, clr);
         }
+        [HubMethodName("AddComment")]
+        public void AddComment(int id,string message ,string userid)
+        {
+            var pst=context.Posts.FirstOrDefault(i=>i.Id== id);
+            var obj = new Comment()
+            {
+                Date = DateTime.Now,
+                ContentOfComment = message,
+                PostID = pst.Id,
+                UserId = userid
+            };
+            context.Comments.Add(obj);
+            context.SaveChanges();
+            int numComents=context.Comments.Where(s => s.PostID == id).Count();
+            var name=context.Users.FirstOrDefault(i => i.Id == userid).Email.Split('.')[0];
+            Clients.All.NewCommentAdded(message, name, obj.Id, numComents);
+
+        }
     }
 }
