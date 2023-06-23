@@ -12,7 +12,7 @@ namespace EduZone.Models
         public int Id { get; set; }
 
         public string GroupId { get; set; }
-
+        public DateTime TimeGoin { get; set; }
         public string MemberId { get; set; }
 
         public bool IsCreate { get; set; }

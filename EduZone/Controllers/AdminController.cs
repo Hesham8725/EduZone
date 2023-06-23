@@ -105,29 +105,22 @@ namespace EduZone.Models
             return View("AddEducatorMail", ExterInfo);
         }
 
-        public ActionResult DeleteEducatorMail(int mailId)
-        {
-            ViewBag.curd = "delete";
-            ViewBag.mail = context.MailOfDoctors.FirstOrDefault(e => e.ID == mailId);
-            var ExterInfo = ListOfMailOfDoctor();
-            return View("AddEducatorMail", ExterInfo);
-        }
+        //public ActionResult DeleteEducatorMail(int mailId)
+        //{
+        //    ViewBag.curd = "delete";
+        //    ViewBag.mail = context.MailOfDoctors.FirstOrDefault(e => e.ID == mailId);
+        //    var ExterInfo = ListOfMailOfDoctor();
+        //    return View("AddEducatorMail", ExterInfo);
+        //}
 
-        [HttpPost]
-        public ActionResult DeleteEducatorMail(int mailId, string email)
-        {
+        //[HttpPost]
+        public ActionResult DeleteEducatorMail(int mailId)  {
             var Mail = context.MailOfDoctors.FirstOrDefault(e => e.ID == mailId);
             if (Mail != null)
             {
-                if (email != "")
-                {
-                    if(email==Mail.DoctorMail)
-                    {
-                        context.MailOfDoctors.Remove(Mail);
-                        context.SaveChanges();
-                        return RedirectToAction("AddEducatorMail");
-                    }
-                }
+                context.MailOfDoctors.Remove(Mail);
+                context.SaveChanges();
+                return RedirectToAction("AddEducatorMail");
             }
             ViewBag.curd = "delete";
             ViewBag.mail = context.MailOfDoctors.FirstOrDefault(e => e.ID == mailId);
