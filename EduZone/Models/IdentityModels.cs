@@ -42,6 +42,11 @@ namespace EduZone.Models
         public virtual DbSet<Group> GetGroups { get; set; }
         public virtual DbSet<GroupsMembers> GetGroupsMembers { get; set; }
         public virtual DbSet<Educator> GetEducators { get; set; }
+
+        public virtual DbSet<Exam> GetExams { get; set; }
+        public virtual DbSet<Question> GetQuestions { get; set; }
+        public virtual DbSet<AnswerChoice> GetAnswerChoices { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
