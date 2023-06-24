@@ -249,14 +249,21 @@
     <Compile Include="Migrations\202306221528401_upcom.Designer.cs">
       <DependentUpon>202306221528401_upcom.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306241404058_up.cs" />
+    <Compile Include="Migrations\202306241404058_up.Designer.cs">
+      <DependentUpon>202306241404058_up.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AnswerChoice.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Exam.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
     <Compile Include="Models\Like.cs" />
     <Compile Include="Models\LikeForPostInGroup.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostInGroup.cs" />
+    <Compile Include="Models\Question.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Admin.cs" />
@@ -512,6 +519,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306221528401_upcom.resx">
       <DependentUpon>202306221528401_upcom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306241404058_up.resx">
+      <DependentUpon>202306241404058_up.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
