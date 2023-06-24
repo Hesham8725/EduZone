@@ -6,6 +6,7 @@ namespace EduZone.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
+<<<<<<<< HEAD:EduZone/Migrations/202306211544209_Abdallah_2.Designer.cs
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
     public sealed partial class Abdallah_2 : IMigrationMetadata
     {
@@ -14,6 +15,16 @@ namespace EduZone.Migrations
         string IMigrationMetadata.Id
         {
             get { return "202306211544209_Abdallah_2"; }
+========
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
+    public sealed partial class Post : IMigrationMetadata
+    {
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Post));
+        
+        string IMigrationMetadata.Id
+        {
+            get { return "202306231834515_Post"; }
+>>>>>>>> master:EduZone/Migrations/202306231834515_Post.Designer.cs
         }
         
         string IMigrationMetadata.Source

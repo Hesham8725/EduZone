@@ -7,23 +7,18 @@ using System.Web;
 
 namespace EduZone.Models
 {
-
-    [Table("LikeForPostInGroup")]
-    public class LikeForPostInGroup
+    public class Like
     {
-        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
         public string UserID { get; set; }
 
         [Required]
-        [ForeignKey("PostInGroup")]
+        [ForeignKey("Post")]
         public int PostId { get; set; }
 
-        [ForeignKey("ApplicationUser")]
-        public string UserID { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
-        public PostInGroup PostInGroup { get; set; }
+        public Post Post { get; set; }
     }
 }

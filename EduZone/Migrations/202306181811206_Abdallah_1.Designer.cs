@@ -6,6 +6,7 @@ namespace EduZone.Migrations
     using System.Data.Entity.Migrations.Infrastructure;
     using System.Resources;
     
+<<<<<<<< HEAD:EduZone/Migrations/202306181811206_Abdallah_1.Designer.cs
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
     public sealed partial class Abdallah_1 : IMigrationMetadata
     {
@@ -14,6 +15,16 @@ namespace EduZone.Migrations
         string IMigrationMetadata.Id
         {
             get { return "202306181811206_Abdallah_1"; }
+========
+    [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
+    public sealed partial class im : IMigrationMetadata
+    {
+        private readonly ResourceManager Resources = new ResourceManager(typeof(im));
+        
+        string IMigrationMetadata.Id
+        {
+            get { return "202306240856118_im"; }
+>>>>>>>> master:EduZone/Migrations/202306240856118_im.Designer.cs
         }
         
         string IMigrationMetadata.Source

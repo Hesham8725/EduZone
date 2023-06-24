@@ -185,7 +185,8 @@ namespace EduZone.Controllers
                     Email = model.Email,
                     Address = model.Address,
                     NationalID = model.NationalID,
-                    EmailActive = false
+                    EmailActive = false,
+                    Image = "Male.png"
                 };
                 var result = await UserManager.CreateAsync(applicationUser, model.Password);
                 var user1 = context.MailOfDoctors.FirstOrDefault(e => e.DoctorMail == applicationUser.Email);

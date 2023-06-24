@@ -23,9 +23,20 @@ namespace EduZone.Controllers
             return View();
         }
 
-        public ActionResult GetBatches()
+        public ActionResult GetBatches(int BN=0)
         {
-            return View();
+            ViewBag.BN = BN;
+            var memberes = context.GetStudents.Where(e => e.Batch == BN);
+            List<ApplicationUser> students = new List<ApplicationUser>();
+            if (memberes != null)
+            {
+                foreach (var item in memberes)
+                {
+                    var val = context.Users.FirstOrDefault(e => e.Id == item.AccountID);
+                    students.Add(val);
+                }
+            }
+            return View(students);
         }
     }
 }

@@ -37,17 +37,14 @@ namespace EduZone.Models
         public virtual DbSet<Group> GetGroups { get; set; }
         public virtual DbSet<GroupsMembers> GetGroupsMembers { get; set; }
         public virtual DbSet<Educator> GetEducators { get; set; }
+        public virtual DbSet<GroupMaterial> GetMaterials { get; set; }
 
-        public virtual DbSet<PostInGroup> GetPostInGroup { get; set; }
-        public virtual DbSet<PostInTimeLine> GetPostInTimeLine { get; set; }
-        public virtual DbSet<CommentForPostInGroup> GetCommentForPostInGroup { get; set; }
-        public virtual DbSet<CommentForPostInTimeLine> GetCommentForPostInTimeLine { get; set; }
-        public virtual DbSet<LikeForPostInGroup> GetLikeForPostInGroup { get; set; }
-        public virtual DbSet<LikeForPostInTimeLine> GetLikeForPostInTimeLine { get; set; }
-        public virtual DbSet<ChatGroup> GetChatGroups { get; set; }
-        public virtual DbSet<Department> GetDepartments { get; set; }
-        public virtual DbSet<Course> GetCourses { get; set; }
-       
+        public virtual DbSet<Post> Posts { get; set; }
+        public virtual DbSet<PostInGroup> PostInGroups { get; set; }
+        public virtual DbSet<Comment> Comments { get; set; }
+        public virtual DbSet<Like> Likes { get; set; }
+        public virtual DbSet<LikeForPostInGroup> LikeForPostInGroups { get; set; }
+
 
         public static ApplicationDbContext Create()
         {
