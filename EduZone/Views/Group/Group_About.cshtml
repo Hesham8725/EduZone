@@ -9,16 +9,13 @@
     <div class="tab-pane active" id="About">
         <ul class=" list-group">
             <li class=" list-group-item">
-                <b>Group Code</b> : <span class="badge rounded-pill text-bg-success">COM200</span>
+                <b>Group Code</b> : <span class="badge rounded-pill text-bg-success">@ViewBag.GC</span>
             </li>
             <li class=" list-group-item">
-                <b># Members</b> : 200
+                <b># Members</b> : @ViewBag.Count
             </li>
             <li class=" list-group-item">
-                <b>Type</b> : Private
-            </li>
-            <li class=" list-group-item">
-                <b>Admin</b> : <span class="badge rounded-pill text-bg-info"><a href="#">DR_Ali</a></span>
+                <b>Admin</b> : <span class="badge rounded-pill text-bg-info"><a href="#">@ViewBag.OwnerName</a></span>
             </li>
         </ul>
     </div>

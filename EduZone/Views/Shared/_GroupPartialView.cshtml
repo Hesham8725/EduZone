@@ -13,11 +13,11 @@
     <div class="g-btn col-2 d-flex justify-content-end">
         @if (ViewBag.GCR7 == User.Identity.GetUserId())
         {
-            <a class="btn btn-sm btn-outline-danger align-self-center" href="/Group/DeleteGroup/@ViewBag.GC">Delete</a>
+            <a class="btn btn-sm btn-outline-danger align-self-center" href="@Url.Action("DeleteGroup","Group",new { GCode=@ViewBag.GC})">Delete</a>
         }
         else
         {
-            <a class="btn btn-sm btn-outline-danger align-self-center" href="/Group/LeaveGroup/@ViewBag.GC">Leave</a>
+            <a class="btn btn-sm btn-outline-danger align-self-center" href="@Url.Action("LeaveGroup","Group",new { GCode=@ViewBag.GC})">Leave</a>
         }
     </div>
 </div>

@@ -9,8 +9,13 @@
 }
 
 @Html.Partial("_GroupPartialView")
+
+<div class="jsvalidation">
+    <input type="text" id="jsImageValue" style="display:none"/>
+</div>
 <div class="tab-content p-3 my-3">
     <div class="tab-pane active" id="Posts">
+        @*  logic Here   *@
         <form class="mt-5" action="">
             <div class="timeline ">
                 <div class="photo-name">
@@ -19,14 +24,17 @@
                         <h2 class="info-name">Meao Bn Meao</h2>
                     </div>
                 </div>
-                <textarea class="m-3" name="" id="" placeholder="Write new announcement..."></textarea>
+                <textarea class="m-3" name="" id="Content" placeholder="Write new announcement..."></textarea>
+                <div class="w-100">
+                    <input type="file" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
+                    <img id="PostImage" class="w-100 m-1" />
+                </div>
                 <div class="line"></div>
                 <div class="like-comment live-photo">
                     <div>
-                        <a href=""> <i class="fa-solid fa-photo-film"></i> </a>
-                        <span class="text-secondary ms-2">Photo/video</span>
+                        <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo/video</span>
                     </div>
-                    <button type="submit" class="btn btn-success ms-3"> POST </button>
+                    <input type="button" class="btn btn-success ms-3" id="btn" value="POST" onclick="Add(document.getElementById('jsImageValue').value)" />
                 </div>
             </div>
         </form>
@@ -69,3 +77,80 @@
         </div>
     </div>
 </div>
+<ul id="test">
+</ul>
+@section bottom_link{
+    <!--First add jquery script-->
+    <script src="~/lib/jquery/jquery.js"></script>
+    <!--add signalR Scripts-->
+    <script src="~/Scripts/jquery.signalR-2.4.3.js"></script>
+    <!--load proxy file-->
+    <script src="/signalr/hubs"></script>
+    <script>
+        imagePost = "";
+        $(function () {
+            con = $.hubConnection();
+            proxy = con.createHubProxy("postGroupHub");
+            con.start();
+            proxy.on("newPostAdd", function (GroupCode, content,Profileimage,username,postimage) {
+
+                var con = `
+                             <div class="timeline">
+    <div class="photo-name">
+      <img class="photo-profile" src="/Images/`+ Profileimage + `" alt="">
+      <div class="info">
+        <h6 class="info-name"><a href="">`+ username +`</a> </h6>
+        <p class="info-date">8 November</p>
+      </div>
+    </div>
+    <p class="news news-en">
+      `+ content + `
+    </p>
+    <img stc="/Images/`+postimage+`" class="w-100 m-1" style="height:500px"/>
+    <div class="line"></div>
+    <div class="like-comment-p">
+      <div class="like-comment">
+        <div> <a href="#"><i class="fa-solid fa-thumbs-up me-2"></i></a> <span class="text-secondary">Like</span></div>
+      </div>
+      <div class="number-like-comment">
+        <div><b>250</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+      </div>
+    </div>
+
+  </div>`
+                $('#Posts').append(con);
+                        //CONTENT
+            })
+        })
+        var data = 1;
+
+        function Add(valueOfimage) {
+            console.log(data.toString() );
+            proxy.invoke("addPost", data, "@ViewBag.GC", $("#Content").val());
+        }
+
+        function onFileSelected(event) {
+            var selectedFile = event.target.files[0];
+            var reader = new FileReader();
+            var imgtag = document.getElementById("PostImage");
+            imgtag.title = selectedFile.name;
+
+            reader.onload = function (event) {
+                imgtag.src = event.target.result;
+                imgtag.height = 500;
+            };
+            reader.readAsDataURL(selectedFile);
+        }
+
+        var input = document.getElementById("fileInput");
+        input.addEventListener('change', function () {
+            const file = input.files[0];
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function () {
+                data = reader.result;
+                console.log(data);
+            };
+        });
+    </script>
+}
