@@ -2,7 +2,6 @@
 @{
     ViewBag.Title = "Educator_profile";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 <link href="~/Content/StyleSheet/profile.css" rel="stylesheet" />
 <main class="container my-3 main-profile">
@@ -16,6 +15,7 @@
 
         </div>
 
+        @Html.ActionLink("Chat", "Chat_with_one", "Chat", new {ReciverId=Model.AccountID}, new { @class = "btn btn-outline-dark mt-auto" })
 
         <ul>
             <li><span class="fw-bold">Educator Email:</span> @ViewBag.email</li>

@@ -236,6 +236,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -247,6 +248,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\IndividuallyChat.cs" />
     <Compile Include="Hubs\PostHub.cs" />
     <Compile Include="Migrations\202306162149132_iniy1.cs" />
     <Compile Include="Migrations\202306162149132_iniy1.designer.cs">
@@ -260,7 +262,12 @@
     <Compile Include="Migrations\202306182103210_sasa.designer.cs">
       <DependentUpon>202306182103210_sasa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306231557366_chat.cs" />
+    <Compile Include="Migrations\202306231557366_chat.designer.cs">
+      <DependentUpon>202306231557366_chat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Educator.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
@@ -473,6 +480,8 @@
     <Content Include="Views\Group\Group_Post.cshtml" />
     <Content Include="Views\Profile\Educator_profile.cshtml" />
     <Content Include="Views\Profile\std_profile.cshtml" />
+    <Content Include="Views\chat\AllChat.cshtml" />
+    <Content Include="Views\chat\Chat_with_one.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -486,6 +495,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306182103210_sasa.resx">
       <DependentUpon>202306182103210_sasa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306231557366_chat.resx">
+      <DependentUpon>202306231557366_chat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

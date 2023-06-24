@@ -15,8 +15,9 @@
             <h2 class="fs-2 fw-bold">@ViewBag.name</h2>
 
         </div>
+        @Html.ActionLink("Chat", "Chat_with_one", "Chat", new { ReciverId = Model.AccountID }, new { @class = "btn btn-outline-dark mt-auto" })
 
-       
+
         <ul>
             <li><span class="fw-bold">Student ID:</span> @Model.ID</li>
             <li><span class="fw-bold">Student Email:</span> @ViewBag.email</li>
