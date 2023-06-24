@@ -51,7 +51,7 @@
                 int numLk = context.Likes.Where(p => p.PostId == Model.Id).Count();
             }
             <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-            <div><b class="comnt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
+            <div data-user-id="@Model.Id"><b class="conmt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
 
         </div>
     </div>
@@ -115,7 +115,9 @@
                     //USERNAME
                     var usrnm = $("div[data-comment-id='" + comid + "']").find("a.username");
                     usrnm.append(usr);
-                    $(".comnt").text(numComents);
+
+                    $("div[data-user-id='" + @Model.Id + "']").find("b").text(numComents);
+                    //$(".comnt").text(numComents);
                 });
                 proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr) {
                     var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");

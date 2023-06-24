@@ -7,7 +7,7 @@
     ApplicationDbContext context = new ApplicationDbContext();
 }
 <main class="container my-3 pb-4">
-    @using (Html.BeginForm("AddPost", "Educator", FormMethod.Post, new { @class = "mt-5" }))
+    @using (Html.BeginForm("AddPost", "Admin", FormMethod.Post, new { @class = "mt-5" }))
     {
         <div class="timeline ">
             <div class="photo-name">
@@ -31,7 +31,6 @@
     </div>
     @foreach (var item in Model)
     {
-        <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
         <div class="timeline">
             <div class="photo-name">
                 <img class="photo-profile" src="~/Content/Images/doctor.jpg" alt="photo" />
@@ -73,10 +72,10 @@
                     @{
                         int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
                         int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
-                        //int numcom = item.Comments?.Count ?? 0;
                     }
                     <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                    <div><b>@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
+                    <div data-user-id="@item.Id"><b class="conmt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
+
                 </div>
             </div>
         </div>
@@ -94,9 +93,15 @@
                     var con = $.hubConnection();
                     proxy = con.createHubProxy("HubClass");
                     con.start();
+                    //add comment number in time line
+                    proxy.on("NewCommentAdded", function (msg, usr, comid, numComents,postid) {
+                        $("div[data-user-id='" + postid + "']").find("b").text(numComents);
+                   // $(".comnt").text(numComents);
+                   });
                     proxy.on("NewPostAdded", function (NewPost) {
+
                         var con = `
-                                    <div class="timeline">
+                                    <div class="timeline" >
                                         <div class="photo-name">
                                             <img class="photo-profile" src="/Content/Images/doctor.jpg" alt="photo" />
                                             <div class="info">
@@ -112,18 +117,18 @@
                                         <div class="line"></div>
                                         <div class="like-comment-p">
                                             <div class="like-comment">
-                                                <div style="cursor: pointer;">
+                                                 <div style="cursor: pointer;">
                                                         <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlikeTime('@User.Identity.GetUserId()',${NewPost.Id}, false)">
-                                                            <i class="fa-solid fa-thumbs-up me-2 text-secondary" ></i>
+                                                            <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
                                                             <span class="text-secondary">Like</span>
                                                         </a>
                                                 </div>
-                                                <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2"></i></a> <span class="text-secondary">Comment</span> </div>
+                                                <div> <a href="/Admin/ShowCommentOfPost?Id=${NewPost.Id}" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span>  </a>  </div>
                                             </div>
                                             <div class="number-like-comment">
                                                 <div><b>0</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                                                <div><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
-                                            </div>
+                                              <div data-user-id="${NewPost.Id}"><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
+   </div>
                                         </div>
                                     </div>
                                     `
@@ -162,8 +167,3 @@
         </script>
     }
 </main>
-
-
-
-
-

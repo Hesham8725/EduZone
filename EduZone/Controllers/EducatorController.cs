@@ -47,7 +47,6 @@ namespace EduZone.Controllers
             context.SaveChanges();
 
 
-
             var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
             adminhubcontext.Clients.All.NewPostAdded(post);
 

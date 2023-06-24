@@ -68,9 +68,9 @@ namespace EduZone.MyHubs
             Clients.All.NewLikeAddedInTimeLine(uid, pid, clr);
         }
         [HubMethodName("AddComment")]
-        public void AddComment(int id,string message ,string userid)
+        public void AddComment(int postid,string message ,string userid)
         {
-            var pst=context.Posts.FirstOrDefault(i=>i.Id== id);
+            var pst=context.Posts.FirstOrDefault(i=>i.Id== postid);
             var obj = new Comment()
             {
                 Date = DateTime.Now,
@@ -80,9 +80,9 @@ namespace EduZone.MyHubs
             };
             context.Comments.Add(obj);
             context.SaveChanges();
-            int numComents=context.Comments.Where(s => s.PostID == id).Count();
+            int numComents=context.Comments.Where(s => s.PostID == postid).Count();
             var name=context.Users.FirstOrDefault(i => i.Id == userid).Email.Split('.')[0];
-            Clients.All.NewCommentAdded(message, name, obj.Id, numComents);
+            Clients.All.NewCommentAdded(message, name, obj.Id, numComents, postid);
 
         }
     }

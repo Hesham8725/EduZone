@@ -74,7 +74,7 @@
                             int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
                         }
                         <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                        <div><b>@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
+                        <div data-user-id="@item.Id"><b class="conmt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
                     </div>
                 </div>
             </div>
@@ -92,10 +92,15 @@
                     var con = $.hubConnection();
                     proxy = con.createHubProxy("HubClass");
                     con.start();
+                    //add comment number in time line
+                    proxy.on("NewCommentAdded", function (msg, usr, comid, numComents, postid) {
+                        $("div[data-user-id='" + postid + "']").find("b").text(numComents);
+                        // $(".comnt").text(numComents);
+                    });
                     proxy.on("NewPostAdded", function (NewPost) {
 
                         var con = `
-                                    <div class="timeline">
+                                    <div class="timeline" >
                                         <div class="photo-name">
                                             <img class="photo-profile" src="/Content/Images/doctor.jpg" alt="photo" />
                                             <div class="info">
@@ -117,12 +122,16 @@
                                                             <span class="text-secondary">Like</span>
                                                         </a>
                                                 </div>
-                                                <div> <a href="#" class="comment-btn"><i class="fa-solid fa-message me-2"></i></a> <span class="text-secondary">Comment</span> </div>
-                                            </div>
+
+
+                                                <div> <a href="/Educator/ShowCommentOfPost?Id=${NewPost.Id}" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a> </div>
+
+
+            </div>
                                             <div class="number-like-comment">
                                                 <div><b>0</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                                                <div><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
-                                            </div>
+                                              <div data-user-id="${NewPost.Id}"><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
+   </div>
                                         </div>
                                     </div>
                                     `
