@@ -67,12 +67,12 @@
             <!-- Sidebar nav links -->
             <ul class="nav-links">
                 <li>
-                    <a href="">
+                    <a href="/Timeline/TimeLine">
                         <i class='bx bx-home'></i>
                         <span class="link_name">Timeline</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Timeline</a></li>
+                        <li><a class="link_name" href="/Timeline/TimeLine">Timeline</a></li>
                     </ul>
                 </li>
                 <li>
@@ -94,25 +94,43 @@
                     </div>
                     <ul class="sub-menu">
                         <li><a class="link_name" href="#">Academic</a></li>
-                        <li><a href="">Batches</a></li>
-                        <li><a href="">Courses</a></li>
+                        <li><a href="/Student/GetBatches">Batches</a></li>
+                        @if (User.IsInRole("Student"))
+                        {
+                            <li><a href="/Student/CourseEnrollment">Courses Enrollment</a></li>
+                        }
                     </ul>
                 </li>
-                <li>
-                    <div class="iocn-link">
-                        <a href="">
-                            <i class="bx bx-check-square"></i>
-                            <span class="link_name">Exam</span>
+                @if (!User.IsInRole("Admin"))
+                {
+                    <li>
+                        <div class="iocn-link">
+                            <a href="">
+                                <i class="bx bx-check-square"></i>
+                                <span class="link_name">Exam</span>
+                            </a>
+                            <i class="bx bxs-chevron-down arrow"></i>
+                        </div>
+                        <ul class="sub-menu">
+                            <li><a class="link_name" href="">Exam</a></li>
+                            <li><a href="">Exams</a></li>
+                            <li><a href="">Create</a></li>
+                            <li><a href="#"> Update </a></li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Role/NewRole">
+                            <i class="bx bx-calendar-check"></i>
+                            <span class="link_name">Roles</span>
                         </a>
-                        <i class="bx bxs-chevron-down arrow"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a class="link_name" href="">Exam</a></li>
-                        <li><a href="">Exams</a></li>
-                        <li><a href="">Create</a></li>
-                        <li><a href="#"> Update </a></li>
-                    </ul>
-                </li>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="#">Roles</a></li>
+                        </ul>
+                    </li>
+                }
                 <li>
                     <a href="#">
                         <i class="bx bx-calendar-check"></i>

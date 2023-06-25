@@ -15,12 +15,11 @@ namespace EduZone.Models.ViewModels
 
         public string Address { get; set; }
 
-        [Required, RegularExpression("[a-zA-Z]{3,}", ErrorMessage = "Name must be character only ")]
+        [Required, RegularExpression(@"[a-zA-Z\s]{3,}", ErrorMessage = "Name must be character only ")]
         public string Name { get; set; }
 
         [Range(18, 60, ErrorMessage = "Age must be between 18 and 60 years")]
         public int Age { get; set; }
-
 
         [Required]
         public string Gender { get; set; }

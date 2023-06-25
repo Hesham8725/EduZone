@@ -13,9 +13,15 @@ namespace EduZone.Controllers
         {
             return View();
         }
-        public ActionResult Profile()
+
+        public ActionResult CreateExam()
         {
             return View();
         }
+        //[HttpPost]
+        //public ActionResult CreateExam(object )
+        //{
+        //    return View();
+        //}
     }
 }

@@ -1,4 +1,5 @@
-﻿
+﻿@using EduZone.Models
+@model List<GroupMaterial>
 @{
     ViewBag.Title = "Group_Material";
 }
@@ -6,11 +7,14 @@
 
 <div class="tab-content p-3 my-3">
     <div class="tab-pane active" id="Materials">
-        <div class="input-group mb-3 col-10">
-            <input type="file" class="form-control" id="inputGroupFile02">
-            <label class="input-group-text" for="inputGroupFile02">Upload</label>
-        </div>
-        <button class="btn btn-sm btn-outline-primary col-2" type="submit">Upload</button>
+        <form action="@Url.Action("SaveMaterial", "Group", new { GCode = ViewBag.GC })" method="post" enctype="multipart/form-data">
+            <div class="input-group mb-3 col-10">
+
+                <input type="file" class="form-control w-100" name="file" required>
+                <input type="submit" class="btn btn-sm btn-outline-primary col-2 mt-1" value="Upload">
+
+            </div>
+        </form>
         <table class="table table-light border border-2 border-dark table-striped mt-3">
             <thead>
                 <tr class="table-dark">
@@ -22,36 +26,23 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>Lec 1 - Arrays and Pointers</td>
-                    <td>1GB</td>
-                    <td>video</td>
-                    <td>
-                        <a href="#"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
-                        <a href="#"> <i class="fa-solid fa-trash-can text-danger"></i></a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">2</th>
-                    <td>Lec 2 - Arrays and Pointers</td>
-                    <td>200MB</td>
-                    <td>record</td>
-                    <td>
-                        <a href="#"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
-                        <a href="#"> <i class="fa-solid fa-trash-can text-danger"></i> </a>
-                    </td>
-                </tr>
-                <tr>
-                    <th scope="row">3</th>
-                    <td>Lec 3 - Arrays and Pointers</td>
-                    <td>20MB</td>
-                    <td>slide</td>
-                    <td>
-                        <a href="#"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
-                        <a href="#"> <i class="fa-solid fa-trash-can text-danger"></i> </a>
-                    </td>
-                </tr>
+
+                @{ int cnt = 1;
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <th scope="row">@cnt</th>
+                            <td>@item.Name</td>
+                            <td>@item.Size</td>
+                            <td>@item.Type</td>
+                            <td>
+                                <a href="@Url.Action("DownloadMaterial", "Group", new { GCode = ViewBag.GC, id = item.ID })"> <i class="fa-solid fa-download mx-3 text-primary"></i> </a>
+                                <a href="@Url.Action("DeleteMaterial", "Group", new { GCode = ViewBag.GC, id = item.ID })"> <i class="fa-solid fa-trash-can text-danger"></i></a>
+                            </td>
+                        </tr>
+                        cnt++;
+                    }
+                }
             </tbody>
         </table>
     </div>

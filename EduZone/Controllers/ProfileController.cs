@@ -20,17 +20,14 @@ namespace EduZone.Controllers
         ApplicationDbContext context = new ApplicationDbContext();
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
         public ProfileController()
         {
         }
-
         public ProfileController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
         public ApplicationSignInManager SignInManager
         {
             get
@@ -42,7 +39,6 @@ namespace EduZone.Controllers
                 _signInManager = value;
             }
         }
-
         public ApplicationUserManager UserManager
         {
             get
@@ -114,7 +110,6 @@ namespace EduZone.Controllers
             }
             return View(info);
         }
-
         public ActionResult CollegeInfo()
         {
             string id = GetUser();
@@ -131,7 +126,9 @@ namespace EduZone.Controllers
                 Batch = user1.Batch,
                 GPA = user1.GPA,
                 CollegeID = user1.CollegeID,
-                GroupNo = user1.GroupNo
+                GroupNo = user1.GroupNo,
+                Department = user1.Department,
+                Section = user1.Section
             };
             return View(info);
         }
@@ -155,7 +152,6 @@ namespace EduZone.Controllers
             }
             return View(info);
         }
-
         public ActionResult ChangePassword()
         {
             return View();
@@ -182,7 +178,6 @@ namespace EduZone.Controllers
             AddErrors(result);
             return View(model);
         }
-
         public ActionResult ChangeImage()
         {
             return View();
@@ -201,7 +196,6 @@ namespace EduZone.Controllers
             context.SaveChanges();
             return RedirectToAction("BasicInfo");
         }
-
         public ActionResult ChanageEmail()
         {
             string id = User.Identity.GetUserId();
@@ -212,7 +206,6 @@ namespace EduZone.Controllers
             };
             return View(email);
         }
-
         [HttpPost]
         public async Task<ActionResult> ChanageEmail(ChanageEmail chanageEmail,int num)
         {
@@ -247,7 +240,28 @@ namespace EduZone.Controllers
             }
             return View(chanageEmail);
         }
-
+        public ActionResult std_profile(string id)
+        {
+            var user = context.Users.FirstOrDefault(c => c.Id == id);
+            var student = context.GetStudents.FirstOrDefault(c => c.AccountID == id);
+            ViewBag.image = user.Image;
+            ViewBag.address = user.Address;
+            ViewBag.name = user.Name;
+            ViewBag.email = user.Email;
+            ViewBag.nationalId = user.NationalID;
+            return View(student);
+        }
+        public ActionResult Educator_profile(string id)
+        {
+            var user = context.Users.FirstOrDefault(c => c.Id == id);
+            var educator = context.GetEducators.FirstOrDefault(c => c.AccountID == id);
+            ViewBag.image = user.Image;
+            ViewBag.address = user.Address;
+            ViewBag.name = user.Name;
+            ViewBag.email = user.Email;
+            ViewBag.nationalId = user.NationalID;
+            return View(educator);
+        }
         public string GetUser()
         {
             string UserID = "";

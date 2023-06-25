@@ -10,10 +10,8 @@ namespace EduZone.Controllers
 {
     public class ChatController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
-
-        // GET: chat
-        public ActionResult AllChat()
+        // GET: Chat
+        public ActionResult Index()
         {
             return View();
         }
