@@ -4,6 +4,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace EduZone.MyHubs
@@ -95,5 +96,7 @@ namespace EduZone.MyHubs
             int numComents = context.Comments.Where(s => s.PostID == id).Count();
             Clients.All.NewCommentDeleted(id.ToString(), numComents);
         }
+
+       
     }
 }

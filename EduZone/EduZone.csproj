@@ -283,6 +283,7 @@
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
     <Content Include="Content\StyleSheet\chat2.css" />
+    <Content Include="Content\StyleSheet\create-exam.css" />
     <Content Include="Content\StyleSheet\ForgetPssword.css" />
     <Content Include="Content\StyleSheet\list-groups.css" />
     <Content Include="Content\StyleSheet\LoginStyle.css" />
@@ -364,6 +365,7 @@
     <Content Include="lib\font-awesome\sprites\solid.svg" />
     <Content Include="lib\jquery\jquery.js" />
     <Content Include="lib\jquery\jquery.min.js" />
+    <Content Include="Scripts\assessment_create.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -464,6 +466,7 @@
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Timeline\ShowCommentOfPost.cshtml" />
     <Content Include="Views\Timeline\TimeLine.cshtml" />
+    <Content Include="Views\Educator\CreateExam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />

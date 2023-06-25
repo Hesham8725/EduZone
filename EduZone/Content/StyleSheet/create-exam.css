@@ -1,0 +1,15 @@
+.bx-message-alt-x{
+    color:#c3201f;
+    font-size:x-large;
+}
+.question_title{
+    height: 50px;
+}
+textarea {
+    padding: 10px 10px;
+    font-size: 18px;
+}
+
+.option_title{
+width: 95%;
+}

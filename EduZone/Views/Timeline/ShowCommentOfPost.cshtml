@@ -7,7 +7,9 @@
     ApplicationDbContext context = new ApplicationDbContext();
     string _id = Model.UserId;
 }
-<link href="~/Content/StyleSheet/time-line-comments.css" rel="stylesheet" />
+@section Top_Link{
+    <link href="~/Content/StyleSheet/time-line-comments.css" rel="stylesheet" />
+}
 <div class="timeline">
     <div class="photo-name">
         <img class="photo-profile" src="~/Images/@context.Users.Find(_id).Image" alt="photo" />
@@ -72,7 +74,7 @@
         var cmnts = context.Comments.Where(id => id.PostID == Model.Id);
         foreach (var comment in cmnts)
         {
-            <div id ="@comment.Id" class="comment row " style="padding: 10px; margin: 2px 2px; ">
+            <div id="@comment.Id" class="comment row " style="padding: 10px; margin: 2px 2px; ">
                 <div class="d-flex">
                     <div class="comment_info col-sm-10 d-flex flex-row ">
                         <div class="avatar me-1">
