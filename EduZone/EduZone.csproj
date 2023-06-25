@@ -247,9 +247,33 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306162006498_init.cs" />
+    <Compile Include="Migrations\202306162006498_init.Designer.cs">
+      <DependentUpon>202306162006498_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306162149132_iniy1.cs" />
+    <Compile Include="Migrations\202306162149132_iniy1.Designer.cs">
+      <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306182103210_sasa.cs" />
+    <Compile Include="Migrations\202306182103210_sasa.Designer.cs">
+      <DependentUpon>202306182103210_sasa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306231557366_chat.cs" />
+    <Compile Include="Migrations\202306231557366_chat.Designer.cs">
+      <DependentUpon>202306231557366_chat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202306231834515_Post.cs" />
     <Compile Include="Migrations\202306231834515_Post.Designer.cs">
       <DependentUpon>202306231834515_Post.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306240856118_im.cs" />
+    <Compile Include="Migrations\202306240856118_im.Designer.cs">
+      <DependentUpon>202306240856118_im.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306241535594_IndividuallyChat.cs" />
+    <Compile Include="Migrations\202306241535594_IndividuallyChat.Designer.cs">
+      <DependentUpon>202306241535594_IndividuallyChat.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Educator.cs" />
@@ -431,13 +455,19 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\281696046_516149630240282_6023620698715360275_n.jpg" />
     <Content Include="Images\banner4-cssxk4.jpg" />
+    <Content Include="Images\download.jfif" />
     <Content Include="Images\Femala.png" />
+    <Content Include="Images\FlQalQYXoAE4yc2.jpeg" />
     <Content Include="Images\Gimage.jpg" />
+    <Content Include="Images\Hesham.jpg" />
+    <Content Include="Images\images.jfif" />
     <Content Include="Images\log.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Mala.png" />
     <Content Include="Images\malefemale.jpg" />
+    <Content Include="Images\Me.jpg" />
     <Content Include="Images\register.png" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
@@ -473,6 +503,7 @@
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <Content Include="Images\ronaldo-800.jpg" />
     <Content Include="lib\font-awesome\css\all.css" />
     <Content Include="lib\font-awesome\css\all.min.css" />
     <Content Include="lib\font-awesome\css\brands.css" />
@@ -604,27 +635,24 @@
     <Content Include="Views\Group\Group_Material.cshtml" />
     <Content Include="Views\Group\Group_Chat.cshtml" />
     <Content Include="Views\Group\Group_About.cshtml" />
-    <Content Include="Views\chat\AllChat.cshtml" />
-    <Content Include="Views\chat\Chat_with_one.cshtml" />
-    <Content Include="Views\chat\Index.cshtml" />
+    <Content Include="Views\Student\GetBatches.cshtml" />
+    <Content Include="Views\Profile\Educator_profile.cshtml" />
+    <Content Include="Views\Profile\std_profile.cshtml" />
+    <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Timeline\ShowCommentOfPost.cshtml" />
     <Content Include="Views\Timeline\TimeLine.cshtml" />
+    <Content Include="Views\Educator\CreateExam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
-    <Folder Include="bin\cs\" />
-    <Folder Include="bin\de\" />
-    <Folder Include="bin\es\" />
-    <Folder Include="bin\fr\" />
-    <Folder Include="bin\it\" />
-    <Folder Include="bin\ja\" />
-    <Folder Include="bin\ko\" />
-    <Folder Include="bin\pl\" />
-    <Folder Include="bin\pt-BR\" />
-    <Folder Include="bin\ru\" />
-    <Folder Include="bin\tr\" />
-    <Folder Include="bin\zh-Hans\" />
-    <Folder Include="bin\zh-Hant\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202306231834515_Post.resx">
+      <DependentUpon>202306231834515_Post.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306240856118_im.resx">
+      <DependentUpon>202306240856118_im.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
