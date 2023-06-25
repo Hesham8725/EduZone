@@ -1,5 +1,5 @@
 ﻿using EduZone.Models;
-using EduZone.Models.Class;
+//using EduZone.Models.Class;
 using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
@@ -143,8 +143,8 @@ namespace EduZone.Controllers
                 GroupMaterial group = new GroupMaterial()
                 {
                     Name = fileName,
-                    Size = GetFileSize.Get(file),
-                    Type = GetTypeOfFile.Get(file),
+                    //Size = GetFileSize.Get(file),
+                    //Type = GetTypeOfFile.Get(file),
                     GroupCode = GCode
                 };
                 context.GetMaterials.Add(group);
