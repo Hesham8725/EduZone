@@ -15,18 +15,18 @@ namespace EduZone.Hubs
     {
         ApplicationDbContext context = new ApplicationDbContext();
         //Dictionary<string, string> OnlineUser = new Dictionary<string, string>();
-        [HubMethodName("SendMessage")]
-        public void SendMessage(Chat chat)
-        {
-            string connectionId = Context.ConnectionId;
-            context.Chats.Add(chat);
-            context.SaveChanges();
-            //asd = chat.SenderId;
-            //Clients.Client(connectionId);
-            Clients.Client(connectionId).sendAsync(chat.content);
-          //  Clients.Client(connectionId).SendAsync();
+        //[HubMethodName("SendMessage")]
+        //public void SendMessage(Chat chat)
+        //{
+        //    string connectionId = Context.ConnectionId;
+        //    context.Chats.Add(chat);
+        //    context.SaveChanges();
+        //    //asd = chat.SenderId;
+        //    //Clients.Client(connectionId);
+        //    Clients.Client(connectionId).sendAsync(chat.content);
+        //  //  Clients.Client(connectionId).SendAsync();
 
-        }
+        //}
         //public override Task OnConnected()
         //{
             

@@ -240,28 +240,28 @@ namespace EduZone.Controllers
             }
             return View(chanageEmail);
         }
-        public ActionResult std_profile(string id)
-        {
-            var user = context.Users.FirstOrDefault(c => c.Id == id);
-            var student = context.GetStudents.FirstOrDefault(c => c.AccountID == id);
-            ViewBag.image = user.Image;
-            ViewBag.address = user.Address;
-            ViewBag.name = user.Name;
-            ViewBag.email = user.Email;
-            ViewBag.nationalId = user.NationalID;
-            return View(student);
-        }
-        public ActionResult Educator_profile(string id)
-        {
-            var user = context.Users.FirstOrDefault(c => c.Id == id);
-            var educator = context.GetEducators.FirstOrDefault(c => c.AccountID == id);
-            ViewBag.image = user.Image;
-            ViewBag.address = user.Address;
-            ViewBag.name = user.Name;
-            ViewBag.email = user.Email;
-            ViewBag.nationalId = user.NationalID;
-            return View(educator);
-        }
+        //public ActionResult std_profile(string id)
+        //{
+        //    var user = context.Users.FirstOrDefault(c => c.Id == id);
+        //    var student = context.GetStudents.FirstOrDefault(c => c.AccountID == id);
+        //    ViewBag.image = user.Image;
+        //    ViewBag.address = user.Address;
+        //    ViewBag.name = user.Name;
+        //    ViewBag.email = user.Email;
+        //    ViewBag.nationalId = user.NationalID;
+        //    return View(student);
+        //}
+        //public ActionResult Educator_profile(string id)
+        //{
+        //    var user = context.Users.FirstOrDefault(c => c.Id == id);
+        //    var educator = context.GetEducators.FirstOrDefault(c => c.AccountID == id);
+        //    ViewBag.image = user.Image;
+        //    ViewBag.address = user.Address;
+        //    ViewBag.name = user.Name;
+        //    ViewBag.email = user.Email;
+        //    ViewBag.nationalId = user.NationalID;
+        //    return View(educator);
+        //}
         public string GetUser()
         {
             string UserID = "";
