@@ -1,4 +1,5 @@
 ﻿using EduZone.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,12 @@ namespace EduZone.Controllers
         }
         public ActionResult Chat_with_one(string ReciverId)
         {
-            var student = context.Users.FirstOrDefault(c => c.Id == ReciverId);
-           
-            return View(student);
+
+            var reciver = context.Users.FirstOrDefault(c => c.Id == ReciverId);
+            var sender = User.Identity.GetUserId();
+            var asd = context.Chats.Where(c => c.SenderId == sender && c.ReciverId== ReciverId||(c.SenderId== ReciverId&&c.ReciverId== sender)).ToList();
+            ViewBag.reciver = reciver;
+            return View(asd);
         }
     }
 }

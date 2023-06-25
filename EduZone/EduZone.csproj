@@ -266,11 +266,16 @@
     <Compile Include="Migrations\202306231557366_chat.designer.cs">
       <DependentUpon>202306231557366_chat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306241535594_IndividuallyChat.cs" />
+    <Compile Include="Migrations\202306241535594_IndividuallyChat.designer.cs">
+      <DependentUpon>202306241535594_IndividuallyChat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Educator.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
+    <Compile Include="Models\IndividuallyChat.cs" />
     <Compile Include="Models\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -398,6 +403,8 @@
     <Content Include="lib\font-awesome\webfonts\fa-solid-900.woff2" />
     <Content Include="lib\font-awesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="lib\font-awesome\webfonts\fa-v4compatibility.woff2" />
+    <Content Include="lib\jquery\jquery.js" />
+    <Content Include="lib\jquery\jquery.min.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -498,6 +505,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306231557366_chat.resx">
       <DependentUpon>202306231557366_chat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306241535594_IndividuallyChat.resx">
+      <DependentUpon>202306241535594_IndividuallyChat.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

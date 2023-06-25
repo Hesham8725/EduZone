@@ -1,10 +1,14 @@
-﻿@model EduZone.Models.ApplicationUser
+﻿@using Microsoft.AspNet.Identity
+@using EduZone.Models
+@model List<Chat>
 @{
     ViewBag.Title = "Chat_with_one";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var currentUser = User.Identity.GetUserId();
 }
 
 <link href="~/Content/StyleSheet/chat2.css" rel="stylesheet" />
+
 <main class="container my-3">
     <div class="card chat-app">
         <div class="chat">
@@ -14,11 +18,11 @@
                         <a href="javascript:void(0);"
                            data-toggle="modal"
                            data-target="#view_info">
-                            <img src="~/Images/@Model.Image"
+                            <img src="~/Images/@ViewBag.reciver.Image"
                                  alt="avatar" />
                         </a>
                         <div class="chat-about">
-                            <h6 class="m-b-0">@Model.Name</h6>
+                            <h6 class="m-b-0">@ViewBag.reciver.Name</h6>
                             <small>Last seen: 2 hours ago</small>
                         </div>
                     </div>
@@ -35,47 +39,52 @@
                         Show Previous Message!
                     </a>
                 </div>
-                <ul class="m-b-0">
-                    <li class="clearfix">
-                        <div class="message-data text-end">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png"
-                                 alt="avatar" />
-                        </div>
-                        <div class="message other-message float-end">
-                            Hi Aiden, how are you? How is the project coming along?
-                            <span class="message-data-time">10:10 AM, Today</span>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <div class="message my-message">
-                            Are we meeting today?
-                            <span class="message-data-time">10:10 AM, Today</span>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <div class="message my-message">
-                            Project has been already finished and I have results to show
-                            you.
-                            <span class="message-data-time">10:15 AM, Today</span>
-                        </div>
-                    </li>
-                    <li class="clearfix">
-                        <div class="message my-message">
-                            <img class="img-msg" src="~/Images/log.png" alt="msg" />
-                            <span class="message-data-time">10:15 AM, Today</span>
-                        </div>
-                    </li>
+
+
+
+
+                <ul class="m-b-0" id="mess">
+                    @foreach (var item in Model)
+                    {
+                        if (item.SenderId == User.Identity.GetUserId())
+                        {
+                            <li class="clearfix">
+                                <div class="message my-message">
+                                    @item.content
+                                    <span class="message-data-time">10:10 AM, Today</span>
+                                </div>
+                            </li>
+
+                        }
+                        else 
+                        {
+                            <li class="clearfix">
+
+                                <div class="message other-message float-end">
+                                    @item.content
+                                    <span class="message-data-time">10:10 AM, Today</span>
+                                </div>
+                            </li>
+
+
+                        }
+                    }
+                    
                 </ul>
             </div>
             <div class="chat-message row">
                 <div class="input-group mb-0 col-8">
-                    <div class="input-group-text">
-                        <a href="#">
-                            <i class="fa fa-send"></i>
-                        </a>
-                    </div>
+                    @*<div class="input-group-text">
+                            <a href="#">
+                                <i class="fa fa-send"></i>
+                            </a>
+                        </div>*@
+                    <input type="button" id="send" value="send" />
+
+
                     <input type="text"
                            class="form-control"
+                           id="MessageContent"
                            placeholder="Enter text here..." />
                     <label for="file-input">
                         <a href="#"
@@ -90,6 +99,53 @@
                            accept="image/*" />
                 </div>
             </div>
+            @*////////////////////////////////////////////////////*@
+            @section scripts{
+                <script src="~/lib/jquery/jquery.min.js"></script>
+                <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+                <script src="~/signalr/js"></script>
+                <script>
+                    console.log("begin script");
+
+                    var proxy = $.connection.IndividuallyChat;
+                    $.connection.hub.start().done(function () {
+                        console.log("succeded");
+
+                        $("#send").click(
+                            function () {
+                                console.log("begin send");
+                            var jsonobj = {
+                                "SenderId": '@currentUser',
+                                "ReciverId":'@ViewBag.reciver.Id',
+                                "content": $("#MessageContent").val(),
+
+                            }
+                            console.log("send message");
+
+                            proxy.server.SendMessage(jsonobj);
+                                @*proxy.server.SendMessage('@User.Identity.GetUserId()','@Model.Id', $("#MessageContent").val());*@
+                        })
+                    });
+                    proxy.client.sendAsync = function (content) {
+                        let myVar;
+                        myVar += ' <li class="clearfix">';
+                        myVar += '<div class="message my-message">';
+                        myVar += content;
+                        myVar += ' <br /> <span class="message-data-time">Today</span>';
+                        myVar += ' </div></li>';
+                        $("#mess").append(myVar);
+
+
+                    }
+
+                </script>
+
+
+
+            }
+
+
+            @*////////////////////////////////////////////////////*@
         </div>
     </div>
 </main>
