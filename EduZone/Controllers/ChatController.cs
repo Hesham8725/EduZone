@@ -10,21 +10,19 @@ namespace EduZone.Controllers
 {
     public class ChatController : Controller
     {
-        ApplicationDbContext context = new ApplicationDbContext();
-
         // GET: Chat
         public ActionResult Index()
         {
             return View();
         }
-        //public ActionResult Chat_with_one(string ReciverId)
-        //{
+        public ActionResult Chat_with_one(string ReciverId)
+        {
 
-        //    var reciver = context.Users.FirstOrDefault(c => c.Id == ReciverId);
-        //    var sender = User.Identity.GetUserId();
-        //   // var asd = context.Chats.Where(c => c.SenderId == sender && c.ReciverId== ReciverId||(c.SenderId== ReciverId&&c.ReciverId== sender)).ToList();
-        //    ViewBag.reciver = reciver;
-        //    return View(asd);
-        //}
+            var reciver = context.Users.FirstOrDefault(c => c.Id == ReciverId);
+            var sender = User.Identity.GetUserId();
+            var asd = context.Chats.Where(c => c.SenderId == sender && c.ReciverId== ReciverId||(c.SenderId== ReciverId&&c.ReciverId== sender)).ToList();
+            ViewBag.reciver = reciver;
+            return View(asd);
+        }
     }
 }
