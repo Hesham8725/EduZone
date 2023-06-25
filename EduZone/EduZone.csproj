@@ -224,6 +224,22 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306162006498_init.cs" />
+    <Compile Include="Migrations\202306162006498_init.Designer.cs">
+      <DependentUpon>202306162006498_init.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306162149132_iniy1.cs" />
+    <Compile Include="Migrations\202306162149132_iniy1.Designer.cs">
+      <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306182103210_sasa.cs" />
+    <Compile Include="Migrations\202306182103210_sasa.Designer.cs">
+      <DependentUpon>202306182103210_sasa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306231557366_chat.cs" />
+    <Compile Include="Migrations\202306231557366_chat.Designer.cs">
+      <DependentUpon>202306231557366_chat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\202306231834515_Post.cs" />
     <Compile Include="Migrations\202306231834515_Post.Designer.cs">
       <DependentUpon>202306231834515_Post.cs</DependentUpon>
@@ -232,21 +248,16 @@
     <Compile Include="Migrations\202306240856118_im.Designer.cs">
       <DependentUpon>202306240856118_im.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\PostInGroup.cs" />
-    <Compile Include="Models\LikeForPostInGroup.cs" />
-    <Compile Include="Models\Comment.cs" />
-    <Compile Include="Models\Post.cs" />
-    <Compile Include="Models\Like.cs" />
-    <Compile Include="MyHubs\HubClass.cs" />
-    <Compile Include="MyHubs\postGroupHub.cs" />
-    <Compile Include="MyHubs\PostHub.cs" />
+    <Compile Include="Migrations\202306241535594_IndividuallyChat.cs" />
+    <Compile Include="Migrations\202306241535594_IndividuallyChat.Designer.cs">
+      <DependentUpon>202306241535594_IndividuallyChat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Class\GetFileSize.cs" />
-    <Compile Include="Models\Class\GetTypeOfFile.cs" />
     <Compile Include="Models\Educator.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupMaterial.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
+    <Compile Include="Models\IndividuallyChat.cs" />
     <Compile Include="Models\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -259,10 +270,126 @@
     <Compile Include="Models\SendEmail.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\ViewModels\StudentProfile.cs" />
+    <Compile Include="MyHubs\HubClass.cs" />
+    <Compile Include="MyHubs\IndividuallyChat.cs" />
+    <Compile Include="MyHubs\postGroupHub.cs" />
+    <Compile Include="MyHubs\PostHub.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
+    <Compile Include="obj\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="bin\Antlr3.Runtime.dll" />
+    <Content Include="bin\Antlr3.Runtime.pdb" />
+    <Content Include="bin\BouncyCastle.Cryptography.dll" />
+    <Content Include="bin\BouncyCastle.Cryptography.xml" />
+    <Content Include="bin\Browser.Blob.dll" />
+    <Content Include="bin\Browser.Dom.dll" />
+    <Content Include="bin\Browser.Event.dll" />
+    <Content Include="bin\Browser.Gamepad.dll" />
+    <Content Include="bin\Browser.WebStorage.dll" />
+    <Content Include="bin\EduZone.dll" />
+    <Content Include="bin\EduZone.pdb" />
+    <Content Include="bin\EntityFramework.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.dll" />
+    <Content Include="bin\EntityFramework.SqlServer.xml" />
+    <Content Include="bin\EntityFramework.xml" />
+    <Content Include="bin\Fable.Core.dll" />
+    <Content Include="bin\FSharp.Core.dll" />
+    <Content Include="bin\MailKit.dll" />
+    <Content Include="bin\MailKit.pdb" />
+    <Content Include="bin\MailKit.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.EntityFramework.xml" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.dll" />
+    <Content Include="bin\Microsoft.AspNet.Identity.Owin.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.pdb" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.Core.xml" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.pdb" />
+    <Content Include="bin\Microsoft.AspNet.SignalR.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.AspNetCore.Http.Features.dll" />
+    <Content Include="bin\Microsoft.AspNetCore.Http.Features.xml" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll" />
+    <Content Include="bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml" />
+    <Content Include="bin\Microsoft.Extensions.Primitives.dll" />
+    <Content Include="bin\Microsoft.Extensions.Primitives.xml" />
+    <Content Include="bin\Microsoft.Owin.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.dll" />
+    <Content Include="bin\Microsoft.Owin.Host.SystemWeb.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Cookies.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Facebook.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Google.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.MicrosoftAccount.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.OAuth.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.dll" />
+    <Content Include="bin\Microsoft.Owin.Security.Twitter.xml" />
+    <Content Include="bin\Microsoft.Owin.Security.xml" />
+    <Content Include="bin\Microsoft.Owin.xml" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\MimeKit.dll" />
+    <Content Include="bin\MimeKit.pdb" />
+    <Content Include="bin\MimeKit.xml" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\Owin.dll" />
+    <Content Include="bin\roslyn\csc.exe" />
+    <Content Include="bin\roslyn\csi.exe" />
+    <Content Include="bin\roslyn\Microsoft.Build.Tasks.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.CSharp.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.Scripting.dll" />
+    <Content Include="bin\roslyn\Microsoft.CodeAnalysis.VisualBasic.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.amd64.dll" />
+    <Content Include="bin\roslyn\Microsoft.DiaSymReader.Native.x86.dll" />
+    <Content Include="bin\roslyn\System.Buffers.dll" />
+    <Content Include="bin\roslyn\System.Collections.Immutable.dll" />
+    <Content Include="bin\roslyn\System.Memory.dll" />
+    <Content Include="bin\roslyn\System.Numerics.Vectors.dll" />
+    <Content Include="bin\roslyn\System.Reflection.Metadata.dll" />
+    <Content Include="bin\roslyn\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="bin\roslyn\System.Text.Encoding.CodePages.dll" />
+    <Content Include="bin\roslyn\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\roslyn\vbc.exe" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe" />
+    <Content Include="bin\System.Buffers.dll" />
+    <Content Include="bin\System.Buffers.xml" />
+    <Content Include="bin\System.IO.Pipelines.dll" />
+    <Content Include="bin\System.IO.Pipelines.xml" />
+    <Content Include="bin\System.Memory.dll" />
+    <Content Include="bin\System.Memory.xml" />
+    <Content Include="bin\System.Numerics.Vectors.dll" />
+    <Content Include="bin\System.Numerics.Vectors.xml" />
+    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.dll" />
+    <Content Include="bin\System.Runtime.CompilerServices.Unsafe.xml" />
+    <Content Include="bin\System.Threading.Tasks.Extensions.dll" />
+    <Content Include="bin\System.Threading.Tasks.Extensions.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Optimization.dll" />
+    <Content Include="bin\System.Web.Optimization.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\WebGrease.dll" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -300,13 +427,19 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\281696046_516149630240282_6023620698715360275_n.jpg" />
     <Content Include="Images\banner4-cssxk4.jpg" />
+    <Content Include="Images\download.jfif" />
     <Content Include="Images\Femala.png" />
+    <Content Include="Images\FlQalQYXoAE4yc2.jpeg" />
     <Content Include="Images\Gimage.jpg" />
+    <Content Include="Images\Hesham.jpg" />
+    <Content Include="Images\images.jfif" />
     <Content Include="Images\log.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Mala.png" />
     <Content Include="Images\malefemale.jpg" />
+    <Content Include="Images\Me.jpg" />
     <Content Include="Images\register.png" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
     <Content Include="Content\bootstrap.rtl.css.map" />
@@ -324,10 +457,25 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="bin\EduZone.dll.config" />
+    <Content Include="bin\MailKit.dll.config" />
+    <Content Include="bin\MimeKit.dll.config" />
+    <Content Include="bin\roslyn\csc.exe.config" />
+    <Content Include="bin\roslyn\csc.rsp" />
+    <Content Include="bin\roslyn\csi.exe.config" />
+    <Content Include="bin\roslyn\csi.rsp" />
+    <Content Include="bin\roslyn\Microsoft.CSharp.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.Managed.Core.CurrentVersions.targets" />
+    <Content Include="bin\roslyn\Microsoft.Managed.Core.targets" />
+    <Content Include="bin\roslyn\Microsoft.VisualBasic.Core.targets" />
+    <Content Include="bin\roslyn\vbc.exe.config" />
+    <Content Include="bin\roslyn\vbc.rsp" />
+    <Content Include="bin\roslyn\VBCSCompiler.exe.config" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
     </None>
+    <Content Include="Images\ronaldo-800.jpg" />
     <Content Include="lib\font-awesome\css\all.css" />
     <Content Include="lib\font-awesome\css\all.min.css" />
     <Content Include="lib\font-awesome\css\brands.css" />
@@ -363,9 +511,6 @@
     <Content Include="lib\font-awesome\sprites\brands.svg" />
     <Content Include="lib\font-awesome\sprites\regular.svg" />
     <Content Include="lib\font-awesome\sprites\solid.svg" />
-    <Content Include="lib\jquery\jquery.js" />
-    <Content Include="lib\jquery\jquery.min.js" />
-    <Content Include="Scripts\assessment_create.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -381,11 +526,24 @@
     <Content Include="lib\font-awesome\webfonts\fa-solid-900.woff2" />
     <Content Include="lib\font-awesome\webfonts\fa-v4compatibility.ttf" />
     <Content Include="lib\font-awesome\webfonts\fa-v4compatibility.woff2" />
-    <None Include="Scripts\jquery-3.6.4.intellisense.js" />
-    <Content Include="Scripts\jquery-3.6.4.js" />
-    <Content Include="Scripts\jquery-3.6.4.min.js" />
-    <Content Include="Scripts\jquery-3.6.4.slim.js" />
-    <Content Include="Scripts\jquery-3.6.4.slim.min.js" />
+    <Content Include="lib\jquery\jquery.js" />
+    <Content Include="lib\jquery\jquery.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.esm.js" />
+    <Content Include="Scripts\bootstrap.esm.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\jquery-3.7.0.intellisense.js" />
+    <Content Include="Scripts\jquery-3.7.0.js" />
+    <Content Include="Scripts\jquery-3.7.0.min.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.js" />
+    <Content Include="Scripts\jquery-3.7.0.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
@@ -460,16 +618,45 @@
     <Content Include="Views\Group\Group_Member.cshtml" />
     <Content Include="Views\Group\Group_Chat.cshtml" />
     <Content Include="Views\Group\Group_About.cshtml" />
-    <Content Include="Views\Student\GetBatches.cshtml" />
-    <Content Include="Views\Profile\Educator_profile.cshtml" />
-    <Content Include="Views\Profile\std_profile.cshtml" />
-    <Content Include="Views\Chat\Index.cshtml" />
-    <Content Include="Views\Timeline\ShowCommentOfPost.cshtml" />
-    <Content Include="Views\Timeline\TimeLine.cshtml" />
-    <Content Include="Views\Educator\CreateExam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
+    <Folder Include="bin\cs\" />
+    <Folder Include="bin\de\" />
+    <Folder Include="bin\es\" />
+    <Folder Include="bin\fr\" />
+    <Folder Include="bin\it\" />
+    <Folder Include="bin\ja\" />
+    <Folder Include="bin\ko\" />
+    <Folder Include="bin\pl\" />
+    <Folder Include="bin\pt-BR\" />
+    <Folder Include="bin\ru\" />
+    <Folder Include="bin\tr\" />
+    <Folder Include="bin\zh-Hans\" />
+    <Folder Include="bin\zh-Hant\" />
+    <Folder Include="obj\Debug\TempPE\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202306162006498_init.resx">
+      <DependentUpon>202306162006498_init.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306162149132_iniy1.resx">
+      <DependentUpon>202306162149132_iniy1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306182103210_sasa.resx">
+      <DependentUpon>202306182103210_sasa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306231557366_chat.resx">
+      <DependentUpon>202306231557366_chat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306240856118_im.resx">
+      <DependentUpon>202306240856118_im.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306241535594_IndividuallyChat.resx">
+      <DependentUpon>202306241535594_IndividuallyChat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="obj\Debug\EduZone.Migrations.im.resources" />
+    <EmbeddedResource Include="obj\Debug\EduZone.Migrations.Post.resources" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306231834515_Post.resx">
