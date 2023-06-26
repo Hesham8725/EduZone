@@ -243,6 +243,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -259,11 +260,17 @@
     <Compile Include="Migrations\202306252133392_sasa.designer.cs">
       <DependentUpon>202306252133392_sasa.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306261604595_departmentandcourses.cs" />
+    <Compile Include="Migrations\202306261604595_departmentandcourses.designer.cs">
+      <DependentUpon>202306261604595_departmentandcourses.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Class\GetFileSize.cs" />
     <Compile Include="Models\Class\GetTypeOfFile.cs" />
     <Compile Include="Models\Comment.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\Educator.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupMaterial.cs" />
@@ -662,10 +669,14 @@
     <Folder Include="bin\tr\" />
     <Folder Include="bin\zh-Hans\" />
     <Folder Include="bin\zh-Hant\" />
+    <Folder Include="Views\Department\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306252133392_sasa.resx">
       <DependentUpon>202306252133392_sasa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306261604595_departmentandcourses.resx">
+      <DependentUpon>202306261604595_departmentandcourses.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
