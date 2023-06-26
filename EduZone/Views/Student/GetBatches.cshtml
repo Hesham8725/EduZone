@@ -26,6 +26,10 @@
     {
         foreach (var item in Model)
         {
+            if (item == null)
+            {
+                continue;
+            }
             <div class="card m-3 ">
                 <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
                     <img src="~/Images/@item.Image" width="150px" height="150px" class="photo-profile" alt="...">

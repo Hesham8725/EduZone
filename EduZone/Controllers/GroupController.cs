@@ -63,7 +63,7 @@ namespace EduZone.Controllers
             context.SaveChanges();
 
             //return to page of group
-            return Content("Create");
+            return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -78,7 +78,7 @@ namespace EduZone.Controllers
                 var YouInGroup = context.GetGroupsMembers.Where(e => e.GroupId == CodeOfGroup && e.MemberId == userId).ToList();
                 if (YouInGroup.Count != 0)
                 {
-                    return Content("You Are allredy Joined !");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -89,14 +89,13 @@ namespace EduZone.Controllers
                     GM.MemberId = userId;
                     context.GetGroupsMembers.Add(GM);
                     context.SaveChanges();
-
                     return RedirectToAction("Index");
                 }
 
             }
             else
             {
-                return Content("Not found");
+                return RedirectToAction(nameof(Index));
             }
         }
         public ActionResult Group_Post(string GroupCode)

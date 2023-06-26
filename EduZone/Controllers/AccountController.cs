@@ -77,6 +77,7 @@ namespace EduZone.Controllers
                 return View(model);
             }
             var user = context.Users.FirstOrDefault(e => e.Email == model.Email);
+            if(user!=null)
             RolesForUser = UserManager.GetRoles(user.Id);
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true

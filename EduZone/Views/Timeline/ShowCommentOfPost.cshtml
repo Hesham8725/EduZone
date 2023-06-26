@@ -35,8 +35,8 @@
             @if (context.Likes.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == Model.Id) != null)
             {
                 <div style="cursor: pointer;">
-                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, true)">
-                        <i class="fa-solid fa-thumbs-up me-2 text-success"></i>
+                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, true,false)">
+                        <i class="fa-solid fa-thumbs-up me-2 text-success chngcmnt"></i>
                         <span class="text-secondary">Like</span>
                     </a>
                 </div>
@@ -45,8 +45,8 @@
             else
             {
                 <div style="cursor: pointer;">
-                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, false)">
-                        <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
+                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" class="chngcmnt" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, false,false)">
+                        <i class="fa-solid fa-thumbs-up me-2 text-secondary chngcmnt"></i>
                         <span class="text-secondary">Like</span>
                     </a>
                 </div>
@@ -58,7 +58,8 @@
                 int numcom = context.Comments.Where(s => s.PostID == Model.Id).Count();
                 int numLk = context.Likes.Where(p => p.PostId == Model.Id).Count();
             }
-            <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+
+            <div data-user-id="@Model.Id"><b class="lik">@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
             <div data-user-id="@Model.Id"><b class="comnt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
         </div>
     </div>
@@ -80,7 +81,7 @@
                         <div class="avatar me-1">
                             <img src="~/Images/@context.Users.FirstOrDefault(i => i.Id == @comment.UserId).Image" class="comment-avatar" alt="">
                         </div>
-                        <a href="#" class="username mt-2"><p>@context.Users.FirstOrDefault(i => i.Id == @comment.UserId).Name</p></a>
+                        <a href="@Url.Action("Educator_profile", "Profile",new { id=comment.UserId})" class="username mt-2"><p>@context.Users.FirstOrDefault(i => i.Id == @comment.UserId).Name</p></a>
                     </div>
                     <div>
                         @if (comment.UserId == User.Identity.GetUserId())
@@ -105,7 +106,7 @@
                 var con = $.hubConnection();
                 proxy = con.createHubProxy("HubClass");
                 con.start();
-                proxy.on("NewCommentAdded", function (msg, usr, comid, numComents,image) {
+                proxy.on("NewCommentAdded", function (msg, usr, comid, numComents, image, postId, userid) {
                     var con = `
                         <div id='`+ comid +`' class="comment row " style="padding: 10px; margin: 2px 2px; ">
                 <div class="d-flex">
@@ -113,7 +114,7 @@
                         <div class="avatar me-1">
                             <img src="/Images/`+image+`" class="comment-avatar" alt="">
                         </div>
-                        <a href="#" class="username mt-2"><p>`+ usr +`</p></a>
+                        <a href="/Profile/Educator_profile/${userid}" class="username mt-2"><p>`+ usr +`</p></a>
                     </div>
                     <div>
                         <i class="fa-solid fa-ellipsis mt-2 fa-lg" style="cursor:pointer;" onclick="DeleteCom(`+ comid +`)"></i>
@@ -123,12 +124,12 @@
             </div>
                              `
                     $('.comments_repos').prepend(con);
-                    $("div[data-user-id='" + @Model.Id + "']").find("b").text(numComents);
+                    $("div[data-user-id='" + @Model.Id + "']").find(".comnt").text(numComents);
                 });
-                proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr) {
-                    var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
-                    icon.addClass("text-" + clr);
-                    location.reload();
+                proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr, numLik) {
+                    var newIcon = $("<i>").addClass("fa-solid fa-thumbs-up").addClass("text-" + clr);
+                    $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find(".chngcmnt").empty().append(newIcon).append("<span class='ms-2  text-secondary'> Like </span>");
+                    $("div[data-user-id='" + pid + "']").find(".lik").text(numLik);
                 });
                 proxy.on("NewCommentDeleted", function (id, num) {
                     var sid = id.toString();
@@ -143,8 +144,8 @@
             document.getElementById('inp').value = '';
             proxy.invoke("AddComment", PostID, msg,'@User.Identity.GetUserId()');
         };
-        function funlikeTime(uid, pid, flag) {
-            proxy.invoke("AddlikeInTimeLine", uid, pid, flag);
+        function funlikeTime(uid, pid, flag, realLike) {
+            proxy.invoke("AddlikeInTimeLine", uid, pid, flag, realLike);
         };
         function DeleteCom(idval) {
             proxy.invoke("DeleteComment",idval)
