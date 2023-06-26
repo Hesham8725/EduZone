@@ -253,6 +253,10 @@
     <Compile Include="Migrations\202306241404058_up.Designer.cs">
       <DependentUpon>202306241404058_up.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306241453554_newEx.cs" />
+    <Compile Include="Migrations\202306241453554_newEx.Designer.cs">
+      <DependentUpon>202306241453554_newEx.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AnswerChoice.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -522,6 +526,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202306241404058_up.resx">
       <DependentUpon>202306241404058_up.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306241453554_newEx.resx">
+      <DependentUpon>202306241453554_newEx.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

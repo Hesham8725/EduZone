@@ -28,7 +28,7 @@
             {
                 <div style="cursor: pointer;">
                     <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, true)">
-                        <i class="fa-solid fa-thumbs-up me-2 text-success"></i>
+                        <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
                         <span class="text-secondary">Like</span>
                     </a>
                 </div>
@@ -38,7 +38,7 @@
             {
                 <div style="cursor: pointer;">
                     <a data-user-id="@User.Identity.GetUserId()" data-item-id="@Model.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @Model.Id, false)">
-                        <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
+                        <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-secondary"></i>
                         <span class="text-secondary">Like</span>
                     </a>
                 </div>
@@ -50,14 +50,12 @@
                 int numcom = context.Comments.Where(s => s.PostID == Model.Id).Count();
                 int numLk = context.Likes.Where(p => p.PostId == Model.Id).Count();
             }
-            <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-            <div data-user-id="@Model.Id"><b class="conmt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
-
+            <div data-user-id="@Model.Id"><b class="lik">@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
+            <div data-user-id="@Model.Id"><b class="comnt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
         </div>
     </div>
     <div class="input-group my-4 rounded-3">
         <input type="text" id="inp" class="form-control" placeholder="COMMENT" value="">
-
         <button class="btn btn-outline-success" type="button" onclick="funComment(@Model.Id)" id="button-addon2">comment</button>
     </div>
 </div>
@@ -116,13 +114,12 @@
                     var usrnm = $("div[data-comment-id='" + comid + "']").find("a.username");
                     usrnm.append(usr);
 
-                    $("div[data-user-id='" + @Model.Id + "']").find("b").text(numComents);
-                   // $(".comnt").text(numComents);
+                    $("div[data-user-id='" + @Model.Id + "']").find(".comnt").text(numComents);
                 });
-                proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr) {
-                    var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
-                    icon.addClass("text-" + clr);
-                    location.reload();
+                proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr, numLik) {
+                    var newIcon = $("<i>").addClass("fa-solid fa-thumbs-up").addClass("text-" + clr);
+                    $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find(".chngcmnt").empty().append(newIcon).append("<span class='ms-2  text-secondary'> Like </span>");
+                    $("div[data-user-id='" + pid + "']").find(".lik").text(numLik);
                 });
             });
         function funComment(PostID) {
