@@ -1,6 +1,43 @@
-﻿
+﻿@using EduZone.Models
+@model List<Exam>
 @{
     ViewBag.Title = "Index";
+    ApplicationDbContext context = new ApplicationDbContext();
 }
+<h4 class="mt-3"> List of Exams</h4>
+<hr />
 
-<h2>Home OF Educator</h2>
+<div class="row row-cols-1 row-cols-md-3 row-cols-lg-4 g-4 mt-3">
+    @foreach (var item in Model)
+    {
+        var Num = context.GetQuestions.Where(e => e.ExamId == item.Id).Count();
+        var TDegree = context.GetQuestions.Where(e => e.ExamId == item.Id)
+                                          .Select(e=>e.Point)
+                                          .Sum();
+       
+        <div class="col">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">@item.GroupName</h5>
+                    <p class="card-text small">
+                        From Title : <span class="badge text-bg-info">@item.FormTitle</span>
+                    </p>
+                    <p class="card-text small text-secondary">
+                        Total Exam Degree : @TDegree
+                    </p>
+                    <p class="card-text small text-secondary">
+                        Number of Question :  @Num 
+                    </p>
+                </div>
+                <div class="card-footer">
+                    <a href="/Educator/UpdateExam/@item.Id" class="btn btn-sm btn-outline-success "> Update </a>
+                    <a href="/Educator/DeleteExam/@item.Id" class="btn btn-sm btn-outline-danger "> Delete </a>
+                    @if (User.IsInRole("Student"))
+                    {
+                        <a href="/Educator/OpenExam/@item.Id" class="btn btn-sm btn-outline-success "> Open </a>
+                    }
+                </div>
+            </div>
+        </div>
+    }
+</div>

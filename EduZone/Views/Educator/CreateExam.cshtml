@@ -1,4 +1,5 @@
-﻿
+﻿@using EduZone.Models
+@model List<Group>
 @{
     ViewBag.Title = "CreateExam";
 }
@@ -11,11 +12,16 @@
         <div class='form-info'>
             <div class="mb-3">
                 <label for="inputFormCode" class="form-label">Group Name</label>
-                <input type="text" required placeholder='Enter the Group Name...' class="form-control" id="inputFormCode" aria-label="Text input with checkbox">
+                <select name="Group_Name" class="dropdown form-control" >
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.GroupName" class="dropdown-item">@item.GroupName</option>
+                    }
+                </select>
             </div>
             <div class="mb-5">
                 <label for="inputFormTitle" class="form-label">Form Title</label>
-                <input type="text" required placeholder='Enter the Form title...' class="form-control" id="inputFormTitle" aria-label="Text input with checkbox">
+                <input name="Form_Title" type="text" required placeholder='Enter the Form title...' class="form-control" id="inputFormTitle" aria-label="Text input with checkbox">
             </div>
             <h4 class="mb-3"> Form Questions </h4>
             <div class='d-flex justify-content-between'>
@@ -58,7 +64,7 @@
                                 <input type="text" style="display: none;" value="1" id="ON0">
                                 <div class="input-group mb-3 option" id="O00">
                                     <div class="input-group-text">
-                                        <input class=" mt-0 p-0" id="Q0R0" type="radio" name="Q0">
+                                        <input class=" mt-0 p-0" value="0" id="Q0R0" type="radio" name="QR0" required>
                                     </div>
                                     <input id="Q0I0" name="Q0I0" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
                                 </div>
@@ -67,7 +73,7 @@
                             <button type="button" id="btn_sub0" onclick="sub_option(0)" class="btn btn-sm btn-outline-info px-2"> Delete last Option </button>
                             <div class="mx-3 d-inline">
                                 <label>Points</label>
-                                <input type="number" value="1" class="question_points_inpt" min="0" max="100">
+                                <input type="number" value="1" name="QPI0" id="QPI0" min="0" max="100">
                             </div>
                         </div>
                         <!-- O-n-  -->

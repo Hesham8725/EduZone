@@ -224,14 +224,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306231834515_Post.cs" />
-    <Compile Include="Migrations\202306231834515_Post.Designer.cs">
-      <DependentUpon>202306231834515_Post.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306240856118_im.cs" />
-    <Compile Include="Migrations\202306240856118_im.Designer.cs">
-      <DependentUpon>202306240856118_im.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\Exam.cs" />
+    <Compile Include="Models\QuestionOption.cs" />
     <Compile Include="Models\PostInGroup.cs" />
     <Compile Include="Models\LikeForPostInGroup.cs" />
     <Compile Include="Models\Comment.cs" />
@@ -467,17 +462,10 @@
     <Content Include="Views\Timeline\ShowCommentOfPost.cshtml" />
     <Content Include="Views\Timeline\TimeLine.cshtml" />
     <Content Include="Views\Educator\CreateExam.cshtml" />
+    <Content Include="Views\Educator\UpdateExam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306231834515_Post.resx">
-      <DependentUpon>202306231834515_Post.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306240856118_im.resx">
-      <DependentUpon>202306240856118_im.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

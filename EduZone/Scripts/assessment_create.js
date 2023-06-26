@@ -1,7 +1,9 @@
 var Q_Add = document.getElementById("add_question")
 var Num_Q = 1;
 var Num_O = 0;
-
+$(function () {
+    Num_Q = parseInt(document.getElementById("NQ").textContent);
+})
 function add_Q() {
     var Q = `
     <div class='question row' id = "Q${Num_Q}">
@@ -20,7 +22,7 @@ function add_Q() {
                 <input type = "text" style="display: none;" value = "1" id="ON${Num_Q}">                                                            
                 <div class="input-group mb-3 option" id = "O${Num_Q}0">
                     <div class="input-group-text">
-                        <input class=" mt-0 p-0" id = "Q${Num_Q}R0" type="radio" name="Q${Num_Q}">
+                        <input class=" mt-0 p-0" value="0" id = "Q${Num_Q}R0" required type="radio" name="QR${Num_Q}">
                     </div>
                     <input id="Q${Num_Q}I0" name="Q${Num_Q}I0" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
                 </div>
@@ -29,7 +31,7 @@ function add_Q() {
             <button type="button" id="btn_sub${Num_Q}" onclick="sub_option(${Num_Q})"  class="btn btn-sm btn-outline-info px-2"> Delete last Option </button>
             <div class="mx-3 d-inline">
                 <label>Points</label>
-                <input type="number" value="1" class="question_points_inpt" min="0" max="100" >
+                <input type="number" value="1" name="QPI${Num_Q}" id="QPI${Num_Q}" min="0" max="100" >
             </div>
         </div>
         <!-- O-n-  -->
@@ -45,6 +47,8 @@ function add_Q() {
     Num_Q = Num_Q + 1;
     $("#questions_id").append(Q);
     document.getElementById("NQ").textContent = Num_Q;
+    document.getElementById("N_question").value = Num_Q;
+
 }
 
 function del_question(id) {
@@ -72,6 +76,10 @@ function del_question(id) {
             item = document.getElementById("QInput" + i)
             item.setAttribute('id', "QInput" + (parseInt(val)));
             item.setAttribute('name', "Q" + (parseInt(val)));
+            //Q Input Point
+            item = document.getElementById("QPI" + i)
+            item.setAttribute('id', "QPI" + (parseInt(val)));
+            item.setAttribute('name', "QPI" + (parseInt(val)));
             //btn add
             item = document.getElementById("btn_add" + i)
             item.setAttribute('id', "btn_add" + parseInt(val));
@@ -93,7 +101,7 @@ function del_question(id) {
                 // radio
                 item = document.getElementById("Q" + i + "R" + j)
                 item.setAttribute('id', "Q" + val + "R" + j);
-                item.setAttribute('name', "Q" + val);
+                item.setAttribute('name', "QR" + val);
                 // input
                 item = document.getElementById("Q" + i + "I" + j)
                 item.setAttribute('id', "Q" + val + "I" + j);
@@ -108,6 +116,7 @@ function del_question(id) {
     }
     Num_Q--;
     document.getElementById("NQ").textContent = Num_Q;
+    document.getElementById("N_question").value = Num_Q;
 };
 
 function add_option(valx) {
@@ -117,9 +126,9 @@ function add_option(valx) {
         var Option = `
         <div class="input-group mb-3 option" id = "O${valx}${parseInt(ON)}">
                 <div class="input-group-text">
-                 <input class=" mt-0 p-0 " id = "Q${valx}R${parseInt(ON)}" type="radio" name="Q${valx}">
+                 <input class=" mt-0 p-0" value="${parseInt(ON)}" id = "Q${valx}R${parseInt(ON)}" required type="radio" name="QR${valx}">
                 </div>
-            <input id="Q${valx}I${parseInt(ON)}" name="Q${Num_Q}I${parseInt(ON)}" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
+            <input id="Q${valx}I${parseInt(ON)}"  name="Q${valx}I${parseInt(ON)}" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
         </div>`;
         const idO = "Q" + valx + "O";
         $(`#Q${valx}O`).append(Option);
