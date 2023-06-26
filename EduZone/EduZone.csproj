@@ -653,6 +653,7 @@
     <Content Include="Views\Timeline\TimeLine.cshtml" />
     <Content Include="Views\Educator\CreateExam.cshtml" />
     <Content Include="Views\PreRegistration\Pre_Registration.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
@@ -669,7 +670,6 @@
     <Folder Include="bin\tr\" />
     <Folder Include="bin\zh-Hans\" />
     <Folder Include="bin\zh-Hant\" />
-    <Folder Include="Views\Department\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Migrations\202306252133392_sasa.resx">
