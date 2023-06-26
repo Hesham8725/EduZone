@@ -247,6 +247,7 @@
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PreRegistrationController.cs" />
     <Compile Include="Controllers\ProfileController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\StudentController.cs" />
@@ -254,6 +255,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306252133392_sasa.cs" />
+    <Compile Include="Migrations\202306252133392_sasa.designer.cs">
+      <DependentUpon>202306252133392_sasa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Chat.cs" />
     <Compile Include="Models\Class\GetFileSize.cs" />
     <Compile Include="Models\Class\GetTypeOfFile.cs" />
@@ -424,6 +430,7 @@
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
     <Content Include="Content\StyleSheet\chat2.css" />
+    <Content Include="Content\StyleSheet\courses.css" />
     <Content Include="Content\StyleSheet\create-exam.css" />
     <Content Include="Content\StyleSheet\ForgetPssword.css" />
     <Content Include="Content\StyleSheet\list-groups.css" />
@@ -638,6 +645,7 @@
     <Content Include="Views\Timeline\ShowCommentOfPost.cshtml" />
     <Content Include="Views\Timeline\TimeLine.cshtml" />
     <Content Include="Views\Educator\CreateExam.cshtml" />
+    <Content Include="Views\PreRegistration\Pre_Registration.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
@@ -654,6 +662,11 @@
     <Folder Include="bin\tr\" />
     <Folder Include="bin\zh-Hans\" />
     <Folder Include="bin\zh-Hant\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202306252133392_sasa.resx">
+      <DependentUpon>202306252133392_sasa.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

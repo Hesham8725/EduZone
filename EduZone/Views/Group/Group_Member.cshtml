@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNet.Identity
+@using EduZone.Models
+@model List<GroupsMembers>
 @{
     ViewBag.Title = "Group_Member";
     //SelectList asd=new SelectList(ViewBag.GroupMembers,"")
@@ -7,53 +9,68 @@
 
 <div class="tab-content p-3 my-3">
     <div class="tab-pane active" id="Members">
-        <div class="input-group my-4 rounded-3">
-            <input type="text" class="form-control" placeholder="search by name">
-            <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
-        </div>
+        <form action="/Group/SearchByName">
+            <div class="input-group my-4 rounded-3">
+              
+                <input type="text" class="form-control" placeholder="search by name" name="Name">
+                <button class="btn btn-outline-secondary" type="submit" id="button-addon2">search</button>
+                @*<input class="btn btn-outline-secondary" type="submit" id="button-addon2" name="search"></input>*@
+            </div>
+        </form>
 
         <div class="d-flex flex-row flex-wrap">
-            @foreach (var item in Model)
+            @if (Model.Count == 0)
             {
-                if (item.MemberId != User.Identity.GetUserId() )
+
+                <h1>Kosom Bto3 EL Front</h1>
+            }
+            else
+            {
+                foreach (var item in Model)
                 {
-                    ApplicationDbContext context = new ApplicationDbContext();
-                    ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == item.MemberId);
+                    if (item.MemberId != User.Identity.GetUserId())
+                    {
 
-                    var currentUser = User.Identity.GetUserId();
+                        ApplicationDbContext context = new ApplicationDbContext();
+                        ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == item.MemberId);
 
-                    var roleID = user.Roles.FirstOrDefault();
-                    var role = context.Roles.FirstOrDefault(c => c.Id == roleID.RoleId);
-                    var role2 = role.Name;
+                        var currentUser = User.Identity.GetUserId();
 
-                    <div class="card m-3 ">
-                        <a href="/Profile/Educator_profile/@user.Id">
-                            <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
-                                <img src="~/Images/@user.Image" width="150px" height="150px" class="photo-profile" alt="...">
-                                @if (role2 == "Student")
-                                {
-                                    <h6 class="card-title my-2">
-                                        <a href="/Profile/std_profile/@user.Id"><span class="badge rounded-pill text-bg-info">@user.Name</span></a>
-                                    </h6>
-                                }
-                                else if (role2 == "Educator")
-                                {
-                                    <h6 class="card-title my-2">
-                                        <span class="badge rounded-pill text-bg-info">@user.Name</span>
+                        var roleID = user.Roles.FirstOrDefault();
+                        var role = context.Roles.FirstOrDefault(c => c.Id == roleID.RoleId);
+                        var role2 = role.Name;
 
-                                    </h6>
-                                }
-                            </div>
-                        </a>
-                        @if (ViewBag.GCR7 == User.Identity.GetUserId() || User.IsInRole("Admin"))
-                        {
-                            <div class="card-footer d-flex justify-content-center">
-                                <a href="/Group/Delete_Member/@user.Id" class="btn btn-sm btn-outline-danger w-100"> Remove </a>
-                            </div>
-                        }
-                    </div>
+                        <div class="card m-3 ">
+                            <a href="/Profile/Educator_profile/@user.Id">
+                                <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
+                                    <img src="~/Images/@user.Image" width="150px" height="150px" class="photo-profile" alt="...">
+                                    @if (role2 == "Student")
+                                    {
+                                        <h6 class="card-title my-2">
+                                            <a href="/Profile/std_profile/@user.Id"><span class="badge rounded-pill text-bg-info">@user.Name</span></a>
+                                        </h6>
+                                    }
+                                    else if (role2 == "Educator")
+                                    {
+                                        <h6 class="card-title my-2">
+                                            <span class="badge rounded-pill text-bg-info">@user.Name</span>
+
+                                        </h6>
+                                    }
+                                </div>
+                            </a>
+                            @if (ViewBag.GCR7 == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                            {
+                                <div class="card-footer d-flex justify-content-center">
+                                    <a href="/Group/Delete_Member/@user.Id" class="btn btn-sm btn-outline-danger w-100"> Remove </a>
+                                </div>
+                            }
+                        </div>
+                    }
                 }
             }
         </div>
+
+
     </div>
 </div>

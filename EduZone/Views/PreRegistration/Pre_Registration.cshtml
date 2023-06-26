@@ -1,0 +1,126 @@
+﻿@using EduZone.Models
+@using Microsoft.AspNet.Identity;
+@model Student
+@{
+    ViewBag.Title = "Pre_Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ApplicationDbContext context = new ApplicationDbContext();
+    var currentUser = User.Identity.GetUserId();
+    var user = context.Users.FirstOrDefault(c => c.Id == currentUser);
+}
+<link href="~/Content/StyleSheet/courses.css" rel="stylesheet" />
+
+<div class="cont">
+    <header>
+        <h3>Pre-Registration Form</h3>
+
+    </header>
+        <button onclick="myfunction()">print</button>
+    <nav>
+        <label for="name">Level: </label>
+        <div>First</div>
+        @*<select name="year"
+                    id="year"
+                    style="padding: 5px; width: 100px; text-align: center">
+                <option value="1">First</option>
+                <option value="2">Second</option>
+                <option value="3">Third</option>
+                <option value="4">Fourth</option>
+            </select>*@
+        <label for="name">Semester: </label>
+        <div>Autumn</div>
+        <label for="name">Year: </label>
+        <div>2022 - 2023</div>
+    </nav>
+    <form action="">
+        <div class="inputbox">
+            <input type="text" id="stname" required value="@user.Name" />
+            @*<span>@user.Name</span>*@
+        </div>
+        <div class="inputbox">
+            <input type="text" id="stID" required value="@Model.ID" />
+            @*<span>@Model.ID</span>*@
+        </div>
+        <div class="inputbox">
+            <input type="text" id="department" required value="@Model.Department"/>
+            @*<span>@Model.Department</span>*@
+        </div>
+        <div class="inputbox">
+            <input type="number" id="coursHours" required min="1" max="3" value="2"/>
+            @*<span>Cours Hours</span>*@
+        </div>
+        <div class="inputbox">
+            <input type="text" id="phone" required value="@user.PhoneNumber"/>
+            @*<span>@user.PhoneNumber</span>*@
+        </div>
+        <div class="inputbox">
+            <input type="email" id="email" required value="@user.Email" />
+            @*<span>@user.Email</span>*@
+        </div>
+        <label for="name">Courses</label>
+        <select name="courseName" id="courseName">
+            <option value="1">CS101</option>
+            <option value="2">CS102</option>
+            <option value="3">CS103</option>
+            <option value="4">CS104</option>
+            <option value="5">CS105</option>
+            <option value="6">CS106</option>
+        </select>
+        <button><i class="bx bx-plus-circle"></i></button>
+    </form>
+    <script>
+        function myfunction() {
+            window.print();
+        }
+    </script>
+    <table>
+        <thead>
+            <tr>
+                <th>Num</th>
+                <th>Code</th>
+                <th colspan="2">Course Name</th>
+                <th>Course Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>1</td>
+                <td>CS101</td>
+                <td colspan="2">Compiler</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>CS101</td>
+                <td colspan="2">Compiler</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>CS101</td>
+                <td colspan="2">Compiler</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>CS101</td>
+                <td colspan="2">Compiler</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>CS101</td>
+                <td colspan="2">Compiler</td>
+                <td>3</td>
+            </tr>
+            <tr>
+                <td>1</td>
+                <td>CS101</td>
+                <td colspan="2">Compiler</td>
+                <td>3</td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+

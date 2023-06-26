@@ -1,6 +1,7 @@
 ﻿using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
@@ -17,6 +18,7 @@ namespace EduZone.Models
             return userIdentity;
         }
         public string Address { get; set; }
+        //[Remote(action:"SearchByName",controller: "Group",HttpMethod ="Post",ErrorMessage = "No results found.")]
         public string Name { get; set; }
         public string NationalID { get; set; }
         public bool EmailActive { get; set; }

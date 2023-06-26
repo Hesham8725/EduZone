@@ -187,8 +187,40 @@ namespace EduZone.Controllers
             ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
+            //ViewBag.search = 0;
+            //if (TempData["groupsMembers"] != null)
+            //{
+            //    ViewBag.search = 1;
+            //    ViewBag.groupsMembers = TempData["groupsMembers"];
+            //}
             var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == GroupCode).ToList();
+            TempData["GroupCode"] = GroupCode;
             return View(GroupMembers);
+        }
+        public ActionResult SearchByName(string Name)
+        {
+
+            string _GroupCode = TempData["GroupCode"].ToString();
+            TempData.Keep("GroupCode");
+
+            var member = context.GetGroupsMembers.Where(c=>c.GroupId== _GroupCode).ToList();
+            List<GroupsMembers> groupsMembers = new List<GroupsMembers>();
+            foreach(var item in member)
+            {
+                var UserName = context.Users.FirstOrDefault(c => c.Id == item.MemberId).Name.ToLower();
+                if (UserName.Contains(Name.ToLower()))
+                {
+                    groupsMembers.Add(item);
+                }
+            }
+           // TempData["groupsMembers"] = groupsMembers;
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == _GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            ViewBag.GCR7 = GroupValue.CreatorID;
+            // return RedirectToAction("Group_Member", new { GroupCode = _GroupCode });
+            return View("Group_Member",groupsMembers);
         }
         public ActionResult Delete_Member(string id)
         {
