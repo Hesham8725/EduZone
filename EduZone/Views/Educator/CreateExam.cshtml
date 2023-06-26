@@ -15,7 +15,7 @@
                 <select name="Group_Name" class="dropdown form-control" >
                     @foreach (var item in Model)
                     {
-                        <option value="@item.GroupName" class="dropdown-item">@item.GroupName</option>
+                        <option value="@item.Code" class="dropdown-item">@item.GroupName</option>
                     }
                 </select>
             </div>
@@ -28,7 +28,7 @@
                 <div class="me-3">
                     <label for="N_question_input">Number of Questions</label>
                     <label class="fw-bold" id="NQ">1</label>
-                    <input type="hidden" name="N_question" id="N_question">
+                    <input type="hidden" name="N_question" id="N_question" value="1">
                 </div>
                 <div class="header d-flex justify-content-start mb-5">
                     <button type='button' class='btn btn-sm btn-outline-info mx-1' onclick="add_Q()" ; id='add_question'> Add Question </button>
@@ -54,7 +54,6 @@
                             <div class="input-group-text">
                                 <label class='m-0 question_number' id="QNtxt0">Q0</label>
                             </div>
-                            <!-- <input class="form-control question_title" type="text" required placeholder='Enter the question title...'>  -->
                             <textarea id="QInput0" name="Q0" class="form-control question_title" required placeholder='Enter the question title...'></textarea>
                         </div>
                         <!-- Q-H -->

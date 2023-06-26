@@ -25,12 +25,16 @@
                                                    .Select(e => e.Point)
                                                    .Sum();
             }
+            var name = context.Users.FirstOrDefault(e => e.Id == item.CreatorID).Name;
             <div class="col">
                 <div class="card h-100">
                     <div class="card-body">
                         <h5 class="card-title">@item.GroupName</h5>
                         <p class="card-text small">
-                            From Title : <span class="badge text-bg-info">@item.FormTitle</span>
+                            Dr : <span class="badge text-bg-info">@name</span>
+                        </p>
+                        <p class="card-text small text-secondary">
+                            From Title : @item.FormTitle
                         </p>
                         <p class="card-text small text-secondary">
                             Total Exam Degree : @TDegree
@@ -40,16 +44,7 @@
                         </p>
                     </div>
                     <div class="card-footer">
-                        <a href="/Educator/UpdateExam/@item.Id" class="btn btn-sm btn-outline-success" style="width:100px;"> Update </a>
-                        <a href="#" class="btn btn-outline-danger btn-sm del" onclick="toggle(@item.Id)" style="width:100px;">Delete</a>
-                        @if (item.IsStart == false)
-                        {
-                            <a href="#" class="btn btn-outline-success mt-1 btn-sm del w-100" onclick="toggle1(@item.Id)">Start Exam</a>
-                        }
-                        else
-                        {
-                            <a href="/Educator/StartExam/@item.Id" class="btn btn-outline-danger mt-1 btn-sm del w-100">End Exam</a>
-                        }
+                        <a href="#" class="btn btn-outline-danger w-100" onclick="toggle(@item.Id)"> Start </a>
                     </div>
                 </div>
             </div>
@@ -58,35 +53,20 @@
 </div>
 
 <div id="popup">
-    <h3>Do You Want To Delete This Exam ?</h3>
+    <h3>Do You Want To Start This Exam ?<br> The Exam Will Start Time When Click Yes</h3>
     <a href="" id="BtnYes" class="btn btn-danger delete">Yes</a>
     <a href="#" class="btn btn-success" onclick="toggle(0)">No</a>
-</div>
-<div id="popup1">
-    <h3>Do You Want To Start Show Exam to Student ?</h3>
-    <a href="" id="BtnYes1" class="btn btn-danger delete">Yes</a>
-    <a href="#" class="btn btn-success" onclick="toggle1(0)">No</a>
 </div>
 @section bottom_Link{
     <script>
         var btn = document.getElementById("BtnYes");
-        var btn1 = document.getElementById("BtnYes1");
         // toggle blur and popup
         function toggle(val) {
-            btn.href = '/Educator/DeleteExam/' + val;
+            btn.href = '/Student/OpenExam/' + val;
             let blur = document.getElementById("blur");
             blur.classList.toggle("active");
 
             let popup = document.getElementById("popup");
-            popup.classList.toggle("active");
-        }
-        function toggle1(val) {
-            btn1.href = '/Educator/StartExam/' + val;
-
-            let blur = document.getElementById("blur");
-            blur.classList.toggle("active");
-
-            let popup = document.getElementById("popup1");
             popup.classList.toggle("active");
         }
     </script>

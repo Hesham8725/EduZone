@@ -25,11 +25,11 @@
                     {
                         if (item.GroupName == Model.GroupName)
                         {
-                            <option selected value="@item.GroupName" class="dropdown-item">@item.GroupName</option>
+                            <option selected value="@item.Code" class="dropdown-item">@item.GroupName</option>
                         }
                         else
                         {
-                            <option value="@item.GroupName" class="dropdown-item">@item.GroupName</option>
+                            <option value="@item.Code" class="dropdown-item">@item.GroupName</option>
                         }
                     }
                 </select>
@@ -147,6 +147,7 @@
         </div>
     </form>
 </main>
+
 
 
 @section bottom_Link{

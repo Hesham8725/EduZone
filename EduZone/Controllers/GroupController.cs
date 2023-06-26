@@ -180,7 +180,7 @@ namespace EduZone.Controllers
             // first Get Group
             var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
             ViewBag.GN = GroupValue.GroupName;
-            ViewBag.GC = GroupValue.Code;
+            //ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
             var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == GroupCode).ToList();

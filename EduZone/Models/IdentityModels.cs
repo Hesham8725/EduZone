@@ -47,6 +47,7 @@ namespace EduZone.Models
 
         public virtual DbSet<Exam> GetExams { get; set; }
         public virtual DbSet<Question> GetQuestions { get; set; }
+        public virtual DbSet<StudentExamDegree> GetSudentExamDegrees { get; set; }
         public virtual DbSet<QuestionOption> GetQuestionOptions { get; set; }
         public static ApplicationDbContext Create()
         {

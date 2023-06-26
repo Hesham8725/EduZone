@@ -103,20 +103,39 @@
                 </li>
                 @if (!User.IsInRole("Admin"))
                 {
-                    <li>
-                        <div class="iocn-link">
-                            <a href="/Educator/Index">
-                                <i class="bx bx-check-square"></i>
-                                <span class="link_name">Exam</span>
-                            </a>
-                            <i class="bx bxs-chevron-down arrow"></i>
-                        </div>
-                        <ul class="sub-menu">
-                            <li><a class="link_name" href="">Exam</a></li>
-                            <li><a href="/Educator/Index">Exams</a></li>
-                            <li><a href="/Educator/CreateExam">Create</a></li>
-                        </ul>
-                    </li>
+                    if (User.IsInRole("Student"))
+                    {
+                        <li>
+                            <div class="iocn-link">
+                                <a href="/Student/Exam">
+                                    <i class="bx bx-check-square"></i>
+                                    <span class="link_name">Exam</span>
+                                </a>
+                                <i class="bx bxs-chevron-down arrow"></i>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a class="link_name" href="">Exam</a></li>
+                                <li><a href="/Student/Exam">Exams</a></li>
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <div class="iocn-link">
+                                <a href="/Educator/Index">
+                                    <i class="bx bx-check-square"></i>
+                                    <span class="link_name">Exam</span>
+                                </a>
+                                <i class="bx bxs-chevron-down arrow"></i>
+                            </div>
+                            <ul class="sub-menu">
+                                <li><a class="link_name" href="">Exam</a></li>
+                                <li><a href="/Educator/Index">Exams</a></li>
+                                <li><a href="/Educator/CreateExam">Create</a></li>
+                            </ul>
+                        </li>
+                    }
                 }
                 else
                 {

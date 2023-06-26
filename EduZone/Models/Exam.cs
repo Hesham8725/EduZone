@@ -15,5 +15,7 @@ namespace EduZone.Models
         [Required(ErrorMessage = "Form title is required")]
         public string FormTitle { get; set; }
         public string CreatorID { get; set; }
+        public bool IsStart { get; set; }
+        public string GroupCode { get; set; }
     }
 }

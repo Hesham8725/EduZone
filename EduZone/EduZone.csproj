@@ -232,6 +232,7 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\StudentExamDegree.cs" />
     <Compile Include="MyHubs\HubClass.cs" />
     <Compile Include="MyHubs\postGroupHub.cs" />
     <Compile Include="MyHubs\PostHub.cs" />
@@ -275,6 +276,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\StyleSheet\addCourses.css" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
     <Content Include="Content\StyleSheet\chat2.css" />
@@ -463,6 +465,8 @@
     <Content Include="Views\Timeline\TimeLine.cshtml" />
     <Content Include="Views\Educator\CreateExam.cshtml" />
     <Content Include="Views\Educator\UpdateExam.cshtml" />
+    <Content Include="Views\Student\Exam.cshtml" />
+    <Content Include="Views\Student\OpenExam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />

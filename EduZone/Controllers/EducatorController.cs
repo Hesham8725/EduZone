@@ -61,11 +61,13 @@ namespace EduZone.Controllers
 
         private void Add_Exam(string Group_Name, string Form_Title, string N_question)
         {
+            var GN = context.GetGroups.FirstOrDefault(e => e.Code == Group_Name).GroupName;
             Exam exam = new Exam()
             {
                 CreatorID = User.Identity.GetUserId(),
-                GroupName = Group_Name,
-                FormTitle = Form_Title
+                GroupName = GN,
+                FormTitle = Form_Title,
+                GroupCode = Group_Name
             };
             context.GetExams.Add(exam);
             context.SaveChanges();
@@ -94,7 +96,6 @@ namespace EduZone.Controllers
 
                     for (int j = 0; j < 4; j++)
                     {
-                        
                         if (Request.Form[$"Q{i}I{j}"] != null)
                         {
                             QuestionOption questionOption = new QuestionOption();
@@ -103,10 +104,8 @@ namespace EduZone.Controllers
                             questionOption.OptionContent = Request.Form[$"Q{i}I{j}"].ToString();
                             context.GetQuestionOptions.Add(questionOption);
                             context.SaveChanges();
-                           
                         }
                     }
-
                 }
             }
         }
@@ -119,9 +118,23 @@ namespace EduZone.Controllers
             var Exams = context.GetExams.Where(e => e.CreatorID == idx).ToList();
             return RedirectToAction("Index", Exams);
         }
-        public ActionResult OpenExam(int id)
+        
+        public ActionResult StartExam(int id)
         {
-            return Content("Exam");
+            var ex = context.GetExams.FirstOrDefault(e => e.Id == id);
+            if (ex.IsStart == false)
+            {
+                ex.IsStart = true;
+            }
+            else
+            {
+                ex.IsStart = false;
+            }
+            context.SaveChanges();
+            // Retern To Index
+            string idx = User.Identity.GetUserId();
+            var Exams = context.GetExams.Where(e => e.CreatorID == idx).ToList();
+            return RedirectToAction("Index", Exams);
         }
         private void Del_Exam(int id)
         {

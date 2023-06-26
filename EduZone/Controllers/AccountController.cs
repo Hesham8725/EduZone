@@ -111,9 +111,9 @@ namespace EduZone.Controllers
                 case "Admin":
                     return RedirectToAction("Index", "Admin");
                 case "Student":
-                    return RedirectToAction("Index", "Student");
+                    return RedirectToAction("TimeLine", "Timeline");
                 case "Educator":
-                    return RedirectToAction("Index", "Educator");
+                    return RedirectToAction("TimeLine", "Timeline");
                 default:
                     return View("Error");
             }
