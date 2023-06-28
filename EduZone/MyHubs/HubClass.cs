@@ -16,7 +16,7 @@ namespace EduZone.MyHubs
 
         // like in group posts
         [HubMethodName("Addlike")]
-        public void Addlike(string uid, int pid, bool flag)
+        public void Addlike(string uid, int pid, bool flag, bool realLike)
         {
             int ok = 0;
             var query = context.LikeForPostInGroups.FirstOrDefault(i => i.PostId == pid && i.UserID == uid);
@@ -53,10 +53,9 @@ namespace EduZone.MyHubs
             }
             context.SaveChanges();
             string clr = ok == 2 ? "secondary" : ok == 1 ? "success" : "";
-            int numLikss = context.Likes.Where(s => s.PostId == pid).Count();
-            Clients.All.NewLikeAdded(uid, pid, clr, numLikss);
+            int numLikss = context.LikeForPostInGroups.Where(s => s.PostId == pid).Count();
+            Clients.All.NewLikeAdded(uid, pid, clr, numLikss, realLike);
         }
-
         // like in timeline posts
         [HubMethodName("AddlikeInTimeLine")]
         public void AddlikeInTimeLine(string uid, int pid, bool flag,bool realLike)

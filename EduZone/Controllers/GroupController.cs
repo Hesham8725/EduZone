@@ -1,10 +1,14 @@
 ﻿using EduZone.Models;
 using EduZone.Models.Class;
+using EduZone.MyHubs;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -98,7 +102,7 @@ namespace EduZone.Controllers
                 return RedirectToAction(nameof(Index));
             }
         }
-        public ActionResult Group_Post(string GroupCode)
+        public async Task<ActionResult> Group_Post(string GroupCode)
         {
             // first Get Group
             var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
@@ -106,8 +110,29 @@ namespace EduZone.Controllers
             ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
+            var data = await context.PostInGroups.OrderByDescending(x => x.Date).ToListAsync();
 
-            return View();
+            return View(data);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPost(PostInGroup post, string GrpCode)
+        {
+            post.UserName = User.Identity.Name;
+            post.UserId = User.Identity.GetUserId();
+            post.Date = DateTime.Now;
+            post.GroupId = GrpCode;
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
+            }
+            context.PostInGroups.Add(post);
+            context.SaveChanges();
+
+            IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.NewPostAddedInGroup(post);
+
+            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
         }
         public ActionResult Group_Material(string GroupCode)
         {

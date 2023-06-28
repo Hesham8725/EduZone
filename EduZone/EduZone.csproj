@@ -224,9 +224,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306261310298_init.cs" />
-    <Compile Include="Migrations\202306261310298_init.Designer.cs">
-      <DependentUpon>202306261310298_init.cs</DependentUpon>
+    <Compile Include="Migrations\202306282209157_news.cs" />
+    <Compile Include="Migrations\202306282209157_news.Designer.cs">
+      <DependentUpon>202306282209157_news.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Exam.cs" />
@@ -472,8 +472,8 @@
     <Folder Include="App_Data\Uploads\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306261310298_init.resx">
-      <DependentUpon>202306261310298_init.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306282209157_news.resx">
+      <DependentUpon>202306282209157_news.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
