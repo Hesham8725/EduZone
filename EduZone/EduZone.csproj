@@ -146,6 +146,7 @@
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime" />
+    <Reference Include="System.Runtime.Caching" />
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
@@ -214,6 +215,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
     <Compile Include="Controllers\EducatorTestController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -226,20 +228,30 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306231834515_Post.cs" />
-    <Compile Include="Migrations\202306231834515_Post.Designer.cs">
-      <DependentUpon>202306231834515_Post.cs</DependentUpon>
+    <Compile Include="Migrations\202306280942408_A_1.cs" />
+    <Compile Include="Migrations\202306280942408_A_1.designer.cs">
+      <DependentUpon>202306280942408_A_1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306240856118_im.cs" />
-    <Compile Include="Migrations\202306240856118_im.Designer.cs">
-      <DependentUpon>202306240856118_im.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Models\ChatGroup.cs" />
+    <Compile Include="Models\ChatIndividual.cs" />
+    <Compile Include="Models\CommentForPostInGroup.cs" />
+    <Compile Include="Models\CommentForPostInTimeLine.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CurrantUserIsOnline.cs" />
+    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\LastMessageInChatIndividual.cs" />
+    <Compile Include="Models\LikeForPostInTimeLine.cs" />
+    <Compile Include="Models\OnlineUSers.cs" />
     <Compile Include="Models\PostInGroup.cs" />
     <Compile Include="Models\LikeForPostInGroup.cs" />
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\ViewModels\UsersAndLastSeenViewModel.cs" />
+    <Compile Include="MyHubs\ChatGroupHub.cs" />
+    <Compile Include="MyHubs\ChatIndividualHub.cs" />
     <Compile Include="MyHubs\HubClass.cs" />
+    <Compile Include="MyHubs\OnlineUserHub.cs" />
     <Compile Include="MyHubs\postGroupHub.cs" />
     <Compile Include="MyHubs\PostHub.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -264,6 +276,7 @@
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\ViewModels\StudentProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FormatOtherUser.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +322,7 @@
     <Content Include="Images\banner4-cssxk4.jpg" />
     <Content Include="Images\Femala.png" />
     <Content Include="Images\Gimage.jpg" />
+    <Content Include="Images\Hesham.jpg" />
     <Content Include="Images\log.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\Mala.png" />
@@ -480,16 +494,22 @@
     <Content Include="Views\Chat\Index.cshtml" />
     <Content Include="Views\Timeline\ShowCommentOfPost.cshtml" />
     <Content Include="Views\Timeline\TimeLine.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Role\NewRole.cshtml" />
+    <Content Include="Views\Admin\AddEducatorMail.cshtml" />
+    <Content Include="Views\EducatorTest\Create.cshtml" />
+    <Content Include="Views\EducatorTest\Delete.cshtml" />
+    <Content Include="Views\EducatorTest\Details.cshtml" />
+    <Content Include="Views\EducatorTest\Edit.cshtml" />
+    <Content Include="Views\EducatorTest\Index.cshtml" />
+    <Content Include="Views\Chat\Chat_with_one.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306231834515_Post.resx">
-      <DependentUpon>202306231834515_Post.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306240856118_im.resx">
-      <DependentUpon>202306240856118_im.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306280942408_A_1.resx">
+      <DependentUpon>202306280942408_A_1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

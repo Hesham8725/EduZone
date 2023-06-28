@@ -86,6 +86,11 @@ namespace EduZone.Controllers
                 case SignInStatus.Success:
                     if (user.EmailActive == true)
                     {
+                        //var aaa = await UserManager.FindByEmailAsync(model.Email);
+                        //var identity = await UserManager.CreateIdentityAsync(aaa, DefaultAuthenticationTypes.ApplicationCookie);
+                        //AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = model.RememberMe }, identity);
+                       
+                        
                         return RetureToYourRole(RolesForUser[0].Split(' ')[0]);
                     }
                     else

@@ -1,5 +1,6 @@
 ﻿@using System.Security.Claims;
 @using EduZone.Models;
+@using Microsoft.AspNet.Identity;
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -51,7 +52,7 @@
         }
 
 
-<!-- Sidebar Section --><div class="sidebar closee">
+        <!-- Sidebar Section --><div class="sidebar closee">
             <!-- logo -->
             <div class="logo-details">
                 <i class='bx bxs-graduation'></i>
@@ -211,6 +212,28 @@
         <!-- End -->
         @RenderSection("bottom_Link", false);
     }
+    <script>
+          let prox2 = '';
+        $(function () {
+
+            console.log("functoin Onload");
+
+            var con = $.hubConnection();
+
+            prox2 = con.createHubProxy("OnlineUserHub");
+
+            con.start();
+
+            prox2.on("onlineUser", function (connectedid) {
+                var userid = '@User.Identity.GetUserId()';
+                prox2.invoke("setOnlineUser", userid);
+            })
+
+            
+
+        })
+
+    </script>
 </body>
 
 </html>

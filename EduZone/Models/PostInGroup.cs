@@ -19,8 +19,6 @@ namespace EduZone.Models
         [StringLength(500, ErrorMessage = "Content must be between 1 and 500 characters", MinimumLength = 1)]
         public string ContentOfPost { get; set; }
 
-        [ForeignKey("ApplicationUser")]
-        public string UserID { get; set; }
 
         [Display(Name = "UserName")]
         public string UserName { get; set; }

@@ -217,7 +217,7 @@ namespace EduZone.Controllers
                 if (DateTime.Now.Day - item.CreatedAt.Day == 0 && DateTime.Now.Month - item.CreatedAt.Month == 0
                                         && DateTime.Now.Year - item.CreatedAt.Year == 0)
                 {
-                    item.time = item.CreatedAt.ToString("h: mm tt") + " Today";
+                    item.time = item.CreatedAt.ToString("h: mm tt ") + " Today";
                 }
                 else if (DateTime.Now.Day - item.CreatedAt.Day == 1
                                         && DateTime.Now.Month - item.CreatedAt.Month == 0
@@ -229,7 +229,7 @@ namespace EduZone.Controllers
                                         && DateTime.Now.Month - item.CreatedAt.Month == 0
                                         && DateTime.Now.Year - item.CreatedAt.Year == 0)
                 {
-                    item.time = item.CreatedAt.ToString("h: mm tt") + item.CreatedAt.DayOfWeek;
+                    item.time = item.CreatedAt.ToString("h: mm tt ") + item.CreatedAt.DayOfWeek;
                 }
                 else
                 {

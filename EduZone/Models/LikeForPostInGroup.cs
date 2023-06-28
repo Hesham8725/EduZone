@@ -21,9 +21,7 @@ namespace EduZone.Models
         [ForeignKey("PostInGroup")]
         public int PostId { get; set; }
 
-        [ForeignKey("ApplicationUser")]
-        public string UserID { get; set; }
-        public ApplicationUser ApplicationUser { get; set; }
+      
         public PostInGroup PostInGroup { get; set; }
     }
 }

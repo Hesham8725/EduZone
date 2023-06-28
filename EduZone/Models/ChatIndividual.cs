@@ -11,8 +11,7 @@ namespace EduZone.Models
         public bool IsImage { get; set; }
         public string SenderId { get; set; }
         public string ReceiverId { get; set; }
-        public string ReceiverName { get; set; }
-        public string ReceiverImage { get; set; }
+       
         public DateTime CreatedAt { get; set; }
         public string Time { get; set; }
         public string MessageContant { get; set; }

@@ -11,7 +11,7 @@
         <div class="input-group my-4 rounded-3">
             <input type="text" class="form-control" placeholder="search by name">
             <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
-        </div>
+        </div>  
         <div class="d-flex flex-row flex-wrap">
             @foreach (var item in Model)
             {
@@ -22,9 +22,8 @@
 
                     var currentUser = User.Identity.GetUserId();
 
-                    var roleID = user.Roles.FirstOrDefault();
-                    var role = context.Roles.FirstOrDefault(c => c.Id == roleID.RoleId);
-                    var role2 = role.Name;
+
+                    var role2 = "Student";
 
                     <div class="card m-3 ">
                         <a href="/Profile/Educator_profile/@user.Id">

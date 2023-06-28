@@ -7,13 +7,13 @@ namespace EduZone.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class Abdallah_4 : IMigrationMetadata
+    public sealed partial class A_1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Abdallah_4));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(A_1));
         
         string IMigrationMetadata.Id
         {
-            get { return "202306231355207_Abdallah_4"; }
+            get { return "202306280942408_A_1"; }
         }
         
         string IMigrationMetadata.Source
