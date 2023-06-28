@@ -87,7 +87,7 @@ namespace EduZone.MyHubs
             int x = 0;
             foreach (var user in userAfterFormat)
             {
-                Clients.Caller.otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr, x);
+                Clients.Caller.otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr,user.OnLineOrNot, x);
                 x++;
             }
             //update  the list of users at the other user
@@ -105,7 +105,7 @@ namespace EduZone.MyHubs
             {
                 if (connectionId != connID)
                 {  
-                    Clients.Client(connID).otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr, x); x++;
+                    Clients.Client(connID).otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr,user.OnLineOrNot, x); x++;
 
                 }
             }

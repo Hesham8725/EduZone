@@ -230,7 +230,7 @@ namespace EduZone.Controllers
                                         && DateTime.Now.Month - item.CreatedAt.Month == 0
                                         && DateTime.Now.Year - item.CreatedAt.Year == 0)
                 {
-                    item.time = item.CreatedAt.ToString("h: mm tt") + item.CreatedAt.DayOfWeek;
+                    item.time = item.CreatedAt.ToString("h: mm tt ") + item.CreatedAt.DayOfWeek;
                 }
                 else
                 {

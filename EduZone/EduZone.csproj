@@ -485,6 +485,7 @@
     <Content Include="Views\Role\NewRole.cshtml" />
     <Content Include="Views\Admin\AddEducatorMail.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Chat\Chat_with_one.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />

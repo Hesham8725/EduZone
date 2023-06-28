@@ -241,7 +241,7 @@
                 prox.invoke("deletOnlineUser", connectedid, userid,'@ViewBag.OtherUser.Id');
             })
 
-            prox.on("otherUsers", function (id, image, name, time, x) {
+            prox.on("otherUsers", function (id, image, name, time,online, x) {
                 if (id == null && image == null && name == null && time == null && x == 0) {
                     const list = document.getElementById("otherusers");
                     list.innerHTML = "";
@@ -256,54 +256,46 @@
 
                     var user = '';
                     if (id == '@ViewBag.OtherUser.Id') {
-
-                        user += ' <li class="clearfix active" onclick="/chat/Chat_with_one/' + id + '">';
-                        user += ' <a href="/chat/Chat_with_one/' + id + '">';
-                        user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
-                        user += ' <div class="about"><div class="name">' + name + '</div>';
-                        user += '<div class="status"><i class="fa fa-circle offline"></i>' + time;
-                        user += ' </div> </div> </div> </a>  </li>';
+                        if (online == "Online") {
+                            user += ' <li class="clearfix active" onclick="/chat/Chat_with_one/' + id + '">';
+                            user += ' <a href="/chat/Chat_with_one/' + id + '">';
+                            user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
+                            user += ' <div class="about"><div class="name">' + name + '</div>';
+                            user += '<div class="status"><i class="fa fa-circle online"></i>' + online;
+                            user += ' </div> </div> </div> </a>  </li>';
+                        }
+                        else {
+                            user += ' <li class="clearfix active" onclick="/chat/Chat_with_one/' + id + '">';
+                            user += ' <a href="/chat/Chat_with_one/' + id + '">';
+                            user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
+                            user += ' <div class="about"><div class="name">' + name + '</div>';
+                            user += '<div class="status"><i class="fa fa-circle offline"></i>' + online;
+                            user += ' </div> </div> </div> </a>  </li>';
+                        }
 
                     }
                     else {
-                        user += ' <li class="clearfix" onclick="/chat/Chat_with_one/' + id + '">';
-                        user += ' <a href="/chat/Chat_with_one/' + id + '">';
-                        user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
-                        user += ' <div class="about"><div class="name">' + name + '</div>';
-                        user += '<div class="status"><i class="fa fa-circle offline"></i>' + time;
-                        user += ' </div> </div> </div> </a>  </li>';
+                        if (online == "Online") {
+                            user += ' <li class="clearfix " onclick="/chat/Chat_with_one/' + id + '">';
+                            user += ' <a href="/chat/Chat_with_one/' + id + '">';
+                            user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
+                            user += ' <div class="about"><div class="name">' + name + '</div>';
+                            user += '<div class="status"><i class="fa fa-circle online"></i>' + online;
+                            user += ' </div> </div> </div> </a>  </li>';
+                        }
+                        else {
+                            user += ' <li class="clearfix " onclick="/chat/Chat_with_one/' + id + '">';
+                            user += ' <a href="/chat/Chat_with_one/' + id + '">';
+                            user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
+                            user += ' <div class="about"><div class="name">' + name + '</div>';
+                            user += '<div class="status"><i class="fa fa-circle offline"></i>' + online;
+                            user += ' </div> </div> </div> </a>  </li>';
+                        }
                     }
                     $("#otherusers").append(user);
                 }
            })
 
-            @*prox.on("otherUsersFromResever", function (id, image, name, time, x) {
-               if (x == 0) {
-                   const list = document.getElementById("otherusers");
-                   list.innerHTML = "";
-                   console.log('@ViewBag.OtherUser.Id');
-               }
-               var user = '';
-               if (id == '@ViewBag.OtherUser.Id') {
-
-                   user += ' <li class="clearfix active" onclick="/chat/Chat_with_one/'+id+'">';
-                   user += ' <a href="/chat/Chat_with_one/'+id+'">';
-                   user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
-                   user += ' <div class="about"><div class="name">' + name + '</div>';
-                   user += '<div class="status"><i class="fa fa-circle offline"></i>' + time;
-                   user += ' </div> </div> </div> </a>  </li>';
-
-               }
-               else {
-                   user += ' <li class="clearfix" onclick="/chat/Chat_with_one/' + id + '">';
-                   user += ' <a href="/chat/Chat_with_one/' + id + '">';
-                   user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
-                   user += ' <div class="about"><div class="name">' + name + '</div>';
-                   user += '<div class="status"><i class="fa fa-circle offline"></i>' + time;
-                   user += ' </div> </div> </div> </a>  </li>';
-               }
-               $("#otherusers").append(user);
-               })*@
 
             prox.on("showMessage", function (id, time, message){
                 console.log("showMessage");
