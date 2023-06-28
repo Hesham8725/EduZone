@@ -55,6 +55,10 @@ namespace EduZone.Models
         public virtual DbSet<ChatGroup> GetChatGroups { get; set; }
         public virtual DbSet<Department> GetDepartments { get; set; }
         public virtual DbSet<Course> GetCourses { get; set; }
+        public virtual DbSet<ChatIndividual> GetChatIndividual { get; set; }
+        public virtual DbSet<CurrantUserIsOnline> GetIsOnlines { get; set; }
+        public virtual DbSet<LastMessageInChatIndividual> GetLastMessage { get; set; }
+        public virtual DbSet<OnlineUSers> GetOnlineUSers { get; set; }
        
 
         public static ApplicationDbContext Create()

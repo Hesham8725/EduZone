@@ -214,6 +214,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
     <Compile Include="Controllers\EducatorTestController.cs" />
@@ -227,34 +228,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Hubs\ChatGroupHub.cs" />
-    <Compile Include="Hubs\PostHub.cs" />
-    <Compile Include="Migrations\202306181811206_Abdallah_1.cs" />
-    <Compile Include="Migrations\202306181811206_Abdallah_1.designer.cs">
-      <DependentUpon>202306181811206_Abdallah_1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306211544209_Abdallah_2.cs" />
-    <Compile Include="Migrations\202306211544209_Abdallah_2.designer.cs">
-      <DependentUpon>202306211544209_Abdallah_2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306221108474_Abdallah_3.cs" />
-    <Compile Include="Migrations\202306221108474_Abdallah_3.designer.cs">
-      <DependentUpon>202306221108474_Abdallah_3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306231355207_Abdallah_4.cs" />
-    <Compile Include="Migrations\202306231355207_Abdallah_4.designer.cs">
-      <DependentUpon>202306231355207_Abdallah_4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306232054328_Abdallah_5.cs" />
-    <Compile Include="Migrations\202306232054328_Abdallah_5.designer.cs">
-      <DependentUpon>202306232054328_Abdallah_5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChatGroup.cs" />
+    <Compile Include="Models\ChatIndividual.cs" />
     <Compile Include="Models\CommentForPostInGroup.cs" />
     <Compile Include="Models\CommentForPostInTimeLine.cs" />
     <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\CurrantUserIsOnline.cs" />
     <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\LastMessageInChatIndividual.cs" />
     <Compile Include="Models\LikeForPostInGroup.cs" />
     <Compile Include="Models\LikeForPostInTimeLine.cs" />
     <Compile Include="Models\OnlineUSers.cs" />
@@ -270,7 +251,6 @@
     <Compile Include="MyHubs\OnlineUserHub.cs" />
     <Compile Include="MyHubs\postGroupHub.cs" />
     <Compile Include="MyHubs\PostHub.cs" />
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Class\GetFileSize.cs" />
     <Compile Include="Models\Class\GetTypeOfFile.cs" />
     <Compile Include="Models\Educator.cs" />
@@ -508,23 +488,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306280942408_A_1.resx">
-      <DependentUpon>202306280942408_A_1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306211544209_Abdallah_2.resx">
-      <DependentUpon>202306211544209_Abdallah_2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306221108474_Abdallah_3.resx">
-      <DependentUpon>202306221108474_Abdallah_3.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306231355207_Abdallah_4.resx">
-      <DependentUpon>202306231355207_Abdallah_4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306232054328_Abdallah_5.resx">
-      <DependentUpon>202306232054328_Abdallah_5.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="Migrations\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
