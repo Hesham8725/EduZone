@@ -22,18 +22,19 @@
         height: 100%;
         background-color: rgb(52 129 64 / 60%);
     }
+    
 </style>
 <div class="overlay">
-    <div class="card text-center w-50 align-content-center" style=" font-family: 'Signika', sans-serif;margin-top:25vh;margin-left:25%">
-        <div class="card-header h5 text-white bg-primary">Enter verification code</div>
+    <div class="card text-center w-50 align-content-center " style=" font-family: 'Signika', sans-serif;margin-top:25vh;margin-left:25%">
+        <div class="card-header h5 text-white " style="background-color: rgb(52 129 64 / 60%);">Enter verification code</div>
         @using (Html.BeginForm("ConfirmEmail", "Account", FormMethod.Post))
         {
-            <div class="form-floating mb-3">
-                @Html.ValidationSummary(false, "", new { @class = "text-danger" })
-                <input type="text" class="form-control w-75 mt-5" style="margin-left:80px;" name="code" id="floatingInput" placeholder="Enter code">
+            @Html.ValidationSummary(false, "", new { @class = "text-danger ms-5 mt-2 text-start" })
+            <div class="form-floating mb-2">
+                <input type="text" class="form-control w-75 mt-2" style="margin-left:80px;" name="code" id="floatingInput" placeholder="Enter code">
                 <label style="margin-left:80px;" for="floatingInput">Add Code Here</label>
             </div>
-            <input type="submit" value="submit" class="btn btn-primary w-75 p-2 m-3">
+            <input type="submit" value="submit" class="btn w-75 p-2 m-3" style="background-color: rgb(52 129 64 / 60%);">
         }
     </div>
 

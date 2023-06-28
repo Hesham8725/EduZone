@@ -118,14 +118,23 @@
     <Reference Include="Microsoft.Web.Infrastructure, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.2.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Web.Mvc, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Mvc2Futures.2.0.50217.0\lib\Microsoft.Web.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="MimeKit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=bede1c8a46c66814, processorArchitecture=MSIL">
       <HintPath>..\packages\MimeKit.4.0.0\lib\net48\MimeKit.dll</HintPath>
+    </Reference>
+    <Reference Include="MvcContrib, Version=2.0.95.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcContrib.2.0.95.0\lib\MvcContrib.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
+    </Reference>
+    <Reference Include="Rotativa, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Rotativa.1.7.3\lib\net461\Rotativa.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
@@ -224,6 +233,12 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\ChatIndividual.cs" />
+    <Compile Include="Models\ChatGroup.cs" />
+    <Compile Include="Models\CurrantUserIsOnline.cs" />
+    <Compile Include="Models\LastMessageInChatIndividual.cs" />
+    <Compile Include="Models\OnlineUSers.cs" />
+    <Compile Include="Models\Class\SendEmailDegree.cs" />
     <Compile Include="Models\Question.cs" />
     <Compile Include="Models\Exam.cs" />
     <Compile Include="Models\QuestionOption.cs" />
@@ -232,8 +247,15 @@
     <Compile Include="Models\Comment.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\Like.cs" />
+    <Compile Include="Models\StudentAnswer.cs" />
     <Compile Include="Models\StudentExamDegree.cs" />
+    <Compile Include="Models\ViewModels\ExtraInfoOfMailOfDoctorViewModel.cs" />
+    <Compile Include="Models\ViewModels\UsersAndLastSeenViewModel.cs" />
+    <Compile Include="Models\ViewModels\StudentAnswerDegreeViewModel.cs" />
+    <Compile Include="MyHubs\ChatIndividualHub.cs" />
+    <Compile Include="MyHubs\OnlineUserHub.cs" />
     <Compile Include="MyHubs\HubClass.cs" />
+    <Compile Include="MyHubs\ChatGroupHub.cs" />
     <Compile Include="MyHubs\postGroupHub.cs" />
     <Compile Include="MyHubs\PostHub.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -243,19 +265,20 @@
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\GroupMaterial.cs" />
     <Compile Include="Models\GroupsMembers.cs" />
-    <Compile Include="Models\RandomGroupCode.cs" />
+    <Compile Include="Models\Class\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Models\Batch.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MailOfDoctors.cs" />
     <Compile Include="Models\ViewModels\ManageViewModels.cs" />
-    <Compile Include="Models\RandomPasswordCode.cs" />
+    <Compile Include="Models\Class\RandomPasswordCode.cs" />
     <Compile Include="Models\ViewModels\RoleViewModel.cs" />
-    <Compile Include="Models\SendEmail.cs" />
+    <Compile Include="Models\Class\SendEmail.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Models\ViewModels\StudentProfile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FormatOtherUser.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -321,6 +344,7 @@
     <Content Include="Content\bootstrap-grid.rtl.css.map" />
     <Content Include="Content\bootstrap-grid.min.css.map" />
     <Content Include="Content\bootstrap-grid.css.map" />
+    <Content Include="App_Browsers\qt.browser" />
     <None Include="Dockerfile" />
     <None Include=".dockerignore">
       <DependentUpon>Dockerfile</DependentUpon>
@@ -467,6 +491,8 @@
     <Content Include="Views\Educator\UpdateExam.cshtml" />
     <Content Include="Views\Student\Exam.cshtml" />
     <Content Include="Views\Student\OpenExam.cshtml" />
+    <Content Include="Views\Student\StudentAnswer.cshtml" />
+    <Content Include="Views\Chat\Chat_with_one.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />

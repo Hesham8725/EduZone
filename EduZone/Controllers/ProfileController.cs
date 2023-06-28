@@ -236,6 +236,7 @@ namespace EduZone.Controllers
             ViewBag.name = user.Name;
             ViewBag.email = user.Email;
             ViewBag.nationalId = user.NationalID;
+            ViewBag.id = user.Id;
             return View(educator);
         }
         public string GetUser()

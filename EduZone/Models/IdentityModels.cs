@@ -49,6 +49,14 @@ namespace EduZone.Models
         public virtual DbSet<Question> GetQuestions { get; set; }
         public virtual DbSet<StudentExamDegree> GetSudentExamDegrees { get; set; }
         public virtual DbSet<QuestionOption> GetQuestionOptions { get; set; }
+        public virtual DbSet<StudentAnswer> GetStudentAnswers { get; set; }
+
+        public virtual DbSet<ChatIndividual> GetChatIndividual { get; set; }
+        public virtual DbSet<CurrantUserIsOnline> GetIsOnlines { get; set; }
+        public virtual DbSet<LastMessageInChatIndividual> GetLastMessage { get; set; }
+        public virtual DbSet<OnlineUSers> GetOnlineUSers { get; set; }
+        public virtual DbSet<ChatGroup> GetChatGroups { get; set; }
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using System.Security.Claims;
 using System.IO;
 using Microsoft.AspNet.Identity;
+using System.Threading.Tasks;
+using Rotativa;
 
 namespace EduZone.Controllers
 {
@@ -23,7 +25,6 @@ namespace EduZone.Controllers
         {
             return View();
         }
-
         public ActionResult GetBatches(int BN=0)
         {
             ViewBag.BN = BN;
@@ -39,7 +40,6 @@ namespace EduZone.Controllers
             }
             return View(students);
         }
-
         public ActionResult Exam()
         {
             List<Exam> exams = new List<Exam>();
@@ -70,19 +70,33 @@ namespace EduZone.Controllers
             return View(Exam);
         }
         [HttpPost]
-        public ActionResult SaveExam(int id,string StudentName,string SNumber,string Student_ID)
+        public async Task<ActionResult> SaveExam(int id,string StudentName,string SNumber,string Student_ID)
         {
             var exam = context.GetExams.FirstOrDefault(e => e.Id == id);
             int Degre = 0;
             var Questions = context.GetQuestions.Where(e => e.ExamId == id).ToList();
             int N = Questions.Count();
+            StudentAnswer answer = null;
             for (int i = 0; i < N; i++)
             {
                 string v = Request.Form[$"QR{i}"].ToString();
+                 answer = new StudentAnswer()
+                {
+                    Answer = v,
+                    QuestionID = Questions[i].Id,
+                    ExamID = Questions[i].ExamId,
+                    StudentID = Student_ID,
+                    AnswerVale = 0
+                };
+
                 if (Request.Form[$"QR{i}"] != null&& Questions[i].CorrectAnswer == Request.Form[$"QR{i}"].ToString())
                 {
                     Degre += Questions[i].Point;
+                    answer.AnswerVale = Questions[i].Point;
+
                 }
+                context.GetStudentAnswers.Add(answer);
+                context.SaveChanges();
             }
 
             StudentExamDegree sudentExamDegree = new StudentExamDegree()
@@ -100,7 +114,11 @@ namespace EduZone.Controllers
             //Send Email ?
             if (Request.Form["Send"]!=null&& Request.Form["Send"].ToString() == "1")
             {
-                //Send code
+                string Calback = Url.Action("StudentAnswer", "Student", new { ExamId = answer.ExamID, StudentID = answer.StudentID }, protocol: Request.Url.Scheme);
+                SendEmailDegree send = new SendEmailDegree(Calback);
+                var Sidx = answer.StudentID;
+                var mail = context.Users.FirstOrDefault(e => e.Id == Sidx).Email;
+                await send.SendEmailAsync(mail);
             }
 
             // return to First Page
@@ -127,5 +145,25 @@ namespace EduZone.Controllers
 
             return RedirectToAction("Exam",exams);
         }
+        public ActionResult StudentAnswer(int ExamId , string StudentID)
+        {
+            var ExDegree = context.GetSudentExamDegrees.FirstOrDefault(e => e.ExamID == ExamId && e.StudentID == StudentID);
+            var studentAnswer = context.GetStudentAnswers.Where(e => e.ExamID == ExamId && e.StudentID == StudentID).ToList();
+            StudentAnswerDegreeViewModel model = new StudentAnswerDegreeViewModel()
+            {
+                studentAnswers = studentAnswer,
+                examDegree = ExDegree
+            };
+            return View(model);
+        }
+        public async Task <ActionResult> SendTest(int ExamId, string StudentID)
+        {
+            string Calback = Url.Action("StudentAnswer", "Student", new { ExamId = ExamId, StudentID = StudentID }, protocol: Request.Url.Scheme);
+            SendEmailDegree send = new SendEmailDegree(Calback);
+            await send.SendEmailAsync("heshamabdelbast87@gmail.com");
+
+            return RedirectToAction("Index");
+        }
+        
     }
 }

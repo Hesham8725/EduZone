@@ -74,6 +74,7 @@ namespace EduZone.Models
         public string NationalID { get; set; }
 
         public string Address { get; set; }
+            
 
         [Required]
         [Display(Name = "Email")]

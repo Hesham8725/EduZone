@@ -23,7 +23,7 @@ namespace EduZone.Controllers
             return View(data);
         }
 
-        [HttpPost]
+        [HttpPost, ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult AddPost(Post post , HttpPostedFileBase File)
         {

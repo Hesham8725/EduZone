@@ -32,6 +32,7 @@ namespace EduZone.Models
 
         [ForeignKey("Group")]
         public string GroupId { get; set; }
+        public string ImageUrl { get; set; }
 
         public Group Group { get; set; }
 

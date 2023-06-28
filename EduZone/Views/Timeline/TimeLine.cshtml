@@ -1,6 +1,7 @@
 ﻿@using EduZone.Models
 @using Microsoft.AspNet.Identity;
 @using System.Linq;
+@using System.Web;
 @model List<Post>
 <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
 @{
@@ -8,90 +9,98 @@
     string UserID = User.Identity.GetUserId();
 }
 <main class="container my-3 pb-4">
-    @using (Html.BeginForm("AddPost", "Timeline", FormMethod.Post, new { @class = "mt-5" , enctype = "multipart/form-data" }))
+    @if (User.IsInRole("Educator"))
     {
-    <div class="timeline ">
-        <div class="photo-name">
-            <img class="photo-profile" src="~/Images/@context.Users.FirstOrDefault(e=>e.Id== UserID).Image" alt="doctor" />
-            <div class="info">
-                <h2 class="info-name">@context.Users.FirstOrDefault(e => e.Id == UserID).Name</h2>
+        using (Html.BeginForm("AddPost", "Timeline", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data" }))
+        {
+            <div class="timeline ">
+                <div class="photo-name">
+                    <img class="photo-profile" src="~/Images/@context.Users.FirstOrDefault(e => e.Id == UserID).Image" alt="doctor" />
+                    <div class="info">
+                        <h2 class="info-name">@context.Users.FirstOrDefault(e => e.Id == UserID).Name</h2>
+                    </div>
+                </div>
+                @Html.AntiForgeryToken()
+                <textarea class="m-3" id="ContentOfPost" placeholder="Write new announcement..."></textarea>
+                <div class="w-100">
+                    <input type="file" name="File" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
+                    <img id="PostImage" class="w-100 m-1" />
+                </div>
+                <div class="line"></div>
+                <input type="text" id="Hiddenitem" name="ContentOfPost" style="display: none;" />
+                <div class="like-comment live-photo">
+                    <div>
+                        <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo/video</span>
+                    </div>
+                    <button type="submit" onmouseover="ChangeText()" class="btn btn-outline-success"> POST </button>
+                </div>
             </div>
-        </div>
-        @Html.AntiForgeryToken()
-        <textarea class="m-3" name="ContentOfPost" id="ContentOfPost" placeholder="Write new announcement...">Title: </textarea>
-        <div class="w-100">
-            <input type="file"name="File" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
-            <img id="PostImage" class="w-100 m-1" />
-        </div>
-        <div class="line"></div>
-
-        <div class="like-comment live-photo">
-            <div>
-                <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo/video</span>
-            </div>
-            <button type="submit" class="btn btn-outline-success"> POST </button>
-        </div>
-    </div>
+        }
     }
+
     <div id="ishere">
 
     </div>
     @foreach (var item in Model)
     {
         string _id = item.UserId;
-<div class="timeline">
-    <div class="photo-name">
-        <img class="photo-profile" src="~/Images/@context.Users.Find(_id).Image" alt="photo" />
-        <div class="info">
-            <a data-user-id=@item.UserId data-item-id=@item.Id href="/Profile/Educator_profile/@_id"><h6 class="info-name">@context.Users.Find(_id).Name </h6></a>
-            <p class="info-date"> @item.Date </p>
-        </div>
-    </div>
-    <div data-user-id=@item.UserId data-item-id=@item.Id>
-        <pre class="news news-en">
-                   @item.ContentOfPost
-                </pre>
-    </div>
-    @if (item.ImageUrl != "" &&item.ImageUrl!=null )
-    {
-        <div class="w-100">
-            <img src="/Images/@item.ImageUrl" class="w-100 m-1" style="height:500px;" />
-        </div>
-    }
-    <div class="line"></div>
-    <div class="like-comment-p">
-        <div class="like-comment">
-            @if (context.Likes.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
-            {
-                <div style="cursor: pointer;">
-                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, true)">
-                        <i class="fa-solid fa-thumbs-up me-2 text-success"></i>
-                        <span class="text-secondary">Like</span>
-                    </a>
+        <div class="timeline">
+            <div class="photo-name">
+                <img class="photo-profile" src="~/Images/@context.Users.Find(_id).Image" alt="photo" />
+                <div class="info">
+                    <a data-user-id=@item.UserId data-item-id=@item.Id href="/Profile/Educator_profile/@_id"><h6 class="info-name">@context.Users.Find(_id).Name </h6></a>
+                    <p class="info-date"> @item.Date </p>
                 </div>
+            </div>
+            <div data-user-id=@item.UserId data-item-id=@item.Id>
+                @{ 
+                    var list = item.ContentOfPost.Split('`');
+                    foreach (var p in list)
+                    {
+                        <p>@p</p>
+                    }
+                }
+            </div>
+            @if (item.ImageUrl != "" && item.ImageUrl != null)
+            {
+                <div class="w-100">
+                    <img src="/Images/@item.ImageUrl" class="w-100 m-1" style="height:500px;" />
+                </div>
+            }
+            <div class="line"></div>
+            <div class="like-comment-p">
+                <div class="like-comment">
+                    @if (context.Likes.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
+                    {
+                        <div style="cursor: pointer;">
+                            <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, true ,false)">
+                                <i class="fa-solid fa-thumbs-up me-2 text-success chngcmnt"></i>
+                                <span class="text-secondary">Like</span>
+                            </a>
+                        </div>
 
-            }
-            else
-            {
-                <div style="cursor: pointer;">
-                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, false)">
-                        <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
-                        <span class="text-secondary">Like</span>
-                    </a>
+                    }
+                    else
+                    {
+                        <div style="cursor: pointer;">
+                            <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, false, false)">
+                                <i class="fa-solid fa-thumbs-up me-2 text-secondary chngcmnt"></i>
+                                <span class="text-secondary">Like</span>
+                            </a>
+                        </div>
+                    }
+                    <div> <a href="@Url.Action("ShowCommentOfPost",new {item.Id})" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a></div>
                 </div>
-            }
-            <div> <a href="@Url.Action("ShowCommentOfPost",new {item.Id})" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a></div>
+                <div class="number-like-comment">
+                    @{
+                        int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
+                        int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
+                    }
+                    <div data-user-id="@item.Id"><b class="lik">@numLk</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+                    <div data-user-id="@item.Id"><b class="comnt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
+                </div>
+            </div>
         </div>
-        <div class="number-like-comment">
-            @{
-                int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
-                int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
-            }
-            <div><b>@numLk</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-            <div data-user-id="@item.Id"><b>@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
-        </div>
-    </div>
-</div>
     }
 
     @*real time links*@
@@ -123,12 +132,12 @@
 
                                             </pre>
                                         </div>
-                                       
+
                                         <div class="line"></div>
                                         <div class="like-comment-p">
                                             <div class="like-comment">
                                                  <div style="cursor: pointer;">
-                                                        <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlikeTime('@User.Identity.GetUserId()',${NewPost.Id}, false)">
+                                                        <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlikeTime('@User.Identity.GetUserId()',${NewPost.Id}, false,true)">
                                                             <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
                                                             <span class="text-secondary">Like</span>
                                                         </a>
@@ -136,8 +145,8 @@
                                                 <div> <a href="/Timeline/ShowCommentOfPost?Id=${NewPost.Id}" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a> </div>‏
                                             </div>
                                             <div class="number-like-comment">
-                                                <div><b>0</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                                                <div><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
+                                               <div data-user-id=${NewPost.Id}><b class="lik">0</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                               <div data-user-id=${NewPost.Id}><b class="comnt">0</b><span class="ms-2 text-secondary">Comment</span> </div>
                                             </div>
                                         </div>
                                     </div>
@@ -166,7 +175,7 @@
                                         <div class="like-comment-p">
                                             <div class="like-comment">
                                                  <div style="cursor: pointer;">
-                                                        <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlikeTime('@User.Identity.GetUserId()',${NewPost.Id}, false)">
+                                                        <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlikeTime('@User.Identity.GetUserId()',${NewPost.Id}, false,true)">
                                                             <i class="fa-solid fa-thumbs-up me-2 text-secondary"></i>
                                                             <span class="text-secondary">Like</span>
                                                         </a>
@@ -174,12 +183,12 @@
                                                 <div> <a href="/Timeline/ShowCommentOfPost?Id=${NewPost.Id}" class="comment-btn"><i class="fa-solid fa-message me-2 text-secondary"></i> <span class="text-secondary">Comment</span> </a> </div>‏
                                             </div>
                                             <div class="number-like-comment">
-                                                <div><b>0</b><span class="ms-2 text-secondary likes-span">Like</span> </div>
-                                                <div><b>0</b><span class="ms-2 text-secondary">Comment</span> </div>
+                                                <div data-user-id=${NewPost.Id}><b class="lik">0</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                               <div data-user-id=${NewPost.Id}><b class="comnt">0</b><span class="ms-2 text-secondary">Comment</span> </div>
                                             </div>
                                         </div>
                                     </div>
-                                    `
+                                      `
                         $('#ishere').prepend(con);
                         }
                         //CONTENT
@@ -193,33 +202,54 @@
                         const date = new Date();
                         const formattedDate = `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()} ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
                         $(str2).append(formattedDate);
+
                     });
-                   proxy.on("NewCommentAdded", function (msg, usr, comid, numComents,img,postid) {
-                        $("div[data-user-id='" + postid + "']").find("b").text(numComents);
-                   });
-                    proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr) {
-                        var icon = $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find("i.fa-thumbs-up");
-                        icon.addClass("text-" + clr);
-                        location.reload();
+
+                    proxy.on("NewCommentAdded", function (msg, usr, comid, numComents, img, postid) {
+                        $("div[data-user-id='" + postid + "']").find(".comnt").text(numComents);
                     });
+
+                    proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr, numLik, realLike) {
+                        if (realLike) {
+                            var newIcon = $("<i>").addClass("fa-solid fa-thumbs-up").addClass("text-" + clr);
+                            $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find(".chngcmnt").empty().append(newIcon).append("<span class='ms-2  text-secondary'> Like </span>");
+                            $("div[data-user-id='" + pid + "']").find(".lik").text(numLik);
+                            location.reload();
+                        } else {
+                        var newIcon = $("<i>").addClass("fa-solid fa-thumbs-up").addClass("text-" + clr);
+                        $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find(".chngcmnt").empty().append(newIcon).append("<span class='ms-2  text-secondary'> Like </span>");
+                        $("div[data-user-id='" + pid + "']").find(".lik").text(numLik);
+                        }
+                    });
+
                 });
 
                 // call server method
-                function funlikeTime(uid, pid, flag) {
-                    proxy.invoke("AddlikeInTimeLine", uid, pid, flag);
+                function funlikeTime(uid, pid, flag,realLike) {
+                    proxy.invoke("AddlikeInTimeLine", uid, pid, flag, realLike);
                 };
-            function onFileSelected(event) {
-                var selectedFile = event.target.files[0];
-                var reader = new FileReader();
-                var imgtag = document.getElementById("PostImage");
-                imgtag.title = selectedFile.name;
-                reader.onload = function (event) {
-                    imgtag.src = event.target.result;
-                    imgtag.height = 500;
-                };
-                reader.readAsDataURL(selectedFile);
+                function onFileSelected(event) {
+                    var selectedFile = event.target.files[0];
+                    var reader = new FileReader();
+                    var imgtag = document.getElementById("PostImage");
+                    imgtag.title = selectedFile.name;
+                    reader.onload = function (event) {
+                        imgtag.src = event.target.result;
+                        imgtag.height = 500;
+                    };
+                    reader.readAsDataURL(selectedFile);
             }
-
+            function ChangeText() {
+                var textarea = document.getElementById("ContentOfPost");
+                var HiddenInput = document.getElementById("Hiddenitem");
+                const lines = textarea.value.split("\n");
+                var Resualt = "";
+                for (const line of lines) {
+                    Resualt +=  line + "`";
+                }
+                console.log(Resualt);
+                HiddenInput.value = Resualt;
+            }
         </script>
     }
 </main>

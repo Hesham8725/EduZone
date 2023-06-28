@@ -1,10 +1,14 @@
 ﻿using EduZone.Models;
 using EduZone.Models.Class;
+using EduZone.MyHubs;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.SignalR;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -63,7 +67,7 @@ namespace EduZone.Controllers
             context.SaveChanges();
 
             //return to page of group
-            return Content("Create");
+            return RedirectToAction(nameof(Index));
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -79,6 +83,7 @@ namespace EduZone.Controllers
                 if (YouInGroup.Count != 0)
                 {
                     return Content("You Are allredy Joined !");
+                    return RedirectToAction(nameof(Index));
                 }
                 else
                 {
@@ -96,10 +101,12 @@ namespace EduZone.Controllers
             }
             else
             {
+                //tempdate
                 return Content("Not found");
+                return RedirectToAction(nameof(Index));
             }
         }
-        public ActionResult Group_Post(string GroupCode)
+        public async Task<ActionResult> Group_Post(string GroupCode)
         {
             // first Get Group
             var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
@@ -107,8 +114,31 @@ namespace EduZone.Controllers
             ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
+            var data = await context.PostInGroups.OrderByDescending(x => x.Date).ToListAsync();
 
-            return View();
+            return View(data);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult AddPost(PostInGroup post, string GrpCode)
+        {
+            post.UserName = User.Identity.Name;
+            post.UserId = User.Identity.GetUserId();
+            post.Date = DateTime.Now;
+            post.GroupId = GrpCode;
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
+            }
+            context.PostInGroups.Add(post);
+            context.SaveChanges();
+            var idx = post.UserId;
+            var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
+            var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
+            IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name);
+
+            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
         }
         public ActionResult Group_Material(string GroupCode)
         {
@@ -203,7 +233,38 @@ namespace EduZone.Controllers
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
 
-            return View();
+            string userId = User.Identity.GetUserId();
+            var membar = context.GetGroupsMembers.FirstOrDefault(e => e.MemberId == userId);
+            var datOfJoin = membar.TimeGoin;
+
+            var chatGroup = context.GetChatGroups.OrderBy(e => e.CreatedAt).Where(e => e.GroupName == GroupValue.GroupName && e.CreatedAt >= datOfJoin).ToList();
+            foreach (var item in chatGroup)
+            {
+                if (DateTime.Now.Day - item.CreatedAt.Day == 0 && DateTime.Now.Month - item.CreatedAt.Month == 0
+                                        && DateTime.Now.Year - item.CreatedAt.Year == 0)
+                {
+                    item.time = item.CreatedAt.ToString("h: mm tt") + " Today";
+                }
+                else if (DateTime.Now.Day - item.CreatedAt.Day == 1
+                                        && DateTime.Now.Month - item.CreatedAt.Month == 0
+                                        && DateTime.Now.Year - item.CreatedAt.Year == 0)
+                {
+                    item.time = item.CreatedAt.ToString("h: mm tt") + " Yestarday";
+                }
+                else if (DateTime.Now.Day - item.CreatedAt.Day <= 7
+                                        && DateTime.Now.Month - item.CreatedAt.Month == 0
+                                        && DateTime.Now.Year - item.CreatedAt.Year == 0)
+                {
+                    item.time = item.CreatedAt.ToString("h: mm tt ") + item.CreatedAt.DayOfWeek;
+                }
+                else
+                {
+                    item.time = item.CreatedAt.ToString("MM/dd/yyyy hh:mmtt");
+                }
+            }
+            //chatGroup.Reverse();
+
+            return View(chatGroup);
         }
         public ActionResult Group_About(string GroupCode)
         {

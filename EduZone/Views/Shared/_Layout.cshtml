@@ -1,5 +1,7 @@
 ﻿@using System.Security.Claims;
 @using EduZone.Models;
+@using Microsoft.AspNet.Identity
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -42,7 +44,7 @@
 
             if (user1 == null || user1.Image == null)
             {
-                path = "malefemale.jpg";
+                path = "Profile.jpeg";
             }
             else
             {
@@ -51,7 +53,7 @@
         }
 
 
-<!-- Sidebar Section --><div class="sidebar closee">
+        <!-- Sidebar Section --><div class="sidebar closee">
             <!-- logo -->
             <div class="logo-details">
                 <i class='bx bxs-graduation'></i>
@@ -201,7 +203,7 @@
                         <span class=" me-2" style="color:#69B986">
                             @if (Request.IsAuthenticated)
                             {
-                                <h6>@User.Identity.Name.Split('.', '@')[0]</h6>
+                                <h6 class="mt-2 me-1">@User.Identity.Name.Split('.', '@')[0]</h6>
                             }
                         </span>
                         <div class="rounded-circle border d-flex justify-content-center align-items-center" style="width:45px;height:45px" alt="Avatar">
@@ -229,6 +231,25 @@
         <!-- End -->
         @RenderSection("bottom_Link", false);
     }
+    <script>
+          let prox2 = '';
+        $(function () {
+
+            console.log("functoin Onload");
+
+            var con = $.hubConnection();
+
+            prox2 = con.createHubProxy("OnlineUserHub");
+
+            con.start();
+
+            prox2.on("onlineUser", function (connectedid) {
+                var userid = '@User.Identity.GetUserId()';
+                prox2.invoke("setOnlineUser", userid);
+            })
+        })
+
+    </script>
 </body>
 
 </html>
