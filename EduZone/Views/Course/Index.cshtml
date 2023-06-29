@@ -15,25 +15,43 @@
         btnVal = "Update";
     }
     int count = 1;
-
+    var level = new List<string> { "--select--", "First level", "Second level", "Third level", "Fourth level" };
+    var semester = new List<string> { "--select--", "First semester", "Second semester" };
+    var hour = new List<string> { "--select--", "1", "2", "3", "4" };
+    var test = new List<string> { "--select--","test1", "test2", "test3", "test4" };
+    
+    SelectList AllDepartments = null;
+    SelectList AllDoctors = null;
+    SelectList levels = null;
+    SelectList semesters = null;
+    SelectList hours = null;
     if (Model != null)
     {
-        SelectList AllDoctors = new SelectList(ViewBag.AllDoctors, "Name", "Name", Model.DoctorOfCourse);
+        AllDoctors = new SelectList(ViewBag.AllDoctors, "Name", "Name", Model.DoctorOfCourse);
         foreach (var item in ViewBag.AllDepartments)
         {
             if (item.Id == Model.DepartmentId)
             {
-                //SelectList AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name");
+                AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name", item.Name);
+                break;
             }
         }
-        SelectList AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name");
+        levels = new SelectList(level, Model.Level);
+        semesters = new SelectList(semester, Model.Semester);
+        hours = new SelectList(hour, Model.NumberOfHours);
     }
     else
     {
 
-        SelectList AllDoctors = new SelectList(ViewBag.AllDoctors, "Name", "Name", "--select--");
-        SelectList AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name", "--select--");
+        AllDoctors = new SelectList(ViewBag.AllDoctors, "Name", "Name", "--select--");
+        AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name", "--select--");
+        levels = new SelectList(level, "--select--");
+        semesters = new SelectList(semester, "--select--");
+        hours = new SelectList(hour, "--select--");
     }
+
+
+
 }
 
 <div id="blur" class="cont d-flex rounded-2 mt-3">
@@ -51,43 +69,65 @@
                 @Html.TextBoxFor(c => c.Description, new { @class = "form-control" })
                 @Html.ValidationMessage("Description", new { @class = "text-danger" })
 
+                @Html.LabelFor(c => c.Level, new { @class = "d-block form-label fw-semibold mt-2" })
+                @*@Html.TextBoxFor(c => c.Level, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.Level, levels, new { @class = "form-control" })
+                @Html.ValidationMessage("Level", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.Semester, new { @class = "d-block form-label fw-semibold mt-2" })
+                @*@Html.TextBoxFor(c => c.Semester, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.Semester, semesters, new { @class = "form-control" })
+                @Html.ValidationMessage("Semester", new { @class = "text-danger" })
+
                 @Html.LabelFor(c => c.DoctorOfCourse, new { @class = "d-block form-label fw-semibold mt-2" })
                 @Html.TextBoxFor(c => c.DoctorOfCourse, new { @class = "form-control" })
-                @*@Html.DropDownList("DoctorOfCourse", docs, new { @class = "form-control" })*@
+                @*@Html.DropDownListFor(c=>c.DoctorOfCourse, AllDoctors, new { @class = "form-control" })*@
                 @Html.ValidationMessage("DoctorOfCourse", new { @class = "text-danger" })
 
                 @Html.LabelFor(c => c.NumberOfHours, new { @class = "d-block form-label fw-semibold mt-2" })
-                @Html.TextBoxFor(c => c.NumberOfHours, new { @class = "form-control" })
+                @*@Html.TextBoxFor(c => c.NumberOfHours, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.NumberOfHours, hours, new { @class = "form-control" })
                 @Html.ValidationMessage("NumberOfHours", new { @class = "text-danger" })
 
                 @Html.LabelFor(c => c.DepartmentId, new { @class = "d-block form-label fw-semibold mt-2" })
                 @Html.TextBoxFor(c => c.DepartmentId, new { @class = "form-control" })
-                @*@Html.DropDownList("DepartmentID", depts, new { @class = "form-control" })*@
-                @Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })
+                @*@Html.DropDownListFor(c => c.DepartmentId, AllDepartments, new { @class = "form-control" })*@
+                @*@Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })*@
             }
             else
             {
-                <label class="form-label fw-semibold mt-2">Name</label>
+                <label class="d-block form-label fw-semibold mt-2">Name</label>
                 <input class="form-control" type="text" name="CourseName" value="">
                 @Html.ValidationMessage("CourseName", new { @class = "text-danger" })
 
-                <label class="form-label fw-semibold mt-2">Description</label>
+                <label class="d-block form-label fw-semibold mt-2">Description</label>
                 <input class="form-control" type="text" name="Description" value="">
                 @Html.ValidationMessage("Description", new { @class = "text-danger" })
 
-                <label class="form-label fw-semibold mt-2">Doctor</label>
+                <label class="d-block form-label fw-semibold mt-2">Level</label>
+                @*<input class="form-control" type="text" name="Level" value="">*@
+                @Html.DropDownListFor(c => c.Level, levels, new { @class = "form-control" })
+                @Html.ValidationMessage("Level", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Semester</label>
+                @*<input class="form-control" type="text" name="Semester" value="">*@
+                @Html.DropDownListFor(c => c.Semester, semesters, new { @class = "form-control" })
+                @Html.ValidationMessage("Semester", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Doctor</label>
                 <input class="form-control" type="text" name="DoctorOfCourse" value="">
-                @*@Html.DropDownList("DoctorOfCourse", docs, new { @class = "form-control" })*@
+                @*@Html.DropDownListFor(c=>c.DoctorOfCourse, AllDoctors, new { @class = "form-control" })*@
                 @Html.ValidationMessage("DoctorOfCourse", new { @class = "text-danger" })
 
-                <label class="form-label fw-semibold mt-2">Hours</label>
-                <input class="form-control" type="text" name="NumberOfHours" value="">
+                <label class="d-block form-label fw-semibold mt-2">Hours</label>
+                @*<input class="form-control" type="text" name="NumberOfHours" value="">*@
+                @Html.DropDownListFor(c => c.NumberOfHours, hours, new { @class = "form-control" })
                 @Html.ValidationMessage("NumberOfHours", new { @class = "text-danger" })
 
-                <label class="form-label fw-semibold mt-2">Department</label>
-                <input class="form-control" type="number" name="DepartmentID" value="">
-                @*@Html.DropDownList("DepartmentID", depts, new { @class = "form-control" })
-                    @Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })*@
+                <label class="d-block form-label fw-semibold mt-2">Department</label>
+                @*<input class="form-control" type="number" name="DepartmentID" value="">*@
+                @Html.DropDownListFor(c => c.DepartmentId, AllDepartments, new { @class = "form-control" })
+                @*@Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })*@
             }
             <input type="submit" value="@btnVal" class="btn btn-success mt-2" style="width:100%;">
         </form>
@@ -100,6 +140,8 @@
                     <th scope="col">#</th>
                     <th scope="col">Name</th>
                     <th scope="col">Description</th>
+                    <th scope="col">Level</th>
+                    <th scope="col">Semester</th>
                     <th scope="col">Doctor </th>
                     <th scope="col">Hours </th>
                     <th scope="col">Department </th>
@@ -113,6 +155,8 @@
                         <th scope="row">@count</th>
                         <td>@item.CourseName</td>
                         <td>@item.Description</td>
+                        <td>@item.Level</td>
+                        <td>@item.Semester</td>
                         <td>@item.DoctorOfCourse</td>
                         <td>@item.NumberOfHours</td>
                         <td>@item.DepartmentId</td>

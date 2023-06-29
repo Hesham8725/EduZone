@@ -45,7 +45,7 @@ namespace EduZone.Controllers
                 ViewBag.LstOfCourses = crs;
                 ViewBag.AllDoctors = ListOfDoctor();
                 ViewBag.AllDepartments = context.GetDepartments.ToList();
-                return View();
+                return RedirectToAction("Index");
             }
             else
             {
@@ -76,12 +76,14 @@ namespace EduZone.Controllers
             c.DoctorOfCourse = course.DoctorOfCourse;
             c.NumberOfHours = course.NumberOfHours;
             c.DepartmentId = course.DepartmentId;
+            c.Level = course.Level;
+            c.Semester = course.Semester;
             context.SaveChanges();
             ViewBag.AllDoctors = ListOfDoctor();
             ViewBag.AllDepartments = context.GetDepartments.ToList();
             var crs = context.GetCourses.ToList();
             ViewBag.LstOfCourses = crs;
-            return View("Index");
+            return RedirectToAction("Index");
         }
         public ActionResult Delete(int Id)
         {
@@ -95,5 +97,6 @@ namespace EduZone.Controllers
             ViewBag.AllDepartments = context.GetDepartments.ToList();
             return RedirectToAction("Index");
         }
+
     }
 }
