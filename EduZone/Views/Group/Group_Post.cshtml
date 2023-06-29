@@ -41,49 +41,64 @@
         </div>
         @foreach (var item in Model)
         {
-            <div class="timeline">
-                <div class="photo-name">
-                    <img class="photo-profile" src="~/Images/Femala.png" alt="">
-                    <div class="info">
-                        <a data-user-id=@item.UserId data-item-id=@item.Id href=""><h6 class="info-name">@item.UserName </h6></a>
-                        <p class="info-date">@item.Date</p>
-                    </div>
-                </div>
-                <div data-user-id=@item.UserId data-item-id=@item.Id>
-                    <pre class="news news-en">
-                   @item.ContentOfPost
-                </pre>
-                </div>
-                <div class="line"></div>
-                <div class="like-comment-p">
-                    <div class="like-comment">
-                        @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
-                        {
-                            <div style="cursor: pointer;">
-                                    <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
-                                        <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
-                                        <span class="text-secondary">Like</span>
-                                    </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div style="cursor: pointer;">
-                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
-                                    <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary" ></i>
-                                    <span class="text-secondary">Like</span>
-                                </a>
-                            </div>
-                        }
-                    </div>
-                    <div class="number-like-comment">
-                        @{
-                            int numcom = context.LikeForPostInGroups.Where(p => p.PostId == item.Id).Count();
-                        }
-                        <div data-user-id="@item.Id"><b class="lik">@numcom</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
-                    </div>
+    <div class="timeline" id="@item.Id">
+        <div class="d-flex justify-content-between">
+            <div class="photo-name">
+                <img class="photo-profile" src="~/Images/Femala.png" alt="">
+                <div class="info">
+                    <a data-user-id=@item.UserId data-item-id=@item.Id href=""><h6 class="info-name">@item.UserName </h6></a>
+                    <p class="info-date">@item.Date</p>
                 </div>
             </div>
+            <div>
+                @if(item.UserId==User.Identity.GetUserId())
+                {
+                <li class="nav-item dropdown list-unstyled">
+                    <a class="active dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false">
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item text-success" href="#"> <i class="fa-solid fa-pencil me-2"></i> Update</a></li>
+                        <li><a class="dropdown-item text-danger"onclick="DeletePst(@item.Id)"> <i class="fa-solid fa-trash me-2"></i> Delete</a></li>
+                    </ul>
+                </li>
+                }
+            </div>
+        </div>
+        <div data-user-id=@item.UserId data-item-id=@item.Id>
+            <pre class="news news-en">
+                           @item.ContentOfPost
+                        </pre>
+        </div>
+        <div class="line"></div>
+        <div class="like-comment-p">
+            <div class="like-comment">
+                @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
+                {
+                    <div style="cursor: pointer;">
+                        <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
+                            <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
+                            <span class="text-secondary">Like</span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div style="cursor: pointer;">
+                        <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
+                            <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary"></i>
+                            <span class="text-secondary">Like</span>
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="number-like-comment">
+                @{
+                    int numcom = context.LikeForPostInGroups.Where(p => p.PostId == item.Id).Count();
+                }
+                <div data-user-id="@item.Id"><b class="lik">@numcom</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+            </div>
+        </div>
+    </div>
         }
         @section bottom_Link
         {
@@ -149,12 +164,19 @@
                         $("div[data-user-id='" + pid + "']").find(".lik").text(numLikss);
 
                     });
+
+                    proxy.on("DeletePostGroup", function (PostId) {
+                       document.getElementById(PostId).remove();
+                    });
                 });
                 // call server method
                 function funlike(uid, pid, flag) {
                     proxy.invoke("Addlike", uid, pid, flag,false);
-                    console.log(1);
-                };
+                }
+
+                function DeletePst(idPost) {
+                    proxy.invoke("DeletePostInGroup", idPost)
+                }
             </script>
         }
     </div>

@@ -45,7 +45,6 @@ namespace EduZone.Controllers
             context.Posts.Add(post);
             context.SaveChanges();
 
-           
 
             var Profileimage = context.Users.Find(post.UserId).Image;
             var name = context.Users.Find(post.UserId).Name;
