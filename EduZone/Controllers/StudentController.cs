@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Security.Claims;
 using System.IO;
+using Microsoft.AspNet.Identity;
 
 namespace EduZone.Controllers
 {
@@ -16,7 +17,9 @@ namespace EduZone.Controllers
         // GET: User
         public ActionResult Index()
         {
-            return View();
+            var currentUser = User.Identity.GetUserId();
+            var student = context.GetStudents.FirstOrDefault(c => c.AccountID == currentUser);
+            return View(student);
         }
         public ActionResult CourseEnrollment()
         {

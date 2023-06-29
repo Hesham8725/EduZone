@@ -48,6 +48,7 @@ namespace EduZone.Models
         public virtual DbSet<LikeForPostInGroup> LikeForPostInGroups { get; set; }
         public virtual DbSet<Department> GetDepartments { get; set; }
         public virtual DbSet<Course> GetCourses { get; set; }
+        public virtual DbSet<P_Registration> P_Registrations { get; set; }
 
         public static ApplicationDbContext Create()
         {

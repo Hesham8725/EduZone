@@ -1,5 +1,6 @@
-﻿@using Microsoft.AspNet.Identity
-
+﻿@using EduZone.Models
+@using Microsoft.AspNet.Identity;
+@model Student
 @{
     ViewBag.Title = "Index";
     string current_user = User.Identity.GetUserId();
@@ -9,5 +10,16 @@
 <h2>Welcame Student</h2>
 
 @Html.ActionLink("student profile", "std_profile", "Profile", new { id = current_user }, new { @class = "btn btn-outline-dark mt-auto" })
-@Html.ActionLink("AllChat", "AllChat", "Chat",null, new { @class = "btn btn-outline-dark mt-auto" })
-@Html.ActionLink("Pre-Registration", "Pre_Registration", "PreRegistration", null, new { @class = "btn btn-outline-dark mt-auto" })
+@Html.ActionLink("AllChat", "AllChat", "Chat", null, new { @class = "btn btn-outline-dark mt-auto" })
+
+
+@if ((Model.Department == null&&Model.Batch>2)||Model.Batch==0)
+{
+    @Html.ActionLink("Pre-Registration", "CollegeInfo", "Profile", null, new { onclick = "return confirm('You must complete your profile setting');", @class = "btn btn-outline-dark mt-auto" })
+
+}
+else
+{
+    @Html.ActionLink("Pre-Registration", "Pre_Registration", "PreRegistration", null, new { @class = "btn btn-outline-dark mt-auto" })
+
+}

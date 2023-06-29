@@ -152,6 +152,7 @@
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Activities" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -243,6 +244,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
@@ -256,13 +258,17 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306252133392_sasa.cs" />
-    <Compile Include="Migrations\202306252133392_sasa.designer.cs">
-      <DependentUpon>202306252133392_sasa.cs</DependentUpon>
+    <Compile Include="Migrations\202306290155492_asd.cs" />
+    <Compile Include="Migrations\202306290155492_asd.designer.cs">
+      <DependentUpon>202306290155492_asd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306261604595_departmentandcourses.cs" />
-    <Compile Include="Migrations\202306261604595_departmentandcourses.designer.cs">
-      <DependentUpon>202306261604595_departmentandcourses.cs</DependentUpon>
+    <Compile Include="Migrations\202306290159402_asds.cs" />
+    <Compile Include="Migrations\202306290159402_asds.designer.cs">
+      <DependentUpon>202306290159402_asds.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306292014228_editcourse.cs" />
+    <Compile Include="Migrations\202306292014228_editcourse.designer.cs">
+      <DependentUpon>202306292014228_editcourse.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Chat.cs" />
@@ -280,6 +286,7 @@
     <Compile Include="Models\LikeForPostInGroup.cs" />
     <Compile Include="Models\Post.cs" />
     <Compile Include="Models\PostInGroup.cs" />
+    <Compile Include="Models\P_Registration.cs" />
     <Compile Include="Models\RandomGroupCode.cs" />
     <Compile Include="Models\ViewModels\AccountViewModels.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -296,6 +303,7 @@
     <Compile Include="MyHubs\IndividuallyChat.cs" />
     <Compile Include="MyHubs\postGroupHub.cs" />
     <Compile Include="MyHubs\PostHub.cs" />
+    <Compile Include="MyHubs\PreRegistrationHub.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="obj\Release\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -434,6 +442,7 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\StyleSheet\addCourses.css" />
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
     <Content Include="Content\StyleSheet\chat2.css" />
@@ -654,6 +663,7 @@
     <Content Include="Views\Educator\CreateExam.cshtml" />
     <Content Include="Views\PreRegistration\Pre_Registration.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
@@ -672,11 +682,14 @@
     <Folder Include="bin\zh-Hant\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306252133392_sasa.resx">
-      <DependentUpon>202306252133392_sasa.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306290155492_asd.resx">
+      <DependentUpon>202306290155492_asd.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306261604595_departmentandcourses.resx">
-      <DependentUpon>202306261604595_departmentandcourses.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202306290159402_asds.resx">
+      <DependentUpon>202306290159402_asds.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306292014228_editcourse.resx">
+      <DependentUpon>202306292014228_editcourse.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

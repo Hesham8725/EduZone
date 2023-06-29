@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Activities.Expressions;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,25 +13,56 @@ namespace EduZone.Models
     {
         public int Id { get; set; }
 
-        [Display(Name = "Course ")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter Name  of Course")]
+        [Display(Name = "Course name")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Required")]
         public string CourseName { get; set; }
 
         [Display(Name = "Description ")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter Description of Course")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Required")]
         public string Description { get; set; }
 
-        [Display(Name = "Doctor Of Course ")]
+        [Display(Name = "Level")]
+        [Required(ErrorMessage = "Required")]
+        [NotEqual("--select--", ErrorMessage = "Required")]
+        public string Level { get; set; }
 
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Select doctor of Course")]
+        [Display(Name = "Semester")]
+        [Required(ErrorMessage = "Required")]
+        [NotEqual("--select--", ErrorMessage = "Required")]
+        public string Semester { get; set; }
+
+
+        [Display(Name = "Doctor")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Required")]
         public string DoctorOfCourse { get; set; }
-        [Display(Name = "Hour")]
-        [Required(AllowEmptyStrings = false, ErrorMessage = "Enter Number of Hours of Course")]
+
+        [Display(Name = "Hours")]
+        [Required(AllowEmptyStrings = false, ErrorMessage = "Required")]
+        [NotEqual("--select--", ErrorMessage = "Required")]
         public int NumberOfHours { get; set; }
 
         [ForeignKey("Department")]
         public int DepartmentId { get; set; }
         public virtual Department Department { get; set; }
 
+    }
+    public class NotEqualAttribute : ValidationAttribute
+    {
+        private readonly string _comparisonValue;
+
+        public NotEqualAttribute(string comparisonValue)
+        {
+            _comparisonValue = comparisonValue;
+        }
+
+        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+        {
+            if (value != null && value.ToString() == _comparisonValue)
+            {
+                return new ValidationResult(ErrorMessage);
+            }
+
+            return ValidationResult.Success;
+        }
     }
 }
