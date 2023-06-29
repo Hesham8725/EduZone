@@ -46,50 +46,6 @@ namespace EduZone.Hubs
         }
 
 
-        //public void SendImage(string userid, string imageData, string groupCode)
-        //{
-        //    ChatGroup chatGroup = new ChatGroup();
-
-        //    string image=SaveImageToFile(imageData);
-
-        //    var group = db.GetGroups.FirstOrDefault(e => e.Code == groupCode);
-        //    if (group != null)
-        //    {
-        //        chatGroup.GroupName = group.GroupName;
-        //    }
-        //    var user = db.Users.FirstOrDefault(e => e.Id == userid);
-        //    if (user != null)
-        //    {
-        //        chatGroup.Image = user.Image;
-        //        chatGroup.UserName = user.Name;
-        //    }
-        //    chatGroup.UserId = userid;
-        //    chatGroup.IsImage = true;
-        //    chatGroup.MessageContant = image;
-        //    chatGroup.CreatedAt = DateTime.Now;
-        //    db.GetChatGroups.Add(chatGroup);
-        //    db.SaveChanges();
-
-        //    Clients.All.ReceiveImage(image);
-        //}
-        //private string SaveImageToFile(string stringImage)
-        //{
-        //    byte[] imageBytes = Convert.FromBase64String(stringImage.Split(',')[1]);
-        //    MemoryStream ms = new MemoryStream(imageBytes, 0, imageBytes.Length);
-        //    ms.Write(imageBytes, 0, imageBytes.Length);
-        //    Image image = Image.FromStream(ms, true);
-
-        //    string fileName = Guid.NewGuid().ToString() + ".png"; // Generate a unique file name
-        //    string folderPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Images"); // Change "Images" to the directory where you want to save the image
-        //    string filePath = Path.Combine(folderPath, fileName);
-
-        //    using (var fileStream = new FileStream(filePath, FileMode.Create))
-        //    {
-        //        image.Save(fileStream, ImageFormat.Png);
-        //    }
-
-        //    return fileName;
-        //}
 
     }
 }

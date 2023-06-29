@@ -35,7 +35,7 @@
             <input type="text" onchange="search()" class="form-control" id="searchInput" name="search" placeholder="Search..." />
         </div>
 
-        <ul class="list-unstyled chat-list mt-2 mb-0" id="otherusers">
+        <ul class="list-unstyled chat-list mt-2 mb-0" id="users">
 
             @if (ViewBag.users != null)
             {
@@ -243,19 +243,21 @@
 
             prox.on("otherUsers", function (id, image, name, time,online, x) {
                 if (id == null && image == null && name == null && time == null && x == 0) {
-                    const list = document.getElementById("otherusers");
+                    const list = document.getElementById("users");
                     list.innerHTML = "";
 
                 }
-                else {
-                    if (x == 0) {
-                        const list = document.getElementById("otherusers");
+                else
+                {
+                    if (x == 0)
+                    {
+                        const list = document.getElementById("users");
                         list.innerHTML = "";
-
                     }
 
                     var user = '';
-                    if (id == '@ViewBag.OtherUser.Id') {
+                    if (id == '@ViewBag.OtherUser.Id')
+                    {
                         if (online == "Online") {
                             user += ' <li class="clearfix active" onclick="/chat/Chat_with_one/' + id + '">';
                             user += ' <a href="/chat/Chat_with_one/' + id + '">';
@@ -264,7 +266,8 @@
                             user += '<div class="status"><i class="fa fa-circle online"></i>' + online;
                             user += ' </div> </div> </div> </a>  </li>';
                         }
-                        else {
+                        else
+                        {
                             user += ' <li class="clearfix active" onclick="/chat/Chat_with_one/' + id + '">';
                             user += ' <a href="/chat/Chat_with_one/' + id + '">';
                             user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
@@ -274,8 +277,10 @@
                         }
 
                     }
-                    else {
-                        if (online == "Online") {
+                    else
+                    {
+                        if (online == "Online")
+                        {
                             user += ' <li class="clearfix " onclick="/chat/Chat_with_one/' + id + '">';
                             user += ' <a href="/chat/Chat_with_one/' + id + '">';
                             user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
@@ -283,7 +288,8 @@
                             user += '<div class="status"><i class="fa fa-circle online"></i>' + online;
                             user += ' </div> </div> </div> </a>  </li>';
                         }
-                        else {
+                        else
+                        {
                             user += ' <li class="clearfix " onclick="/chat/Chat_with_one/' + id + '">';
                             user += ' <a href="/chat/Chat_with_one/' + id + '">';
                             user += ' <div><img src="/Images/' + image + '"alt="avatar" />';
@@ -292,7 +298,7 @@
                             user += ' </div> </div> </div> </a>  </li>';
                         }
                     }
-                    $("#otherusers").append(user);
+                    $("#users").append(user);
                 }
            })
 
@@ -326,7 +332,7 @@
             const message = document.getElementById("txtMesg").value;
             prox.invoke("SendMessage", userid, message, '@ViewBag.OtherUser.Id');
             document.getElementById("txtMesg").value = "";
-
+            console.log(userid)
             console.log("end send");
         }
 
@@ -341,39 +347,5 @@
             console.log("end search");
         }
 
-
-        //function search() {
-        //    var searchTerm = $("#searchInput").val();
-        //    $.ajax({
-        //        type: "POST",
-        //        url: "/chat/Search",
-        //        data: { searchTerm: searchTerm },
-        //        success: function (response) {
-        //            var results = response;
-        //            var html = "";
-        //            if (results.length > 0) {
-        //                for (var i = 0; i < results.length; i++) {
-
-        //                    html += '<li class="clearfix">';
-        //                    html += ' <img src="~/Images/' + results[i].Image + '" alt="avatar" />';
-        //                    html += ' <div class="about">';
-        //                    html += '<a href="/chat/Chat_with_one/' + results[i].Id+'">';
-        //                    html += '<div class="name">' + results[i].Name +'</div> </a>';
-        //                    html += ' <div class="status">';
-        //                    html += '<i class="fa fa-circle offline"></i> left 7 mins ago </div>';
-        //                    html += ' </div></li>';
-
-        //                }
-        //            }
-        //            else {
-        //                html = "<p>No results found</p>";
-        //            }
-        //            $("#searchResults").html(html);
-        //        },
-        //        error: function (response) {
-        //            alert(response.responseText);
-        //        }
-        //    });
-        //};
     </script>
 }
