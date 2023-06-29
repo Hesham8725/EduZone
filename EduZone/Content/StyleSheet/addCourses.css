@@ -1,5 +1,5 @@
 .cont {
-  padding: 30px 40px;
+  
 }
 
 .cont#blur.active {
@@ -70,7 +70,7 @@
   width: 65%;
   margin: 0 auto;
 }
-
+/*
 .cont form {
   border: 1px solid #e7e7e7;
   border-radius: 15px;
@@ -79,7 +79,7 @@
   width: 65%;
   background-color: #e7e7e7;
   box-shadow: 0px 1px 17px -1px #b1b1e4;
-}
+}*/
 
 
 .inputbox {
