@@ -58,6 +58,7 @@
         hours = new SelectList(hour, "--select--");
     }
 
+    string deptName = "";
 
 
 }
@@ -98,8 +99,8 @@
                 @Html.ValidationMessage("NumberOfHours", new { @class = "text-danger" })
 
                 @Html.LabelFor(c => c.DepartmentId, new { @class = "d-block form-label fw-semibold mt-2" })
-                @Html.TextBoxFor(c => c.DepartmentId, new { @class = "form-control" })
-                @*@Html.DropDownListFor(c => c.DepartmentId, AllDepartments, new { @class = "form-control" })*@
+                @*@Html.TextBoxFor(c => c.DepartmentId, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.DepartmentId, AllDepartments, new { @class = "form-control" })
                 @*@Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })*@
             }
             else
@@ -159,24 +160,34 @@
             <tbody>
                 @foreach (var item in ViewBag.lstOfCourses)
                 {
-                    <tr>
-                        <th scope="row">@count</th>
-                        <td>@item.CourseName</td>
-                        <td>@item.Description</td>
-                        <td>@item.Level</td>
-                        <td>@item.Semester</td>
-                        <td>@item.DoctorOfCourse</td>
-                        <td>@item.NumberOfHours</td>
-                        <td>@item.DepartmentId</td>
-                        <td>
-                            @Html.ActionLink("Update", "Update", new { Id = item.Id }, new { @class = "btn btn-outline-success" })
-                            <a href="#" class="btn btn-outline-danger " onclick="toggle(@item.Id)" style="">Delete</a>
-                        </td>
-                    </tr>
+                    foreach (var x in ViewBag.AllDepartments)
+                    {
+                        if (item.DepartmentId == x.Id)
+                        {
+                            deptName = x.Name;
+                        }
+
+                    }
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@item.CourseName</td>
+                            <td>@item.Description</td>
+                            <td>@item.Level</td>
+                            <td>@item.Semester</td>
+                            <td>@item.DoctorOfCourse</td>
+                            <td>@item.NumberOfHours</td>
+                            <td>@deptName</td>
+
+                            <td>
+                                @Html.ActionLink("Update", "Update", new { Id = item.Id }, new { @class = "btn btn-outline-success" })
+                                <a href="#" class="btn btn-outline-danger " onclick="toggle(@item.Id)" style="">Delete</a>
+                            </td>
+                        </tr>
+
                     count++;
                 }
-            </tbody>
-        </table>
+                </tbody>
+            </table>
     </div>
 </div>
 @section bottom_Link{
