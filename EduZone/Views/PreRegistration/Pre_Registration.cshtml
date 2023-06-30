@@ -11,10 +11,10 @@
     var counter = 1;
     bool asd;
     int year;
-    if (DateTime.Now.Month>=9&& DateTime.Now.Month <= 12)
+    if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
     {
-         asd = true;
-         year = ViewBag.Year + 1;
+        asd = true;
+        year = ViewBag.Year + 1;
     }
     else
     {
@@ -26,13 +26,13 @@
 
 <link href="~/Content/StyleSheet/courses.css" rel="stylesheet" />
 
-<div class="cont">
+<div class="cont" id="preregistration">
 
     <header>
         <h3>Pre-Registration Form</h3>
 
     </header>
-    <button onclick="myfunction()">print</button>
+    <button onclick="printDiv('preregistration')">print</button>
 
 
     <nav>
@@ -60,13 +60,13 @@
 
         }
         @*<select name="year"
-                id="year"
-                style="padding: 5px; width: 100px; text-align: center">
-            <option value="1">First</option>
-            <option value="2">Second</option>
-            <option value="3">Third</option>
-            <option value="4">Fourth</option>
-        </select>*@
+                    id="year"
+                    style="padding: 5px; width: 100px; text-align: center">
+                <option value="1">First</option>
+                <option value="2">Second</option>
+                <option value="3">Third</option>
+                <option value="4">Fourth</option>
+            </select>*@
         <label for="name">Semester: </label>
         <div>@ViewBag.Semester</div>
         <label for="name">Year: </label>
@@ -83,15 +83,16 @@
     </nav>
     <form action="">
         <div class="inputbox">
-            <input type="text" id="stname" required value="@ViewBag.studentName" />
+            <input type="text" id="stname" required  value="@ViewBag.studentName" />
             <span>Name</span>
         </div>
         <div class="inputbox">
-            <input type="text" id="stID" required value="@ViewBag.studentId" />
+            <input type="text" id="stID" required  value="@ViewBag.studentId" />
             <span>ID</span>
         </div>
         <div class="inputbox">
-            <input type="text" id="department" required value="@ViewBag.Department" />
+            <label>Department</label>
+            <input type="text" id="department" required  value="@ViewBag.Department" />
             <span>Department</span>
         </div>
         <div class="inputbox">
@@ -99,29 +100,38 @@
             <span>Cours Hours</span>
         </div>
         <div class="inputbox">
-            <input type="text" id="phone" required value="@ViewBag.PhoneNumber" />
+            <input type="text" id="phone" required  value="@ViewBag.PhoneNumber" />
             <span>PhoneNumber</span>
         </div>
         <div class="inputbox">
-            <input type="email" id="email" required value="@ViewBag.Email" />
+            <input type="email" id="email" required  value="@ViewBag.Email" />
             <span>Email</span>
         </div>
         <label for="name">Courses</label>
         @Html.DropDownList("Courses Id", selectListItems, new { @id = "mydropdownlist" })
-        @*<select name="courseName" id="courseName">
-                <option value="1">CS101</option>
-                <option value="2">CS102</option>
-                <option value="3">CS103</option>
-                <option value="4">CS104</option>
-                <option value="5">CS105</option>
-                <option value="6">CS106</option>
-            </select>*@
+       
         @*<button><i class="bx bx-plus-circle" id="send"></i></button>*@
         <a href="#"><i class="bx bx-plus-circle" id="send"></i></a>
     </form>
+
     <script>
-        function myfunction() {
-            window.print();
+        //function myfunction() {
+        //    window.print();
+        //}
+        
+        
+        function printDiv(divId) {
+            var content = document.getElementById(divId).outerHTML;
+            var myWindow = window.open('', '', 'height=500,width=800');
+            myWindow.document.write('<html><head><title>Print Div</title>');
+            myWindow.document.write('<link href="~/Content/StyleSheet/courses.css" rel="stylesheet" />');
+            myWindow.document.write('</head><body>');
+            myWindow.document.write(content);
+            myWindow.document.write('</body></html>');
+            myWindow.document.close();
+            myWindow.focus();
+            myWindow.print();
+            myWindow.close();
         }
     </script>
     <table id="myTable">
@@ -145,6 +155,7 @@
                         <td>@course.CourseName</td>
                         <td>@course.DoctorOfCourse</td>
                         <td>@course.NumberOfHours</td>
+                        <td><i class="fa fa-window-close" aria-hidden="true"></i></td>
                     </tr>
                     counter++;
                 }

@@ -34,7 +34,7 @@ namespace EduZone.Controllers
             }
             if (student.Batch == 1)
             {
-                if ((time >= 9 && time <= 12) || time == 1 || time == 2)
+                if (ViewBag.Semester== "First")
                 {
                 ViewBag.courses =context.GetCourses.Where(c => c.Level == "First level" && c.Semester== "First semester").ToList();
                 }
@@ -46,7 +46,7 @@ namespace EduZone.Controllers
             }
             else if(student.Batch == 2)
             {
-                if ((time >= 9 && time <= 12) || (time == 1 && time == 2))
+                if (ViewBag.Semester == "First")
                 {
                     ViewBag.courses = context.GetCourses.Where(c => c.Level == "Second level" && c.Semester == "First semester").ToList();
                 }
@@ -56,9 +56,34 @@ namespace EduZone.Controllers
 
                 }
             }
-            else if(student.Batch == 3|| student.Batch == 4)
+            else if(student.Batch == 3)
             {
-                ViewBag.courses = context.GetCourses.Where(c => c.DepartmentId == department.Id).ToList();
+
+                if (ViewBag.Semester == "First")
+                {
+                    ViewBag.courses = context.GetCourses.Where(c => c.DepartmentId == department.Id&& c.Level == "Third level" && c.Semester == "First semester").ToList();
+
+                }
+                else
+                {
+                    ViewBag.courses = context.GetCourses.Where(c => c.DepartmentId == department.Id && c.Level == "Third level" && c.Semester == "Second semester").ToList();
+
+
+                }
+            } 
+            else if(student.Batch == 4)
+            {
+                if (ViewBag.Semester == "First")
+                {
+                    ViewBag.courses = context.GetCourses.Where(c => c.DepartmentId == department.Id && c.Level == "Fourth level" && c.Semester == "First semester").ToList();
+
+                }
+                else
+                {
+                    ViewBag.courses = context.GetCourses.Where(c => c.DepartmentId == department.Id && c.Level == "Fourth level" && c.Semester == "Second semester").ToList();
+
+
+                }
             }
             
             foreach(var item in ss)
