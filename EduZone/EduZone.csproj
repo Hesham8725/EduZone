@@ -261,6 +261,7 @@
     <Compile Include="Models\Like.cs" />
     <Compile Include="Models\StudentAnswer.cs" />
     <Compile Include="Models\StudentExamDegree.cs" />
+    <Compile Include="Models\ViewModels\ExtraInfoOfDegreeOfExam.cs" />
     <Compile Include="Models\ViewModels\ExtraInfoOfMailOfDoctorViewModel.cs" />
     <Compile Include="Models\ViewModels\UsersAndLastSeenViewModel.cs" />
     <Compile Include="Models\ViewModels\StudentAnswerDegreeViewModel.cs" />
@@ -505,6 +506,7 @@
     <Content Include="Views\Student\StudentAnswer.cshtml" />
     <Content Include="Views\Chat\Chat_with_one.cshtml" />
     <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Group\ShowDegreeOfExam.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />

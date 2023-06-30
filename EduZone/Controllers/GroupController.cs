@@ -1,5 +1,6 @@
 ﻿using EduZone.Models;
 using EduZone.Models.Class;
+using EduZone.Models.ViewModels;
 using EduZone.MyHubs;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
@@ -62,6 +63,7 @@ namespace EduZone.Controllers
             GroupsMembers GM = new GroupsMembers();
             GM.GroupId = codex;
             GM.IsCreate = true;
+            GM.TimeGoin= DateTime.Now;
             GM.MemberId = User.Identity.GetUserId();
             context.GetGroupsMembers.Add(GM);
             context.SaveChanges();
@@ -82,7 +84,7 @@ namespace EduZone.Controllers
                 var YouInGroup = context.GetGroupsMembers.Where(e => e.GroupId == CodeOfGroup && e.MemberId == userId).ToList();
                 if (YouInGroup.Count != 0)
                 {
-                    return Content("You Are allredy Joined !");
+                    //return Content("You Are allredy Joined !");
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -92,6 +94,7 @@ namespace EduZone.Controllers
                     GM.GroupId = CodeOfGroup;
                     GM.IsCreate = false;
                     GM.MemberId = userId;
+                    GM.TimeGoin = DateTime.Now;
                     context.GetGroupsMembers.Add(GM);
                     context.SaveChanges();
 
@@ -102,7 +105,7 @@ namespace EduZone.Controllers
             else
             {
                 //tempdate
-                return Content("Not found");
+                //return Content("Not found");
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -304,6 +307,35 @@ namespace EduZone.Controllers
             }
 
             return RedirectToAction("Group_Post", new { GroupCode = GCode });
+        }
+
+        public ActionResult ShowDegreeOfExam(string GroupCode)
+        {
+            List<ExtraInfoOfDegreeOfExam> extraInfoOfDegreeOfExams = new List<ExtraInfoOfDegreeOfExam>();
+            var userid=User.Identity.GetUserId();
+            var ListOfDegreeOfExam = context.GetSudentExamDegrees.Where(e => e.GroupCode == GroupCode && e.StudentID == userid).ToList();
+            foreach (var item in ListOfDegreeOfExam)
+            {
+                var doctorID = context.GetExams.FirstOrDefault(e=>e.Id==item.ExamID);
+                var doctorName = context.Users.FirstOrDefault(e => e.Id == doctorID.CreatorID);
+                var listOfQustions=context.GetQuestions.Where(e=>e.ExamId==item.ExamID).ToList();
+                var examName= context.GetExams.FirstOrDefault(e=>e.Id == item.ExamID);
+                int toteldegreeofEzam = 0;
+                foreach (var q in listOfQustions)
+                {
+                    toteldegreeofEzam += q.Point;
+                }
+                ExtraInfoOfDegreeOfExam extraInfoOfDegree = new ExtraInfoOfDegreeOfExam();
+                extraInfoOfDegree.TotalDegreeOfExam = toteldegreeofEzam;
+                extraInfoOfDegree.ExamDegree = item.Degree;
+                extraInfoOfDegree.ExamName = examName.FormTitle;
+                extraInfoOfDegree.DoctorCreate = doctorName.Name;
+                extraInfoOfDegreeOfExams.Add(extraInfoOfDegree);
+
+            }
+
+        return View(extraInfoOfDegreeOfExams);
+
         }
     }
 }

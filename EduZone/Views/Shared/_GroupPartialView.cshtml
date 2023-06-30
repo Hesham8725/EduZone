@@ -37,7 +37,10 @@
                 <a class="text-success h5" href="@Url.Action("Group_Chat", "Group", new { GroupCode = @ViewBag.GC })">Chat</a>
             </li>
             <li class="mx-3">
-                <a class="text-success h5" href="@Url.Action("Group_About", "Group", new { GroupCode = @ViewBag.GC })">About</a>
+                <a class="text-success h5" href="@Url.Action("ShowDegreeOfExam", "Group", new { GroupCode = @ViewBag.GC })">Exam Degree</a>
+            </li>
+            <li class="mx-3">
+                <a class="text-success h5" href="@Url.Action("Group_About", "Group", new {GroupCode = @ViewBag.GC })">About</a>
             </li>
         </ul>
     </div>
