@@ -1,0 +1,203 @@
+﻿@section Top_Link{
+    <link href="~/Content/StyleSheet/addCourses.css" rel="stylesheet" />
+}
+
+@using EduZone.Models;
+@model  Course
+@{
+    ViewBag.Title = "Index";
+
+    string action = "/Course/Index";
+    string btnVal = "Add";
+    if (ViewBag.method == "Update")
+    {
+        action = "/Course/SaveUpdate/" + Model.Id;
+        btnVal = "Update";
+    }
+    int count = 1;
+    var level = new List<string> { "--select--", "First level", "Second level", "Third level", "Fourth level" };
+    var semester = new List<string> { "--select--", "First semester", "Second semester" };
+    var hour = new List<string> { "--select--", "1", "2", "3", "4" };
+    var test = new List<string> { "--select--","test1", "test2", "test3", "test4" };
+
+    SelectList AllDepartments = null;
+    SelectList AllDoctors = null;
+    SelectList levels = null;
+    SelectList semesters = null;
+    SelectList hours = null;
+    if (Model != null)
+    {
+        AllDoctors = new SelectList(ViewBag.AllDoctors, "Name", "Name", Model.DoctorOfCourse);
+        foreach (var item in ViewBag.AllDepartments)
+        {
+            if (item.Id == Model.DepartmentId)
+            {
+                AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name", item.Name);
+                break;
+            }
+        }
+
+        levels = new SelectList(level, Model.Level);
+        semesters = new SelectList(semester, Model.Semester);
+        hours = new SelectList(hour, Model.NumberOfHours);
+    }
+    else
+    {
+        foreach (var item in ViewBag.AllDepartments)
+        {
+            if (item.Name == "--select--")
+            {
+                AllDepartments = new SelectList(ViewBag.AllDepartments, "Id", "Name", item.Name);
+                break;
+            }
+        }
+        AllDoctors = new SelectList(ViewBag.AllDoctors, "Name", "Name", "--select--");
+
+        levels = new SelectList(level, "--select--");
+        semesters = new SelectList(semester, "--select--");
+        hours = new SelectList(hour, "--select--");
+    }
+
+
+
+}
+
+<div id="blur" class="cont d-flex rounded-2 mt-3">
+    <div class="border shadow rounded-3 p-2" style="width: 40%">
+        <form action=@action method="post">
+            <h1 style="text-align:center">Course</h1>
+            @Html.ValidationSummary(true, "Invalid input", new { @class = "text-danger" })
+            @if (Model != null)
+            {
+                @Html.LabelFor(c => c.CourseName, new { @class = "d-block form-label fw-semibold mt-2" })
+                @Html.TextBoxFor(c => c.CourseName, new { @class = "form-control" })
+                @Html.ValidationMessage("CourseName", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.Description, new { @class = "d-block form-label fw-semibold mt-2" })
+                @Html.TextBoxFor(c => c.Description, new { @class = "form-control" })
+                @Html.ValidationMessage("Description", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.Level, new { @class = "d-block form-label fw-semibold mt-2" })
+                @*@Html.TextBoxFor(c => c.Level, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.Level, levels, new { @class = "form-control" })
+                @Html.ValidationMessage("Level", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.Semester, new { @class = "d-block form-label fw-semibold mt-2" })
+                @*@Html.TextBoxFor(c => c.Semester, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.Semester, semesters, new { @class = "form-control" })
+                @Html.ValidationMessage("Semester", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.DoctorOfCourse, new { @class = "d-block form-label fw-semibold mt-2" })
+                @*@Html.TextBoxFor(c => c.DoctorOfCourse, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c=>c.DoctorOfCourse, AllDoctors, new { @class = "form-control" })
+                @Html.ValidationMessage("DoctorOfCourse", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.NumberOfHours, new { @class = "d-block form-label fw-semibold mt-2" })
+                @*@Html.TextBoxFor(c => c.NumberOfHours, new { @class = "form-control" })*@
+                @Html.DropDownListFor(c => c.NumberOfHours, hours, new { @class = "form-control" })
+                @Html.ValidationMessage("NumberOfHours", new { @class = "text-danger" })
+
+                @Html.LabelFor(c => c.DepartmentId, new { @class = "d-block form-label fw-semibold mt-2" })
+                @Html.TextBoxFor(c => c.DepartmentId, new { @class = "form-control" })
+                @*@Html.DropDownListFor(c => c.DepartmentId, AllDepartments, new { @class = "form-control" })*@
+                @*@Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })*@
+            }
+            else
+            {
+                <label class="d-block form-label fw-semibold mt-2">Name</label>
+                <input class="form-control" type="text" name="CourseName" value="">
+                @Html.ValidationMessage("CourseName", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Description</label>
+                <input class="form-control" type="text" name="Description" value="">
+                @Html.ValidationMessage("Description", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Level</label>
+                @*<input class="form-control" type="text" name="Level" value="">*@
+                @Html.DropDownListFor(c => c.Level, levels, new { @class = "form-control" })
+                @Html.ValidationMessage("Level", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Semester</label>
+                @*<input class="form-control" type="text" name="Semester" value="">*@
+                @Html.DropDownListFor(c => c.Semester, semesters, new { @class = "form-control" })
+                @Html.ValidationMessage("Semester", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Doctor</label>
+                @*<input class="form-control" type="text" name="DoctorOfCourse" value="">*@
+                @Html.DropDownListFor(c=>c.DoctorOfCourse, AllDoctors, new { @class = "form-control" })
+                @Html.ValidationMessage("DoctorOfCourse", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Hours</label>
+                @*<input class="form-control" type="text" name="NumberOfHours" value="">*@
+                @Html.DropDownListFor(c => c.NumberOfHours, hours, new { @class = "form-control" })
+                @Html.ValidationMessage("NumberOfHours", new { @class = "text-danger" })
+
+                <label class="d-block form-label fw-semibold mt-2">Department</label>
+                @*<input class="form-control" type="number" name="DepartmentID" value="">*@
+                @Html.DropDownListFor(c => c.DepartmentId, AllDepartments, new { @class = "form-control" })
+                @*@Html.ValidationMessage("DepartmentID", new { @class = "text-danger" })*@
+            }
+            <input type="submit" value="@btnVal" class="btn btn-success mt-2" style="width:100%;">
+        </form>
+    </div>
+
+    <div class="w-60" style="margin-left:30px;">
+        <table class="table shadow table-hover table-responsive table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Level</th>
+                    <th scope="col">Semester</th>
+                    <th scope="col">Doctor </th>
+                    <th scope="col">Hours </th>
+                    <th scope="col">Department </th>
+                    <th scope="col">Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.lstOfCourses)
+                {
+                    <tr>
+                        <th scope="row">@count</th>
+                        <td>@item.CourseName</td>
+                        <td>@item.Description</td>
+                        <td>@item.Level</td>
+                        <td>@item.Semester</td>
+                        <td>@item.DoctorOfCourse</td>
+                        <td>@item.NumberOfHours</td>
+                        <td>@item.DepartmentId</td>
+                        <td>
+                            @Html.ActionLink("Update", "Update", new { Id = item.Id }, new { @class = "btn btn-outline-success" })
+                            <a href="#" class="btn btn-outline-danger " onclick="toggle(@item.Id)" style="">Delete</a>
+                        </td>
+                    </tr>
+                    count++;
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+@section bottom_Link{
+    @*<script src="~/Scripts/jquery-3.6.4.js"></script>*@
+    <script src="~/Scripts/jquery.validate.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
+    <script src="~/Scripts/bootstrap.js"></script>
+    <script>
+        var btn = document.getElementById("BtnYes");
+        // toggle blur and popup
+        function toggle(val) {
+            btn.href = '/Course/Delete/' + val;
+            let blur = document.getElementById("blur");
+            blur.classList.toggle("active");
+
+            let popup = document.getElementById("popup");
+            popup.classList.toggle("active");
+        }</script>
+}
+<div id="popup">
+    <h3>Do You Want To Delete This Course ?</h3>
+    <a href="" id="BtnYes" class="btn btn-danger delete">Yes</a>
+    <a href="#" class="btn btn-success" onclick="toggle(0)">No</a>
+</div>
