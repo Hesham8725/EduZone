@@ -134,6 +134,25 @@ namespace EduZone.Controllers
 
             return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
         }
+
+        public ActionResult UpdatePost(int id, string GrpCode)
+        {
+            ViewBag.GC = GrpCode;
+            var post = context.PostInGroups.Find(id);
+            TempData["PostIdGrop"] = id.ToString();
+            return View(post);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePost(string content,string GrpCode)
+        {
+            var post = context.PostInGroups.Find(Int32.Parse(TempData["PostIdGrop"].ToString()));
+            post.ContentOfPost = content;
+            context.SaveChanges();
+            var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.EditPostGroup(post.Id, content);
+            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
+        }
         public ActionResult Group_Material(string GroupCode)
         {
             // first Get Group

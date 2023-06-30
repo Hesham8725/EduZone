@@ -59,7 +59,7 @@
                                 <a class="active dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false">
                                 </a>
                                 <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item text-success" href="#"> <i class="fa-solid fa-pencil me-2"></i> Update</a></li>
+                                    <li><a class="dropdown-item text-success" href="/Timeline/UpdatePost/@item.Id"> <i class="fa-solid fa-pencil me-2"></i> Update</a></li>
                                     <li><a class="dropdown-item text-danger" onclick="DeletePstTime(@item.Id)"> <i class="fa-solid fa-trash me-2"></i> Delete</a></li>
                                 </ul>
                             </li>
@@ -230,6 +230,12 @@
                     proxy.on("DeletePostTimeLine", function (PostId) {
                         document.getElementById(PostId).remove();
                     });
+                    proxy.on("EditPost", function (PostId, content) {
+
+                        var contentPost = $("div[data-item-id='" + PostId + "']").find("pre.news");
+                        contentPost.html(content);
+
+                    });
 
                 });
 
@@ -252,6 +258,7 @@
                 function DeletePstTime(idPost) {
                     proxy.invoke("DeletePostInTimeLine", idPost)
                 }
+
 
             </script>
         }
