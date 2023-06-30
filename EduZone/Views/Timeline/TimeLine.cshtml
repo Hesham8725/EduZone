@@ -129,7 +129,7 @@
                         console.log(PostImage);
                         if (PostImage == "") {
                             var con = `
-                                    <div class="timeline">
+                                   <div class="timeline" id=${NewPost.Id}>
                                         <div class="photo-name">
                                             <img class="photo-profile" src="/Images/`+ Profileimg + `" alt="photo" />
                                             <div class="info">
@@ -165,7 +165,7 @@
                         }
                         else {
                             var con = `
-                                    <div class="timeline">
+                                    <div class="timeline"  id=${NewPost.Id}>
                                         <div class="photo-name">
                                             <img class="photo-profile" src="/Images/`+ Profileimg +`" alt="photo" />
                                             <div class="info">
@@ -220,11 +220,11 @@
                     });
 
                     proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr, numLik, realLike) {
-                     
+
                         var newIcon = $("<i>").addClass("fa-solid fa-thumbs-up").addClass("text-" + clr);
                         $("a[data-user-id='" + uid + "'][data-item-id='" + pid + "']").find(".chngcmnt").empty().append(newIcon).append("<span class='ms-2  text-secondary'> Like </span>");
                         $("div[data-user-id='" + pid + "']").find(".lik").text(numLik);
-                        
+
                     });
 
                     proxy.on("DeletePostTimeLine", function (PostId) {

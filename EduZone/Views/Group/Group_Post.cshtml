@@ -170,9 +170,7 @@
                     });
                     proxy.on("EditPostGroup", function (PostId, content) {
                         var contentPost = $("div[data-item-id='" + PostId + "']").find("pre.news");
-                      
                         contentPost.html(content);
-
                     });
                 });
                 // call server method
