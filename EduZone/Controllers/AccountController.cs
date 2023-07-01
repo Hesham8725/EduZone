@@ -107,7 +107,7 @@ namespace EduZone.Controllers
                     case SignInStatus.Success:
                         if (user.EmailActive == true)
                         {
-                            return RetureToYourRole(RolesForUser[0].Split(' ')[0]);
+                            return RetureToYourRole();
                         }
                         else
                         {
@@ -131,18 +131,23 @@ namespace EduZone.Controllers
             }
             
         }
-        public ActionResult RetureToYourRole(string Role)
+        public ActionResult RetureToYourRole()
         {
-            switch (Role)
+            if (User.IsInRole("Admin"))
             {
-                case "Admin":
-                    return RedirectToAction("Index", "Admin");
-                case "Student":
-                    return RedirectToAction("TimeLine", "Timeline");
-                case "Educator":
-                    return RedirectToAction("TimeLine", "Timeline");
-                default:
-                    return View("Error");
+                return RedirectToAction("Index", "Admin");
+            }
+            else if(User.IsInRole("Student"))
+            {
+                return RedirectToAction("TimeLine", "Timeline");
+            }
+            else if(User.IsInRole("Educator"))
+            {
+                return RedirectToAction("TimeLine", "Timeline");
+            }
+            else
+            {
+                return View("Error");
             }
         }
         //
@@ -233,6 +238,7 @@ namespace EduZone.Controllers
                             CVURL = "",
                             office = ""
                         };
+                        context.GetEducators.Add(educator);
                         context.SaveChanges();
                         await UserManager.AddToRoleAsync(applicationUser.Id, "Educator");
                     }
@@ -248,6 +254,7 @@ namespace EduZone.Controllers
                             GroupNo = 0,
                             Section = 0
                         };
+                        context.GetStudents.Add(student);
                         context.SaveChanges();
                         await UserManager.AddToRoleAsync(applicationUser.Id, "Student");
                     }
@@ -282,7 +289,7 @@ namespace EduZone.Controllers
                 var User1 = context.Users.FirstOrDefault(e => e.Id == user);
                 User1.EmailActive = true;
                 context.SaveChanges();
-                return RetureToYourRole(GetRole());
+                return RetureToYourRole();
             }
             else
             {

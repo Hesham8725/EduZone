@@ -19,12 +19,18 @@ function add_Q() {
         <!-- O-n-  -->
         <div class='m-3'>
             <div id = "Q${Num_Q}O">
-                <input type = "text" style="display: none;" value = "1" id="ON${Num_Q}">                                                            
+                <input type = "text" style="display: none;" value = "2" id="ON${Num_Q}">                                                            
                 <div class="input-group mb-3 option" id = "O${Num_Q}0">
                     <div class="input-group-text">
                         <input class=" mt-0 p-0" value="0" id = "Q${Num_Q}R0" required type="radio" name="QR${Num_Q}">
                     </div>
                     <input id="Q${Num_Q}I0" name="Q${Num_Q}I0" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
+                </div>
+                <div class="input-group mb-3 option" id = "O${Num_Q}1">
+                    <div class="input-group-text">
+                        <input class=" mt-0 p-0" value="1" id = "Q${Num_Q}R1" required type="radio" name="QR${Num_Q}">
+                    </div>
+                    <input id="Q${Num_Q}I1" name="Q${Num_Q}I1" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
                 </div>
             </div>
             <button type="button" id="btn_add${Num_Q}" onclick="add_option(${Num_Q})"  class="btn btn-sm btn-outline-info px-2 me-2">Add Option</button>
@@ -140,7 +146,7 @@ function add_option(valx) {
 function sub_option(valx) {
     var ON = document.getElementById("ON" + valx).value;
     console.log(ON)
-    if (parseInt(ON) > 0) {
+    if (parseInt(ON) > 2) {
         ON = parseInt(ON) - 1;
         document.getElementById("O" + valx + ON).remove()
         document.getElementById("ON" + valx).value = parseInt(ON);

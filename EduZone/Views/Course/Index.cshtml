@@ -176,6 +176,12 @@
                 @foreach (var item in ViewBag.lstOfCourses)
                 {
                     string idx = item.DoctorOfCourse;
+                    var dr = context.Users.FirstOrDefault(e => e.Id == idx);
+                    string name = "";
+                    if (dr != null)
+                    {
+                        name = dr.Name;
+                    }
                     if (item.DepartmentId == 0)
                     {
                         deptName = "Others";
@@ -196,7 +202,7 @@
                         <td>@item.CourseName</td>
                         <td>@item.Level</td>
                         <td>@item.Semester</td>
-                        <td>@context.Users.FirstOrDefault(e=>e.Id== idx).Name</td>
+                        <td>@name</td>
                         <td>@item.NumberOfHours</td>
                         <td>@deptName</td>
 

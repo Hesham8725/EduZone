@@ -216,6 +216,20 @@ namespace EduZone.Controllers
             }
             return View(chanageEmail);
         }
+        public ActionResult EducatorInfo()
+        {
+
+            var idx = User.Identity.GetUserId();
+            var user = context.GetEducators.FirstOrDefault(e => e.AccountID == idx);
+            return View(user);
+        }
+        [HttpPost]
+        public ActionResult EducatorInfo(int id , Educator educator)
+        {
+            ViewBag.Show = true;
+
+            return View(educator);
+        }
         public ActionResult std_profile(string id)
         {
             var user = context.Users.FirstOrDefault(c => c.Id == id);

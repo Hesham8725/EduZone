@@ -8,24 +8,22 @@
     string _id = Model.UserId;
 }
 @section Top_Link{
-    <link href="~/Content/StyleSheet/time-line-comments.css" rel="stylesheet" />
+    <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
 }
 <div class="timeline">
     <div class="photo-name">
         <img class="photo-profile" src="~/Images/@context.Users.Find(_id).Image" alt="photo" />
         <div class="info">
-            <a data-user-id=@Model.UserId data-item-id=@Model.Id href="/Profile/Educator_profile/@_id"><h6 class="info-name">@context.Users.Find(_id).Name </h6></a>
+            <a data-user-id=@Model.UserId data-item-id=@Model.Id href="/Profile/ShowProfile/@_id"><h6 class="info-name">@context.Users.Find(_id).Name </h6></a>
             <p class="info-date"> @Model.Date </p>
         </div>
     </div>
-    <div data-user-id=@Model.UserId data-item-id=@Model.Id>
-        <pre class="news news-en">
-                   @Model.ContentOfPost
-                </pre>
+    <div data-user-id=@Model.UserId data-item-id=@Model.Id class="p-2" id="PostText">
+        @Html.Raw(Model.ContentOfPost)
     </div>
     @if (Model.ImageUrl != "" && Model.ImageUrl != null)
     {
-        <div class="w-100">
+        <div class="w-100 ">
             <img src="/Images/@Model.ImageUrl" class="w-100 m-1" style="height:500px;" />
         </div>
     }
@@ -86,7 +84,7 @@
                     <div>
                         @if (comment.UserId == User.Identity.GetUserId())
                         {
-                            <i class="fa-solid fa-delete-left mt-2" style="font-size:25px ;color: #c42727; cursor: pointer;" onclick="DeleteCom(@comment.Id )"></i>
+                        <i class="fa-solid fa-delete-left" style="color: #ff0000;" cursor: pointer;" onclick="DeleteCom(@comment.Id )"></i>
                         }
                     </div>
                 </div>

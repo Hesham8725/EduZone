@@ -223,6 +223,7 @@ namespace EduZone.Models
                 var userx = context.Users.FirstOrDefault(e => e.Id == id);
                 context.Users.Remove(userx);
                 context.SaveChanges();
+                //comin
                 return RedirectToAction("ManageUserStudent", _student);
             }
             else
@@ -240,6 +241,15 @@ namespace EduZone.Models
                 var userx = context.Users.FirstOrDefault(e => e.Id == id);
                 context.Users.Remove(userx);
                 context.SaveChanges();
+                //post
+                var std = context.Posts.Where(e => e.UserId == id);
+                context.Posts.RemoveRange(std);
+                context.SaveChanges();
+                //post
+                var p = context.GetGroups.Where(e => e.CreatorID == id);
+                context.GetGroups.RemoveRange(p);
+                context.SaveChanges();
+
                 return RedirectToAction("ManageUserDoctor", _Doctor);
             }
             

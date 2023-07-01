@@ -65,7 +65,7 @@ namespace EduZone.Controllers
             TempData["PostId"] = id.ToString();
             return View(post);
         }
-        [HttpPost]
+        [HttpPost,ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePost(string content)
         {

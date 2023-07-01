@@ -49,7 +49,7 @@ namespace EduZone.Controllers
             return Messages;
         }
 
-        public ActionResult Chat_with_one(string id)
+        public ActionResult Chat_with_one(string id )
         {
             ViewBag.id = id;
             otherIIID = id;

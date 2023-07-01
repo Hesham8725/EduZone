@@ -20,7 +20,10 @@
         <textarea class="m-3" name="content" id="content" placeholder="Write new announcement...">  @Model.ContentOfPost </textarea>
         <div class="w-100">
             <input type="file" name="File" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
-            <img id="PostImage" class="w-100 m-1" />
+            @if (Model.ImageUrl != "")
+            {
+                <img src="~/Images/@Model.ImageUrl" id="PostImage" class="w-100 m-1" style="height:500px" />
+            }
         </div>
         <div class="line"></div>
 
@@ -32,3 +35,33 @@
         </div>
     </div>
 }
+
+<script>
+    function onFileSelected(event) {
+        var selectedFile = event.target.files[0];
+        var reader = new FileReader();
+        var imgtag = document.getElementById("PostImage");
+        imgtag.title = selectedFile.name;
+        reader.onload = function (event) {
+            imgtag.src = event.target.result;
+            imgtag.height = 500;
+        };
+        reader.readAsDataURL(selectedFile);
+    }
+    function ChangeText() {
+        var textarea = document.getElementById("ContentOfPost");
+        var HiddenInput = document.getElementById("Hiddenitem");
+        const lines = textarea.value.split("\n");
+        var Resualt = "";
+        for (const line of lines) {
+            const arabicRegex = /[\u0600-\u06FF]/;
+            if (arabicRegex.test(line)) {
+                Resualt += "<p class=\" news-ar\" >" + line + "</p>";
+            } else {
+                Resualt += "<p class=\" news-en\" >" + line + "</p>";
+            }
+
+        }
+        HiddenInput.value = Resualt;
+    }
+</script>
