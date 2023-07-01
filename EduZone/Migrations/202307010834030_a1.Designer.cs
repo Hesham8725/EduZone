@@ -13,7 +13,7 @@ namespace EduZone.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202306291453171_a1"; }
+            get { return "202307010834030_a1"; }
         }
         
         string IMigrationMetadata.Source

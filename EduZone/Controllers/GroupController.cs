@@ -2,6 +2,7 @@
 using EduZone.Models.Class;
 using EduZone.Models.ViewModels;
 using EduZone.MyHubs;
+using EduZone.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using System;
@@ -139,7 +140,75 @@ namespace EduZone.Controllers
             var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
             var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
             IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
-            adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name);
+                adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name);
+
+
+            //Beign abdallah
+            var postNotify = context.PostInGroups.FirstOrDefault(e => e.ContentOfPost == post.ContentOfPost && e.GroupId == GrpCode && e.UserId == post.UserId );
+
+            var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == post.GroupId).ToList();
+            foreach (var item in GroupMembers)
+            {
+                if(item.MemberId==post.UserId)
+                {
+                    continue;
+                }
+                Notifications notifications = new Notifications()
+                {
+                    PostId = postNotify.Id,
+                    SenderId = post.UserId,
+                    TimeOfNotify = DateTime.Now,
+                    GroupCode = GrpCode,
+                    userId = item.MemberId,
+                    IsReaded = false,
+                    TypeOfPost ="group",
+                };
+                context.GetNotifications.Add(notifications);
+                context.SaveChanges();
+            }
+
+
+            var usersInNorificationPage = context.GetUserInNotificationPages.OrderByDescending(e => e.TimeOfLastOpen).ToList();
+            List<UserInNotificationPage> ListOfUserInNotificationPagesNow = new List<UserInNotificationPage>();
+            foreach (var item in usersInNorificationPage)
+            {
+                if (DateTime.Now - item.TimeOfLastOpen <= TimeSpan.FromMinutes(3))
+                {
+                    foreach (var u in GroupMembers)
+                    {
+                        if(u.MemberId==item.UserId)
+                        {
+                            UserInNotificationPage userin = new UserInNotificationPage()
+                            {
+                                Id = item.Id,
+                                TimeOfLastOpen = item.TimeOfLastOpen,
+                                ConnectionID = item.ConnectionID,
+                                UserId = item.UserId
+                            };
+                            ListOfUserInNotificationPagesNow.Add(userin);
+                        }
+                    }     
+                }
+                else
+                {
+                    break;
+                }
+            }
+            var notificationInDB = context.GetNotifications.OrderByDescending(t => t.TimeOfNotify).Take(1).ToArray();
+            IHubContext Notivication = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            FormatOtherUser formatOtherUser = new FormatOtherUser();
+            var GroupName = context.GetGroups.FirstOrDefault(c => c.Code == GrpCode);
+            foreach (var item in ListOfUserInNotificationPagesNow)
+            {
+                if (postNotify.Id == notificationInDB[0].PostId)
+                {
+                    var time = formatOtherUser.FormatTimeOfNotification(notificationInDB[0].TimeOfNotify);
+                    var CreatorOfPost = context.Users.FirstOrDefault(e => e.Id == post.UserId);
+                    Notivication.Clients.Client(item.ConnectionID).NewNotificationFromGrop(postNotify.Id, CreatorOfPost.Name, CreatorOfPost.Image, time, GroupName.GroupName, "Timeline");
+
+                }
+            }
+            //End abdallah
 
             return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
         }
@@ -336,6 +405,13 @@ namespace EduZone.Controllers
 
         return View(extraInfoOfDegreeOfExams);
 
+        }
+
+
+        public ActionResult ShowPostInNewPage(int id)
+        {
+             var postingroup=context.PostInGroups.FirstOrDefault(e=>e.Id == id);
+            return View(postingroup);
         }
     }
 }

@@ -10,6 +10,7 @@ using System.IO;
 using Microsoft.AspNet.Identity;
 using System.Threading.Tasks;
 using Rotativa;
+using EduZone.Services;
 
 namespace EduZone.Controllers
 {
@@ -25,7 +26,7 @@ namespace EduZone.Controllers
         {
             return View();
         }
-        public ActionResult GetBatches(int BN=0)
+        public ActionResult GetBatches(int BN = 0)
         {
             ViewBag.BN = BN;
             var memberes = context.GetStudents.Where(e => e.Batch == BN);
@@ -51,11 +52,11 @@ namespace EduZone.Controllers
                 bool find = true;
                 foreach (var item1 in take)
                 {
-                    
+
                     if (item.Id == item1.ExamID)
                     {
                         find = false;
-                    } 
+                    }
                 }
                 if (find == true)
                 {
@@ -70,7 +71,7 @@ namespace EduZone.Controllers
             return View(Exam);
         }
         [HttpPost]
-        public async Task<ActionResult> SaveExam(int id,string StudentName,string SNumber,string Student_ID)
+        public async Task<ActionResult> SaveExam(int id, string StudentName, string SNumber, string Student_ID)
         {
             var exam = context.GetExams.FirstOrDefault(e => e.Id == id);
             int Degre = 0;
@@ -80,7 +81,7 @@ namespace EduZone.Controllers
             for (int i = 0; i < N; i++)
             {
                 string v = Request.Form[$"QR{i}"].ToString();
-                 answer = new StudentAnswer()
+                answer = new StudentAnswer()
                 {
                     Answer = v,
                     QuestionID = Questions[i].Id,
@@ -89,7 +90,7 @@ namespace EduZone.Controllers
                     AnswerVale = 0
                 };
 
-                if (Request.Form[$"QR{i}"] != null&& Questions[i].CorrectAnswer == Request.Form[$"QR{i}"].ToString())
+                if (Request.Form[$"QR{i}"] != null && Questions[i].CorrectAnswer == Request.Form[$"QR{i}"].ToString())
                 {
                     Degre += Questions[i].Point;
                     answer.AnswerVale = Questions[i].Point;
@@ -112,7 +113,7 @@ namespace EduZone.Controllers
             context.SaveChanges();
 
             //Send Email ?
-            if (Request.Form["Send"]!=null&& Request.Form["Send"].ToString() == "1")
+            if (Request.Form["Send"] != null && Request.Form["Send"].ToString() == "1")
             {
                 string Calback = Url.Action("StudentAnswer", "Student", new { ExamId = answer.ExamID, StudentID = answer.StudentID }, protocol: Request.Url.Scheme);
                 SendEmailDegree send = new SendEmailDegree(Calback);
@@ -143,9 +144,9 @@ namespace EduZone.Controllers
                 }
             }
 
-            return RedirectToAction("Exam",exams);
+            return RedirectToAction("Exam", exams);
         }
-        public ActionResult StudentAnswer(int ExamId , string StudentID)
+        public ActionResult StudentAnswer(int ExamId, string StudentID)
         {
             var ExDegree = context.GetSudentExamDegrees.FirstOrDefault(e => e.ExamID == ExamId && e.StudentID == StudentID);
             var studentAnswer = context.GetStudentAnswers.Where(e => e.ExamID == ExamId && e.StudentID == StudentID).ToList();
@@ -156,7 +157,7 @@ namespace EduZone.Controllers
             };
             return View(model);
         }
-        public async Task <ActionResult> SendTest(int ExamId, string StudentID)
+        public async Task<ActionResult> SendTest(int ExamId, string StudentID)
         {
             string Calback = Url.Action("StudentAnswer", "Student", new { ExamId = ExamId, StudentID = StudentID }, protocol: Request.Url.Scheme);
             SendEmailDegree send = new SendEmailDegree(Calback);
@@ -164,6 +165,81 @@ namespace EduZone.Controllers
 
             return RedirectToAction("Index");
         }
-        
+
+
+        //Abdallah
+        public ActionResult Notification()
+        {
+            var userid = User.Identity.GetUserId();
+            var notifications = context.GetNotifications.Where(e => e.userId == userid).OrderByDescending(e => e.TimeOfNotify).ToList();
+            List<NotificationViewModel> notificationList = new List<NotificationViewModel>();
+
+            FormatOtherUser formatOtherUser = new FormatOtherUser();
+            int NumOfNotifcationUnreaded = 0;
+            foreach (var notification in notifications)
+            {
+                Group name = null;
+                if (notification.IsReaded == false) 
+                {
+                    NumOfNotifcationUnreaded++;
+                }
+                 
+                var user = context.Users.FirstOrDefault(e => e.Id == notification.SenderId);
+                if (notification.GroupCode != null)
+                {
+                    name = context.GetGroups.FirstOrDefault(e => e.Code == notification.GroupCode);
+                    NotificationViewModel notify = new NotificationViewModel()
+                    {
+                        NotificationId = notification.Id,
+                        PostId = notification.PostId,
+                        TypOfPost = notification.TypeOfPost,
+                        TimeOfNotifyBeforFormat = notification.TimeOfNotify,
+                        GroupName = name.GroupName,
+                        NameOfCreatorPost = user.Name,
+                        ImageOfCreatorPost = user.Image,
+                        IsReaded = notification.IsReaded,
+                        TimeOfNotifyAfterFormat = formatOtherUser.FormatTimeOfNotification(notification.TimeOfNotify),
+                    };
+                    notificationList.Add(notify);
+                }
+                else
+                {
+                    NotificationViewModel notify = new NotificationViewModel()
+                    {
+                        NotificationId = notification.Id,
+                        PostId = notification.PostId,
+                        TypOfPost = notification.TypeOfPost,
+                        TimeOfNotifyBeforFormat = notification.TimeOfNotify,
+                        GroupName = null,
+                        NameOfCreatorPost = user.Name,
+                        ImageOfCreatorPost = user.Image,
+                        IsReaded = notification.IsReaded,
+                        TimeOfNotifyAfterFormat = formatOtherUser.FormatTimeOfNotification(notification.TimeOfNotify),
+                    };
+                    notificationList.Add(notify);
+                }
+  
+            }
+            ViewBag.numofnotification = NumOfNotifcationUnreaded;
+            return View(notificationList);
+        }
+        public ActionResult NotificationIsReaded(int id)
+        {
+            var user = User.Identity.GetUserId();
+            var notification = context.GetNotifications.FirstOrDefault(e => e.PostId == id&&e.userId==user);
+
+            if (notification == null)
+            {
+                return RedirectToAction("Notification");
+            }
+            notification.IsReaded = true;
+            context.SaveChanges();
+
+            if (notification.TypeOfPost == "timeline")
+            {
+                return RedirectToAction("ShowCommentOfPost", "Timeline", new { id = id });
+            }
+            return RedirectToAction("ShowPostInNewPage", "Group", new { id = id });
+        }
     }
 }

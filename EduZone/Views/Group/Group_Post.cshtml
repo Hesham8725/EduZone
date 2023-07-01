@@ -13,12 +13,12 @@
 <div class="tab-content p-3 my-3">
     <div class="tab-pane active" id="Posts">
         @if (User.IsInRole("Educator"))
-                    {
-                        var idx = User.Identity.GetUserId();
-                        var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
-                        var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
-                        using (Html.BeginForm("AddPost", "Group", FormMethod.Post, new { @class = "mt-5" }))
-                        {
+        {
+            var idx = User.Identity.GetUserId();
+            var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
+            var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
+            using (Html.BeginForm("AddPost", "Group", FormMethod.Post, new { @class = "mt-5" }))
+            {
                 <div class="timeline ">
                     <div class="photo-name">
                         <img class="photo-profile" src="~/Images/@Image" alt="">
@@ -137,7 +137,7 @@
                         //CONTENT
                         var contentPost = $("div[data-user-id='" + NewPost.UserId + "'][data-item-id='" + NewPost.Id + "']").find("pre.news");
                         contentPost.append(NewPost.ContentOfPost);
-                       
+
                         //DATE
                         let num = Math.floor(Math.random() * 100000) + 1;
                         $(".info-dt").removeClass("info-dt").addClass("info-dt" + num.toString());
@@ -160,6 +160,7 @@
                     console.log(1);
                 };
             </script>
+            
         }
     </div>
 </div>
