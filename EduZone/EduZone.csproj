@@ -222,6 +222,8 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\DepartmentController.cs" />
     <Compile Include="Controllers\EducatorController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -233,8 +235,26 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202306301309589_x.cs" />
+    <Compile Include="Migrations\202306301309589_x.Designer.cs">
+      <DependentUpon>202306301309589_x.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306301455331_xn.cs" />
+    <Compile Include="Migrations\202306301455331_xn.Designer.cs">
+      <DependentUpon>202306301455331_xn.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202306302030317_d.cs" />
+    <Compile Include="Migrations\202306302030317_d.Designer.cs">
+      <DependentUpon>202306302030317_d.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202307010917592_ww.cs" />
+    <Compile Include="Migrations\202307010917592_ww.Designer.cs">
+      <DependentUpon>202307010917592_ww.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\ChatIndividual.cs" />
     <Compile Include="Models\ChatGroup.cs" />
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\Department.cs" />
     <Compile Include="Models\CurrantUserIsOnline.cs" />
     <Compile Include="Models\LastMessageInChatIndividual.cs" />
     <Compile Include="Models\OnlineUSers.cs" />
@@ -249,6 +269,9 @@
     <Compile Include="Models\Like.cs" />
     <Compile Include="Models\StudentAnswer.cs" />
     <Compile Include="Models\StudentExamDegree.cs" />
+    <Compile Include="Models\ViewModels\AddAdminViewModel.cs" />
+    <Compile Include="Models\ViewModels\ExtraInfoOfDegreeOfExam.cs" />
+    <Compile Include="Models\ViewModels\ShowProfileViewModel.cs" />
     <Compile Include="Models\ViewModels\ExtraInfoOfMailOfDoctorViewModel.cs" />
     <Compile Include="Models\ViewModels\UsersAndLastSeenViewModel.cs" />
     <Compile Include="Models\ViewModels\StudentAnswerDegreeViewModel.cs" />
@@ -325,7 +348,6 @@
     <Content Include="Images\Gimage.jpg" />
     <Content Include="Images\log.png" />
     <Content Include="Images\logo.png" />
-    <Content Include="Images\Mala.png" />
     <Content Include="Images\malefemale.jpg" />
     <Content Include="Images\register.png" />
     <Content Include="Content\bootstrap.rtl.min.css.map" />
@@ -493,9 +515,32 @@
     <Content Include="Views\Student\OpenExam.cshtml" />
     <Content Include="Views\Student\StudentAnswer.cshtml" />
     <Content Include="Views\Chat\Chat_with_one.cshtml" />
+    <Content Include="Views\Profile\ShowProfile.cshtml" />
+    <Content Include="Views\Admin\ManageUserStudent.cshtml" />
+    <Content Include="Views\Admin\ManageUserDoctor.cshtml" />
+    <Content Include="Views\Department\Index.cshtml" />
+    <Content Include="Views\Group\UpdatePost.cshtml" />
+    <Content Include="Views\Timeline\UpdatePost.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Group\ShowDegreeOfExam.cshtml" />
+    <Content Include="Views\Admin\AddAdmin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202306301309589_x.resx">
+      <DependentUpon>202306301309589_x.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306301455331_xn.resx">
+      <DependentUpon>202306301455331_xn.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202306302030317_d.resx">
+      <DependentUpon>202306302030317_d.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202307010917592_ww.resx">
+      <DependentUpon>202307010917592_ww.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

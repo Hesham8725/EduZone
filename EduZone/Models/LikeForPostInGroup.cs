@@ -18,9 +18,6 @@ namespace EduZone.Models
         public string UserID { get; set; }
 
         [Required]
-        [ForeignKey("PostInGroup")]
         public int PostId { get; set; }
-
-        public PostInGroup PostInGroup { get; set; }
     }
 }

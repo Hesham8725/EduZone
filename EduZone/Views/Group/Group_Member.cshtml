@@ -30,19 +30,9 @@
                         <a href="/Profile/Educator_profile/@user.Id">
                             <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
                                 <img src="~/Images/@user.Image" width="150px" height="150px" class="photo-profile" alt="...">
-                                @if (role2 == "Student")
-                                {
                                     <h6 class="card-title my-2">
-                                        <a href="/Profile/std_profile/@user.Id"><span class="badge rounded-pill text-bg-info">@user.Name</span></a>
+                                        <a href="/Profile/ShowProfile/@user.Id"><span class="badge rounded-pill text-bg-info">@user.Name</span></a>
                                     </h6>
-                                }
-                                else if (role2 == "Educator")
-                                {
-                                    <h6 class="card-title my-2">
-                                        <span class="badge rounded-pill text-bg-info">@user.Name</span>
-
-                                    </h6>
-                                }
                             </div>
                         </a>
                         @if (ViewBag.GCR7 == User.Identity.GetUserId() || User.IsInRole("Admin"))

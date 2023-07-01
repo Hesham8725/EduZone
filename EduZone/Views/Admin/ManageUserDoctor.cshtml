@@ -1,28 +1,21 @@
-﻿@using EduZone.Models
+﻿
+@{
+    ViewBag.Title = "ManageUserDoctor";
+}
+@using EduZone.Models
 @model List<ApplicationUser>
 @{
     ViewBag.Title = "GetBatches";
     string vx;
 }
 
-@using(Html.BeginForm()){
-<div class="d-flex mt-3">
-    <select class="form-select w-25 " id="Sector" name="BN">
-        <option selected hidden>Choose Course</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-        <option value="4">4</option>
-    </select>
-    <input type="submit" value="Show" class="btn btn-outline-secondary">
-</div>
-}
+
 <div class="d-flex flex-row flex-wrap">
     <div class="input-group my-4 rounded-3">
         <input type="text" class="form-control" placeholder="search by name">
         <button class="btn btn-outline-secondary" type="button" id="button-addon2">search</button>
     </div>
-    @if (Model.Count!=0)
+    @if (Model.Count != 0)
     {
         foreach (var item in Model)
         {
@@ -38,20 +31,11 @@
                     </h6>
                 </div>
                 <div class="card-footer d-flex justify-content-center">
-                    <a href="/Profile/ShowProfile/@item.Id" class="btn btn-sm btn-outline-danger w-100"> Details </a>
+                    <a href="/Profile/ShowProfile/@item.Id" class="btn btn-sm btn-outline-primary w-100 me-1"> Details </a>
+
+                    <a href="/Admin/DeleteUser/@item.Id" class="btn btn-sm btn-outline-danger w-100"> Delete </a>
                 </div>
             </div>
         }
     }
 </div>
-@if (ViewBag.BN != 0)
-{
-    @section bottom_Link{
-        <script>
-            onload = function () {
-                var x = document.getElementById("Sector");
-                x.value = @ViewBag.BN;
-            }
-        </script>
-    }
-}

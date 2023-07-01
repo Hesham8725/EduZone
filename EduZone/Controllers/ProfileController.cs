@@ -239,6 +239,21 @@ namespace EduZone.Controllers
             ViewBag.id = user.Id;
             return View(educator);
         }
+        public ActionResult ShowProfile(string id)
+        {
+            // class Container
+            ViewBag.Con = "No";
+            var _user = context.Users.FirstOrDefault(e => e.Id == id);
+            var _student = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
+            var _educator = context.GetEducators.FirstOrDefault(e => e.AccountID == id);
+            ShowProfileViewModel model = new ShowProfileViewModel()
+            {
+                user = _user,
+                educator = _educator,
+                student = _student
+            };
+            return View(model);
+        }
         public string GetUser()
         {
             string UserID = "";

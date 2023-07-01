@@ -66,7 +66,7 @@ namespace EduZone.Controllers
                 Where(e => e.SendId == userid).
                 ToList();
 
-            ViewBag.users = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage);
+            ViewBag.users = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage, userid);
 
             var Messages = context.GetChatIndividual.Where(e => e.SenderId == userid && e.ReceiverId == id || e.SenderId == id && e.ReceiverId == userid).OrderBy(e => e.CreatedAt).ToList();
             Messages = FormatTime(Messages);
@@ -82,7 +82,7 @@ namespace EduZone.Controllers
             var lastMessage = context.GetLastMessage.Where(e => e.SendId == userid).ToList();
 
             FormatOtherUser formatOtherUser = new FormatOtherUser();
-            var other = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage);
+            var other = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage, userid);
 
             foreach (var item in other)
             {

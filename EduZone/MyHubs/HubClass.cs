@@ -126,7 +126,41 @@ namespace EduZone.MyHubs
             int numComents = context.Comments.Where(s => s.PostID == id).Count();
             Clients.All.NewCommentDeleted(id.ToString(), numComents);
         }
+        public void DeletePostInTimeLine(int Postid)
+        {
 
+            var comnts = context.Comments.Where(i => i.PostID == Postid).ToList();
+            if (comnts != null)
+            {
+                context.Comments.RemoveRange(comnts);
+                context.SaveChanges();
+            }
+            var Liks = context.Likes.Where(i => i.PostId == Postid).ToList();
+            if (Liks != null)
+            {
+                context.Likes.RemoveRange(Liks);
+                context.SaveChanges();
+            }
 
+            var pst = context.Posts.Find(Postid);
+            context.Posts.Remove(pst);
+            context.SaveChanges();
+
+            Clients.All.DeletePostTimeLine(Postid.ToString());
+        }
+        public void DeletePostInGroup(int Postid)
+        {
+            var Liks = context.LikeForPostInGroups.Where(i => i.PostId == Postid).ToList();
+            if (Liks != null)
+            {
+                context.LikeForPostInGroups.RemoveRange(Liks);
+                context.SaveChanges();
+            }
+            var pst = context.PostInGroups.Find(Postid);
+            context.PostInGroups.Remove(pst);
+            context.SaveChanges();
+
+            Clients.All.DeletePostGroup(Postid.ToString());
+        }
     }
 }

@@ -23,8 +23,6 @@ namespace EduZone.Models
         public string Department { get; set; }
         public int Section { get; set; }
 
-
-
         // for connect tables
         public string AccountID { get; set; }
     }

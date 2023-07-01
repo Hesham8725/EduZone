@@ -45,7 +45,7 @@ namespace EduZone.Controllers
             context.Posts.Add(post);
             context.SaveChanges();
 
-           
+            
 
             var Profileimage = context.Users.Find(post.UserId).Image;
             var name = context.Users.Find(post.UserId).Name;
@@ -59,5 +59,23 @@ namespace EduZone.Controllers
             var pst = context.Posts.FirstOrDefault(i => i.Id == id);
             return View(pst);
         }
+        public ActionResult UpdatePost(int id)
+        {
+            var post = context.Posts.Find(id);
+            TempData["PostId"] = id.ToString();
+            return View(post);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePost(string content)
+        {
+            var post = context.Posts.Find(Int32.Parse(TempData["PostId"].ToString()));
+            post.ContentOfPost = content;
+            context.SaveChanges();
+            var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.EditPost(post.Id, content);
+            return RedirectToAction(nameof(TimeLine));
+        }
+
     }
 }

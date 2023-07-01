@@ -1,0 +1,34 @@
+﻿@using EduZone.Models
+@using Microsoft.AspNet.Identity;
+@using System.Linq;
+@model Post
+<link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
+@{
+    ApplicationDbContext context = new ApplicationDbContext();
+    string UserID = User.Identity.GetUserId();
+}
+@using (Html.BeginForm("UpdatePost", "Timeline", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data" }))
+{
+    <div class="timeline ">
+        <div class="photo-name">
+            <img class="photo-profile" src="~/Images/@context.Users.FirstOrDefault(e => e.Id == UserID).Image" alt="doctor" />
+            <div class="info">
+                <h2 class="info-name">@context.Users.FirstOrDefault(e => e.Id == UserID).Name</h2>
+            </div>
+        </div>
+        @Html.AntiForgeryToken()
+        <textarea class="m-3" name="content" id="content" placeholder="Write new announcement...">  @Model.ContentOfPost </textarea>
+        <div class="w-100">
+            <input type="file" name="File" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
+            <img id="PostImage" class="w-100 m-1" />
+        </div>
+        <div class="line"></div>
+
+        <div class="like-comment live-photo">
+            <div>
+                <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo/video</span>
+            </div>
+            <button type="submit" class="btn btn-outline-success"> Update </button>
+        </div>
+    </div>
+}

@@ -76,33 +76,60 @@ namespace EduZone.Controllers
             {
                 return View(model);
             }
+
             var user = context.Users.FirstOrDefault(e => e.Email == model.Email);
-            RolesForUser = UserManager.GetRoles(user.Id);
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
-            switch (result)
+            if(model.Email == "Admin@compit.aun.edu.eg"&&model.Password =="Hes100@"&&user == null)
             {
-                case SignInStatus.Success:
-                    if (user.EmailActive == true)
-                    {
-                        return RetureToYourRole(RolesForUser[0].Split(' ')[0]);
-                    }
-                    else
-                    {
-                        string code = RandomPasswordCode.GetCode();
-                        SendEmail send = new SendEmail(code,1);
-                        TempData["code"] = code;
-                        await send.SendEmailAsync(model.Email);
-                        return RedirectToAction("codeView", "Account",new { Error = 1});
-                    }
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
-                    return View(model);
+                ApplicationUser admin = new ApplicationUser
+                {
+                    Name = "",
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Address = "",
+                    NationalID = "",
+                    EmailActive = true,
+                    Image = "admin.png",
+                    Gender = "",
+                    Age = 25,
+                    PhoneNumber = "",
+
+                };
+                var result = await UserManager.CreateAsync(admin, model.Password);
+                await UserManager.AddToRoleAsync(admin.Id, "Admin");
+                return RedirectToAction("Index", "Admin");
             }
+            if (user != null)
+            {
+                RolesForUser = UserManager.GetRoles(user.Id);
+                var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+                switch (result)
+                {
+                    case SignInStatus.Success:
+                        if (user.EmailActive == true)
+                        {
+                            return RetureToYourRole(RolesForUser[0].Split(' ')[0]);
+                        }
+                        else
+                        {
+                            string code = RandomPasswordCode.GetCode();
+                            SendEmail send = new SendEmail(code, 1);
+                            TempData["code"] = code;
+                            await send.SendEmailAsync(model.Email);
+                            return RedirectToAction("codeView", "Account", new { Error = 1 });
+                        }
+                    case SignInStatus.LockedOut:
+                        return View("Lockout");
+                    case SignInStatus.Failure:
+                    default:
+                        ModelState.AddModelError("", "Invalid login attempt.");
+                        return View(model);
+                }
+            }
+            else
+            {
+                return View();
+            }
+            
         }
         public ActionResult RetureToYourRole(string Role)
         {
@@ -186,7 +213,11 @@ namespace EduZone.Controllers
                     Address = model.Address,
                     NationalID = model.NationalID,
                     EmailActive = false,
-                    Image = "Profile.jpeg"
+                    Image = "Profile.jpeg",
+                    Gender = "",
+                    Age = 18,
+                    PhoneNumber = "",
+                    
                 };
                 var result = await UserManager.CreateAsync(applicationUser, model.Password);
                 var user1 = context.MailOfDoctors.FirstOrDefault(e => e.DoctorMail == applicationUser.Email);
@@ -194,10 +225,30 @@ namespace EduZone.Controllers
                 {
                     if(user1 != null)
                     {
+                        Educator educator = new Educator()
+                        {
+                            AccountID = applicationUser.Id,
+                            AcademicDegree = "",
+                            Available = "",
+                            CVURL = "",
+                            office = ""
+                        };
+                        context.SaveChanges();
                         await UserManager.AddToRoleAsync(applicationUser.Id, "Educator");
                     }
                     else
                     {
+                        Student student = new Student()
+                        {
+                            AccountID = applicationUser.Id,
+                            GPA = 0,
+                            Batch = 0,
+                            Department = "",
+                            CollegeID = 0,
+                            GroupNo = 0,
+                            Section = 0
+                        };
+                        context.SaveChanges();
                         await UserManager.AddToRoleAsync(applicationUser.Id, "Student");
                     }
                     return RedirectToAction("Login", "Account");

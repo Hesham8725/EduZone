@@ -138,3 +138,6 @@ a{
 .timeline .likes_repos .list-group > * > *{
   color: white !important;
 }
+#PostText p{
+    margin-bottom:0px;
+}

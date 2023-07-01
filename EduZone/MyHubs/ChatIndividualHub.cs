@@ -7,6 +7,7 @@ using Microsoft.AspNet.SignalR.Hubs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -81,7 +82,7 @@ namespace EduZone.MyHubs
                 ToList();
 
 
-            var userAfterFormat = formatOtherUserFromSender.UsersAndLastSeens(formatOtherUserFromSender.OtherUsers(userid), lastMess);
+            var userAfterFormat = formatOtherUserFromSender.UsersAndLastSeens(formatOtherUserFromSender.OtherUsers(userid), lastMess, userid);
 
             int x = 0;
             foreach (var user in userAfterFormat)
@@ -94,7 +95,7 @@ namespace EduZone.MyHubs
             var lastMessFromResever = db.GetLastMessage.
                 Where(e => e.SendId == otherUserId).
                 ToList();
-            var userAfterFormatFromResever = formatOtherUserFromResever.UsersAndLastSeens(formatOtherUserFromResever.OtherUsers(otherUserId), lastMessFromResever);
+            var userAfterFormatFromResever = formatOtherUserFromResever.UsersAndLastSeens(formatOtherUserFromResever.OtherUsers(otherUserId), lastMessFromResever, otherUserId);
             x = 0;
             var connectionIdForotherUserToformatUsers = db.GetOnlineUSers.Where(e => e.UserId == otherUserId).OrderByDescending(e => e.TimeOfOpen).Select(e => e.ConnectionID);
 
@@ -152,7 +153,7 @@ namespace EduZone.MyHubs
             var lastMessage = db.GetLastMessage.Where(e => e.SendId == userid).ToList();
 
             FormatOtherUser formatOtherUser = new FormatOtherUser();
-            var other = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage);
+            var other = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage, userid);
 
             foreach (var item in other)
             {
@@ -164,14 +165,14 @@ namespace EduZone.MyHubs
 
             if (users.Count == 0)
             {
-                Clients.Caller.otherUsers(null, null, null, null,null, 0);
+                Clients.Caller.otherUsers(null, null, null, null, null, 0);
             }
             else
             {
                 int x = 0;
                 foreach (var user in users)
                 {
-                    Clients.Caller.otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr,user.OnLineOrNot   , x);
+                    Clients.Caller.otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr, user.OnLineOrNot, x);
                     x++;
                 }
             }

@@ -1,5 +1,6 @@
 ﻿using EduZone.Models;
 using EduZone.Models.Class;
+using EduZone.Models.ViewModels;
 using EduZone.MyHubs;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
@@ -63,6 +64,7 @@ namespace EduZone.Controllers
             GM.GroupId = codex;
             GM.IsCreate = true;
             GM.MemberId = User.Identity.GetUserId();
+            GM.TimeGoin = DateTime.Now;
             context.GetGroupsMembers.Add(GM);
             context.SaveChanges();
 
@@ -82,7 +84,7 @@ namespace EduZone.Controllers
                 var YouInGroup = context.GetGroupsMembers.Where(e => e.GroupId == CodeOfGroup && e.MemberId == userId).ToList();
                 if (YouInGroup.Count != 0)
                 {
-                    return Content("You Are allredy Joined !");
+                    //return Content("You Are allredy Joined !");
                     return RedirectToAction(nameof(Index));
                 }
                 else
@@ -102,7 +104,7 @@ namespace EduZone.Controllers
             else
             {
                 //tempdate
-                return Content("Not found");
+                //return Content("Not found");
                 return RedirectToAction(nameof(Index));
             }
         }
@@ -114,13 +116,13 @@ namespace EduZone.Controllers
             ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
-            var data = await context.PostInGroups.OrderByDescending(x => x.Date).ToListAsync();
+            var data = await context.PostInGroups.Where(e=>e.GroupId==GroupCode).OrderByDescending(x => x.Date).ToListAsync();
 
             return View(data);
         }
-        [HttpPost]
+        [HttpPost,ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPost(PostInGroup post, string GrpCode)
+        public ActionResult AddPost(PostInGroup post, string GrpCode, HttpPostedFileBase File)
         {
             post.UserName = User.Identity.Name;
             post.UserId = User.Identity.GetUserId();
@@ -130,14 +132,41 @@ namespace EduZone.Controllers
             {
                 return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
             }
+            string PostImage = "";
+            if (File != null)
+            {
+                string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(File.FileName));
+                File.SaveAs(path);
+                post.ImageUrl = File.FileName;
+                PostImage = File.FileName;
+            }
             context.PostInGroups.Add(post);
             context.SaveChanges();
+
             var idx = post.UserId;
             var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
             var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
             IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
-            adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name);
+            adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name, PostImage);
 
+            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
+        }
+        public ActionResult UpdatePost(int id, string GrpCode)
+        {
+            ViewBag.GC = GrpCode;
+            var post = context.PostInGroups.Find(id);
+            TempData["PostIdGrop"] = id.ToString();
+            return View(post);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePost(string content, string GrpCode)
+        {
+            var post = context.PostInGroups.Find(Int32.Parse(TempData["PostIdGrop"].ToString()));
+            post.ContentOfPost = content;
+            context.SaveChanges();
+            var adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
+            adminhubcontext.Clients.All.EditPostGroup(post.Id, content);
             return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
         }
         public ActionResult Group_Material(string GroupCode)
@@ -304,6 +333,34 @@ namespace EduZone.Controllers
             }
 
             return RedirectToAction("Group_Post", new { GroupCode = GCode });
+        }
+        public ActionResult ShowDegreeOfExam(string GroupCode)
+        {
+            List<ExtraInfoOfDegreeOfExam> extraInfoOfDegreeOfExams = new List<ExtraInfoOfDegreeOfExam>();
+            var userid = User.Identity.GetUserId();
+            var ListOfDegreeOfExam = context.GetSudentExamDegrees.Where(e => e.GroupCode == GroupCode && e.StudentID == userid).ToList();
+            foreach (var item in ListOfDegreeOfExam)
+            {
+                var doctorID = context.GetExams.FirstOrDefault(e => e.Id == item.ExamID);
+                var doctorName = context.Users.FirstOrDefault(e => e.Id == doctorID.CreatorID);
+                var listOfQustions = context.GetQuestions.Where(e => e.ExamId == item.ExamID).ToList();
+                var examName = context.GetExams.FirstOrDefault(e => e.Id == item.ExamID);
+                int toteldegreeofEzam = context.GetQuestions.Where(e => e.ExamId == item.ExamID)
+                                                            .Select(e=>e.Point).Sum();
+                ExtraInfoOfDegreeOfExam extraInfoOfDegree = new ExtraInfoOfDegreeOfExam()
+                {
+                    TotalDegreeOfExam = toteldegreeofEzam,
+                    ExamDegree = item.Degree,
+                    ExamName = examName.FormTitle,
+                    DoctorCreate = doctorName.Name,
+                    ExamID = item.ExamID,
+                    StudentID = item.StudentID
+                };
+
+                extraInfoOfDegreeOfExams.Add(extraInfoOfDegree);
+            }
+            return View(extraInfoOfDegreeOfExams);
+
         }
     }
 }
