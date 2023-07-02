@@ -9,6 +9,7 @@
 }
 @section Top_Link{
     <link href="~/Content/StyleSheet/chat2.css" rel="stylesheet" />
+    <link href="~/Content/StyleSheet/input.css" rel="stylesheet" />
 }
 @Html.Partial("_GroupPartialView")
 
@@ -54,9 +55,9 @@
                                         <li class="clearfix">
                                             <img src="~/Images/@Model[i].MessageContant">
                                             <div class="about">
-                                                <div class="name">
+                                                <a class="name" href="/Profile/ShowProfile/@Model[i].UserId">
                                                     @Model[i].UserName
-                                                </div>
+                                                </a>
                                             </div>
                                         </li>
                                     }
@@ -81,7 +82,7 @@
                                             }
                                             else
                                             {
-                                                <span class="message-sender">@Model[i].UserName</span>
+                                                <a href="/Profile/ShowProfile/@Model[i].UserId" class="message-sender">@Model[i].UserName</a>
                                                 if (Model[i].Image == null)
                                                 {
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="avatar">
@@ -104,19 +105,30 @@
                     </ul>
                 </div>
                 <div class="chat-message row">
-                    <div class="input-group mb-0 col-8">
+                    <div class="cont">
+                        <div class="input">
+                            <input  id="txtMesg" type="text" class="input" placeholder="What's on your mind?" />
+                        </div>
+                        <div class="icon">
+
+                            <i class="fa-regular fa-face-smile fa-lg me-2" style="color: gray; cursor: pointer;"></i>
+                            <i class="fa-regular fa-image fa-lg me-2" style="color: gray; cursor: pointer;"></i>
+                            <i class="fa-solid fa-paper-plane fa-lg " style="color:gray;cursor:pointer;" onclick="send()" id="sendButton"></i>
+                        </div>
+                    </div>
+                    <!--<div class="input-group mb-0 col-8">
                         <div class="input-group-text">
                             <input type="button" value="Send" id="sendButton" onclick="send()">
                         </div>
                         <input type="text" id="txtMesg" class="form-control" placeholder="Enter text here...">
-                        <label for="file-input">
+                        <label for="file-input">-->
                             @*<button class="btn btn-outline-primary" id="sendImage">Image</button>*@
-                            <i class="fa-regular fa-image fa-2xl"></i>
-                        </label>
+                            <!--<i class="fa-regular fa-image fa-2xl"></i>
+                        </label>-->
 
                         @*<input id="file-input" class=" visually-hidden"  onchange="sendImage()" type="file" accept="image/*" />*@
 
-                    </div>
+                    <!--</div>-->
                 </div>
             </div>
         </div>
@@ -187,11 +199,14 @@
         })
 
         function send() {
-            console.log("send");
-            var userid ='@User.Identity.GetUserId()';
             const message = document.getElementById("txtMesg").value;
+            if (message!="") {
+                console.log("send");
+            var userid ='@User.Identity.GetUserId()';
+           
             prox.invoke("SendMessage", userid, message, '@ViewBag.GC');
             document.getElementById("txtMesg").value = "";
+            }
         }
 
 

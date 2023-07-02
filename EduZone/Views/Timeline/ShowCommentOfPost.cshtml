@@ -10,6 +10,7 @@
 @section Top_Link{
     <link href="~/Content/StyleSheet/time-line-for-dector.css" rel="stylesheet" />
 }
+<input type="hidden"value="@User.Identity.GetUserId()" id="Useridx"/>
 <div class="timeline">
     <div class="photo-name">
         <img class="photo-profile" src="~/Images/@context.Users.Find(_id).Image" alt="photo" />
@@ -66,7 +67,7 @@
         <button class="btn btn-outline-success" type="button" onclick="funComment(@Model.Id)" id="button-addon2">comment</button>
     </div>
 </div>
-<div class="comments_repos p-3 mb-5" st>
+<div class="comments_repos p-3 mb-5" style="width: 80%; margin: auto; ">
     @if (context.Comments.FirstOrDefault(pi => pi.PostID == Model.Id) != null)
     {
 
@@ -105,7 +106,28 @@
                 proxy = con.createHubProxy("HubClass");
                 con.start();
                 proxy.on("NewCommentAdded", function (msg, usr, comid, numComents, image, postId, userid) {
-                    var con = `
+                    if (userid == document.getElementById("Useridx").value) {
+                        var con = `
+                        <div id='`+ comid + `' class="comment row " style="padding: 10px; margin: 2px 2px; ">
+                <div class="d-flex">
+                    <div class="comment_info col-sm-10 d-flex flex-row ">
+                        <div class="avatar me-1">
+                            <img src="/Images/`+ image + `" class="comment-avatar" alt="">
+                        </div>
+                        <a href="/Profile/Educator_profile/${userid}" class="username mt-2"><p>` + usr + `</p></a>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-delete-left" style="color: #ff0000;" onclick="DeleteCom(`+ comid + `)"></i>
+                    </div>
+                </div>
+                <p class="comment_content col-10 ms-5">`+ msg + `</p>
+            </div>
+                             `
+                        $('.comments_repos').prepend(con);
+                        $("div[data-user-id='" + @Model.Id + "']").find(".comnt").text(numComents);
+                    }
+                    else {
+                        var con = `
                         <div id='`+ comid +`' class="comment row " style="padding: 10px; margin: 2px 2px; ">
                 <div class="d-flex">
                     <div class="comment_info col-sm-10 d-flex flex-row ">
@@ -115,7 +137,6 @@
                         <a href="/Profile/Educator_profile/${userid}" class="username mt-2"><p>`+ usr +`</p></a>
                     </div>
                     <div>
-                        <i class="fa-solid fa-ellipsis mt-2 fa-lg" style="cursor:pointer;" onclick="DeleteCom(`+ comid +`)"></i>
                     </div>
                 </div>
                 <p class="comment_content col-10 ms-5">`+msg+`</p>
@@ -123,6 +144,7 @@
                              `
                     $('.comments_repos').prepend(con);
                     $("div[data-user-id='" + @Model.Id + "']").find(".comnt").text(numComents);
+                    }
                 });
                 proxy.on("NewLikeAddedInTimeLine", function (uid, pid, clr, numLik) {
                     var newIcon = $("<i>").addClass("fa-solid fa-thumbs-up").addClass("text-" + clr);

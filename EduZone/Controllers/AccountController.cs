@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using EduZone.Models;
 using System.Web.Security;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace EduZone.Controllers
 {
@@ -107,7 +108,7 @@ namespace EduZone.Controllers
                     case SignInStatus.Success:
                         if (user.EmailActive == true)
                         {
-                            return RetureToYourRole();
+                            return RetureToYourRole(GetRole(user.Id));
                         }
                         else
                         {
@@ -131,17 +132,17 @@ namespace EduZone.Controllers
             }
             
         }
-        public ActionResult RetureToYourRole()
+        public ActionResult RetureToYourRole(string role)
         {
-            if (User.IsInRole("Admin"))
+            if (role=="Admin")
             {
                 return RedirectToAction("Index", "Admin");
             }
-            else if(User.IsInRole("Student"))
+            else if(role == "Student")
             {
                 return RedirectToAction("TimeLine", "Timeline");
             }
-            else if(User.IsInRole("Educator"))
+            else if(role == "Educator")
             {
                 return RedirectToAction("TimeLine", "Timeline");
             }
@@ -289,7 +290,7 @@ namespace EduZone.Controllers
                 var User1 = context.Users.FirstOrDefault(e => e.Id == user);
                 User1.EmailActive = true;
                 context.SaveChanges();
-                return RetureToYourRole();
+                return RetureToYourRole(GetRole(user));
             }
             else
             {
@@ -297,20 +298,25 @@ namespace EduZone.Controllers
                 return RedirectToAction(nameof(codeView),new { Error = 0});
             }
         }
-        public string GetRole()
+        private string GetRole(string id)
         {
-            string role = "";
-            if (User.Identity.IsAuthenticated)
+            var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+
+            // Retrieve the user by user id
+            var user = userManager.FindById(id);
+
+            if (user != null)
             {
-                var identity = (System.Security.Claims.ClaimsIdentity)User.Identity;
-                var roleClaim = identity.Claims.FirstOrDefault(c => c.Type == System.Security.Claims.ClaimTypes.Role);
-                if (roleClaim != null)
+                // Retrieve all the roles for the user
+                var roles = userManager.GetRoles(id);
+
+                if (roles != null && roles.Count > 0)
                 {
-                    role = roleClaim.Value;
+                    return roles[0];
                 }
             }
-            return role;
-        } 
+            return "-1";
+        }
         //
         // GET: /Account/ForgotPassword
         [AllowAnonymous]

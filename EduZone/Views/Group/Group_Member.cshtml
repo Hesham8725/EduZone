@@ -15,17 +15,14 @@
         <div class="d-flex flex-row flex-wrap">
             @foreach (var item in Model)
             {
+
                 if (item.MemberId != User.Identity.GetUserId() )
                 {
                     ApplicationDbContext context = new ApplicationDbContext();
                     ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == item.MemberId);
-
                     var currentUser = User.Identity.GetUserId();
-
-                    var roleID = user.Roles.FirstOrDefault();
-                    var role = context.Roles.FirstOrDefault(c => c.Id == roleID.RoleId);
-                    var role2 = role.Name;
-
+                    if (user != null)
+                    {
                     <div class="card m-3 ">
                         <a href="/Profile/Educator_profile/@user.Id">
                             <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
@@ -35,13 +32,14 @@
                                     </h6>
                             </div>
                         </a>
-                        @if (ViewBag.GCR7 == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                        @if (ViewBag.GCR7 == currentUser || User.IsInRole("Admin"))
                         {
                             <div class="card-footer d-flex justify-content-center">
                                 <a href="/Group/Delete_Member/@user.Id" class="btn btn-sm btn-outline-danger w-100"> Remove </a>
                             </div>
                         }
                     </div>
+                    }
                 }
             }
         </div>

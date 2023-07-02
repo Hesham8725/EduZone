@@ -38,14 +38,18 @@ namespace EduZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(string GroupName,string Description, HttpPostedFileBase file)
         {
-            //Add Group
+            //Add Group 
             Group group = new Group();
             group.GroupName = GroupName;
             group.Description = Description;
-            var fileName = Path.GetFileName(file.FileName);
-            var path = Path.Combine(Server.MapPath("~/Images"), fileName);
-            file.SaveAs(path);
-            group.image = file.FileName;
+            group.image = "GroupImage.jfif";
+            if (file != null)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/Images"), fileName);
+                file.SaveAs(path);
+                group.image = file.FileName;
+            }
             group.DateOfCreate = DateTime.Now.Date;
             group.CreatorID = User.Identity.GetUserId();
             string codex = RandomGroupCode.GetCode();
@@ -94,6 +98,7 @@ namespace EduZone.Controllers
                     GM.GroupId = CodeOfGroup;
                     GM.IsCreate = false;
                     GM.MemberId = userId;
+                    GM.TimeGoin = DateTime.Now;
                     context.GetGroupsMembers.Add(GM);
                     context.SaveChanges();
 
@@ -158,7 +163,7 @@ namespace EduZone.Controllers
             TempData["PostIdGrop"] = id.ToString();
             return View(post);
         }
-        [HttpPost]
+        [HttpPost,ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult UpdatePost(string content, string GrpCode)
         {

@@ -17,7 +17,7 @@
             var idx = User.Identity.GetUserId();
             var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
             var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
-            using (Html.BeginForm("AddPost", "Group", FormMethod.Post, new { @class = "mt-5" }))
+            using (Html.BeginForm("AddPost", "Group", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data", onsubmit = "return validateForm()" }))
             {
                 <div class="timeline ">
                     <div class="photo-name">
@@ -38,7 +38,7 @@
 
                     <div class="like-comment live-photo">
                         <div>
-                            <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo/video</span>
+                            <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo</span>
                         </div>
 
                         <button type="button" onclick="Del_image()" class="btn btn-outline-success" id="ClearImage" style="display:none;"> Clear image </button>
@@ -52,66 +52,75 @@
         @foreach (var item in Model)
         {
             var idx = item.UserId;
-            var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
-            var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
-            <div class="timeline" id="@item.Id">
-                <div class="d-flex justify-content-between">
-                    <div class="photo-name">
-                        <img class="photo-profile" src="~/Images/@Image" alt="">
-                        <div class="info">
-                            <a data-user-id=@item.UserId data-item-id=@item.Id href=""><h6 class="info-name">@name </h6></a>
-                            <p class="info-date">@item.Date</p>
-                        </div>
-                    </div>
-                    <div>
-                        @if (item.UserId == User.Identity.GetUserId())
-                        {
-                            <li class="nav-item dropdown list-unstyled">
-                                <a class="active dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false">
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item text-success" href="@Url.Action("UpdatePost","Group",new { id=item.Id,GrpCode=ViewBag.GC})"> <i class="fa-solid fa-pencil me-2"></i> Update</a></li>
-                                    <li><a class="dropdown-item text-danger" onclick="DeletePst(@item.Id)"> <i class="fa-solid fa-trash me-2"></i> Delete</a></li>
-                                </ul>
-                            </li>
-                        }
-                    </div>
-                </div>
-                <div data-user-id=@item.UserId data-item-id=@item.Id class="p-2" id="PostText">
-                    @Html.Raw(item.ContentOfPost)
-                </div>
+            if (context.Users.FirstOrDefault(e => e.Id == idx) != null)
+            {
 
-                <div class="line"></div>
-                <div class="like-comment-p">
-                    <div class="like-comment">
-                        @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
-                        {
-                            <div style="cursor: pointer;">
-                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
-                                    <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
-                                    <span class="text-secondary">Like</span>
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div style="cursor: pointer;">
-                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
-                                    <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary"></i>
-                                    <span class="text-secondary">Like</span>
-                                </a>
-                            </div>
-                        }
-                    </div>
-                    <div class="number-like-comment">
-                        @{
-                            int numcom = context.LikeForPostInGroups.Where(p => p.PostId == item.Id).Count();
-                        }
-                        <div data-user-id="@item.Id"><b class="lik">@numcom</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
-                    </div>
+                var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
+                var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
+    <div class="timeline" id="@item.Id">
+        <div class="d-flex justify-content-between">
+            <div class="photo-name">
+                <img class="photo-profile" src="~/Images/@Image" alt="">
+                <div class="info">
+                    <a data-user-id=@item.UserId data-item-id=@item.Id href="/Profile/ShowProfile/@item.Id"><h6 class="info-name">@name </h6></a>
+                    <p class="info-date">@item.Date</p>
                 </div>
             </div>
+            <div>
+                @if (item.UserId == User.Identity.GetUserId())
+                {
+                    <li class="nav-item dropdown list-unstyled">
+                        <a class="active dropdown-toggle" href="#"  data-bs-toggle="dropdown" aria-expanded="false">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item text-success" href="@Url.Action("UpdatePost", "Group", new { id = item.Id, GrpCode = ViewBag.GC })"> <i class="fa-solid fa-pencil me-2"></i> Update</a></li>
+                            <li><a class="dropdown-item text-danger" onclick="DeletePst(@item.Id)"> <i class="fa-solid fa-trash me-2"></i> Delete</a></li>
+                        </ul>
+                    </li>
+                }
+            </div>
+        </div>
+        <div data-user-id=@item.UserId data-item-id=@item.Id class="p-2" id="PostText">
+            @Html.Raw(item.ContentOfPost)
+        </div>
+        @if (item.ImageUrl != "" && item.ImageUrl != null)
+        {
+            <div class="w-100">
+                <img src="/Images/@item.ImageUrl" class="w-100 m-1" style="height:500px;" />
+            </div>
         }
+        <div class="line"></div>
+        <div class="like-comment-p">
+            <div class="like-comment">
+                @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
+                {
+                    <div style="cursor: pointer;">
+                        <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
+                            <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
+                            <span class="text-secondary">Like</span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div style="cursor: pointer;">
+                        <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
+                            <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary"></i>
+                            <span class="text-secondary">Like</span>
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="number-like-comment">
+                @{
+                    int numcom = context.LikeForPostInGroups.Where(p => p.PostId == item.Id).Count();
+                }
+                <div data-user-id="@item.Id"><b class="lik">@numcom</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+            </div>
+        </div>
+    </div>
+                                }
+                            }
         @section bottom_Link
         {
             <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
@@ -258,6 +267,14 @@
 
                     }
                     HiddenInput.value = Resualt;
+                }
+                function validateForm() {
+                    var input = document.getElementById("ContentOfPost");
+                    if (input.value === "") {
+                        event.preventDefault();
+                        return false;
+                    }
+                    return true;
                 }
             </script>
         }

@@ -11,7 +11,7 @@
 <main class="container my-3 pb-4">
     @if (User.IsInRole("Educator"))
     {
-        using (Html.BeginForm("AddPost", "Timeline", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data" }))
+        using (Html.BeginForm("AddPost", "Timeline", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data", onsubmit = "return validateForm()" }))
         {
             <div class="timeline ">
 
@@ -31,8 +31,9 @@
                 <input type="text" id="Hiddenitem" name="ContentOfPost" style="display: none;" />
                 <div class="like-comment live-photo">
                     <div>
-                        <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo/video</span>
+                        <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo</span>
                     </div>
+                    <button type="button" onclick="Del_image()" class="btn btn-outline-success" id="ClearImage" style="display:none;"> Clear image </button>
                     <button type="submit" onmouseover="ChangeText()" class="btn btn-outline-success"> POST </button>
                 </div>
             </div>
@@ -48,7 +49,7 @@
         {
             string _id = item.UserId;
             var userp = context.Users.FirstOrDefault(e => e.Id == _id);
-            if (item != null&& userp!=null)
+            if (item != null && userp != null)
             {
 
 
@@ -63,7 +64,7 @@
                         </div>
                         <div>
                             @if (item.UserId == User.Identity.GetUserId())
-            {
+                            {
                                 <li class="nav-item dropdown list-unstyled">
                                     <a class="active dropdown-toggle" href="#" role="" data-bs-toggle="dropdown" aria-expanded="false">
                                     </a>
@@ -79,7 +80,7 @@
                         @Html.Raw(item.ContentOfPost)
                     </div>
                     @if (item.ImageUrl != "" && item.ImageUrl != null)
-        {
+                    {
                         <div class="w-100">
                             <img src="/Images/@item.ImageUrl" class="w-100 m-1" style="height:500px;" />
                         </div>
@@ -98,7 +99,7 @@
 
                             }
                             else
-    {
+                            {
                                 <div style="cursor: pointer;">
                                     <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlikeTime('@User.Identity.GetUserId()', @item.Id, false, false)">
                                         <i class="fa-solid fa-thumbs-up me-2 text-secondary chngcmnt"></i>
@@ -110,9 +111,9 @@
                         </div>
                         <div class="number-like-comment">
                             @{
-        int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
-        int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
-    }
+                                int numcom = context.Comments.Where(s => s.PostID == item.Id).Count();
+                                int numLk = context.Likes.Where(p => p.PostId == item.Id).Count();
+                            }
                             <div data-user-id="@item.Id"><b class="lik">@numLk</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
                             <div data-user-id="@item.Id"><b class="comnt">@numcom</b><span class="ms-2 text-secondary">Comment</span> </div>
                         </div>
@@ -123,7 +124,9 @@
     }
     else if (User.IsInRole("Student"))
     {
-        <h5>No PostsAvailable</h5>
+        <hgroup>
+            <h2 class="text-info">No Posts Available Now.</h2>
+        </hgroup>
     }
 
     @*real time links*@
@@ -263,8 +266,17 @@
                     reader.onload = function (event) {
                         imgtag.src = event.target.result;
                         imgtag.height = 500;
+                        ClearImage.style.display = "block";
                     };
                     reader.readAsDataURL(selectedFile);
+            }
+            function Del_image() {
+                var imgtag = document.getElementById("PostImage");
+                imgtag.height = 0;
+                const fileInput = document.getElementById("fileInput");
+                const ClearImage = document.getElementById("ClearImage");
+                fileInput.value = "";
+                ClearImage.style.display = "none";
             }
             function ChangeText() {
                 var textarea = document.getElementById("ContentOfPost");
@@ -284,6 +296,14 @@
             }
             function DeletePstTime(idPost) {
                 proxy.invoke("DeletePostInTimeLine", idPost)
+            }
+            function validateForm() {
+                var input = document.getElementById("ContentOfPost");
+                if (input.value === "") {
+                    event.preventDefault();
+                    return false;
+                }
+                return true;
             }
         </script>
     }
