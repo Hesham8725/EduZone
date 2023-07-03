@@ -1,11 +1,12 @@
 ﻿﻿﻿@using EduZone.Models
 @model List<Department>
 @{
+    ApplicationDbContext context = new ApplicationDbContext();
     int cont = 1;
     SelectList departments = null;
     if (ViewBag.Department != null)
     {
-        departments = new SelectList(ViewBag.Doctors, "Id", "Name", ViewBag.Department.Admin.Id);
+        departments = new SelectList(ViewBag.Doctors, "Id", "Name", ViewBag.Department.AdminId);
     }
     else
     {
@@ -77,11 +78,12 @@ else if (ViewBag.curd == "delete")
             <tbody>
                 @foreach (var item in Model)
                 {
+                    string idx = item.AdminId;
                     <tr>
                         <th scope="row">@cont</th>
                         <td>@item.Name</td>
                         <td>@item.Description</td>
-                        <td>@item.Admin.Name</td>
+                        <td>@context.Users.FirstOrDefault(e=>e.Id == idx).Name</td>
                         <td>
                             <a href="@Url.Action("UpdateDepartment","Department",new { depId=item.Id })" class="btn btn-outline-success">Update</a>
                             @*<a href="@Url.Action("DeleteDepartment","Department",new { depId=item.Id },)" class="btn btn-danger">Delete</a>*@

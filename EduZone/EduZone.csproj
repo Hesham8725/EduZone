@@ -282,6 +282,7 @@
     <Compile Include="Models\ViewModels\UsersAndLastSeenViewModel.cs" />
     <Compile Include="Models\ViewModels\StudentAnswerDegreeViewModel.cs" />
     <Compile Include="MyHubs\ChatIndividualHub.cs" />
+    <Compile Include="MyHubs\PreRegistrationHub.cs" />
     <Compile Include="MyHubs\NotificationHub.cs" />
     <Compile Include="MyHubs\OnlineUserHub.cs" />
     <Compile Include="MyHubs\HubClass.cs" />
@@ -333,6 +334,7 @@
     <Content Include="Content\StyleSheet\all.css" />
     <Content Include="Content\StyleSheet\all.min.css" />
     <Content Include="Content\StyleSheet\chat2.css" />
+    <Content Include="Content\StyleSheet\courses.css" />
     <Content Include="Content\StyleSheet\create-exam.css" />
     <Content Include="Content\StyleSheet\ForgetPssword.css" />
     <Content Include="Content\StyleSheet\input.css" />
