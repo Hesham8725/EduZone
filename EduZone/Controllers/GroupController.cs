@@ -2,6 +2,7 @@
 using EduZone.Models.Class;
 using EduZone.Models.ViewModels;
 using EduZone.MyHubs;
+using EduZone.Services;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using System;
@@ -21,6 +22,7 @@ namespace EduZone.Controllers
         // GET: Group
         public ActionResult Index()
         {
+            ViewBag.Con = "No";
             List<Group> _groups = new List<Group>();
             string userid = User.Identity.GetUserId();
             var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
@@ -153,8 +155,80 @@ namespace EduZone.Controllers
             var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
             IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
             adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name, PostImage);
+            //Beign abdallah
+            var postNotify = context.PostInGroups.FirstOrDefault(e => e.ContentOfPost == post.ContentOfPost && e.GroupId == GrpCode && e.UserId == post.UserId);
 
+            var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == post.GroupId).ToList();
+            foreach (var item in GroupMembers)
+            {
+                if (item.MemberId == post.UserId)
+                {
+                    continue;
+                }
+                Notifications notifications = new Notifications()
+                {
+                    PostId = postNotify.Id,
+                    SenderId = post.UserId,
+                    TimeOfNotify = DateTime.Now,
+                    GroupCode = GrpCode,
+                    userId = item.MemberId,
+                    IsReaded = false,
+                    TypeOfPost = "group",
+                };
+                context.GetNotifications.Add(notifications);
+                context.SaveChanges();
+            }
+
+
+            var usersInNorificationPage = context.GetUserInNotificationPages.OrderByDescending(e => e.TimeOfLastOpen).ToList();
+            List<UserInNotificationPage> ListOfUserInNotificationPagesNow = new List<UserInNotificationPage>();
+            foreach (var item in usersInNorificationPage)
+            {
+                if (DateTime.Now - item.TimeOfLastOpen <= TimeSpan.FromMinutes(3))
+                {
+                    foreach (var u in GroupMembers)
+                    {
+                        if (u.MemberId == item.UserId)
+                        {
+                            UserInNotificationPage userin = new UserInNotificationPage()
+                            {
+                                Id = item.Id,
+                                TimeOfLastOpen = item.TimeOfLastOpen,
+                                ConnectionID = item.ConnectionID,
+                                UserId = item.UserId
+                            };
+                            ListOfUserInNotificationPagesNow.Add(userin);
+                        }
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            var notificationInDB = context.GetNotifications.OrderByDescending(t => t.TimeOfNotify).Take(1).ToArray();
+            IHubContext Notivication = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            FormatOtherUser formatOtherUser = new FormatOtherUser();
+            var GroupName = context.GetGroups.FirstOrDefault(c => c.Code == GrpCode);
+            foreach (var item in ListOfUserInNotificationPagesNow)
+            {
+                if (postNotify.Id == notificationInDB[0].PostId)
+                {
+                    var time = formatOtherUser.FormatTimeOfNotification(notificationInDB[0].TimeOfNotify);
+                    var CreatorOfPost = context.Users.FirstOrDefault(e => e.Id == post.UserId);
+                    Notivication.Clients.Client(item.ConnectionID).NewNotificationFromGrop(postNotify.Id, CreatorOfPost.Name, CreatorOfPost.Image, time, GroupName.GroupName, "Timeline");
+
+                }
+            }
+            //End abdallah
             return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
+        }
+
+
+        public ActionResult ShowPostInNewPage(int id)
+        {
+            var postingroup = context.PostInGroups.FirstOrDefault(e => e.Id == id);
+            return View(postingroup);
         }
         public ActionResult UpdatePost(int id, string GrpCode)
         {
@@ -318,7 +392,19 @@ namespace EduZone.Controllers
             var MyGroup = context.GetGroupsMembers.FirstOrDefault(e => e.GroupId == GroupCode && e.MemberId == userId);
             context.GetGroupsMembers.Remove(MyGroup);
             context.SaveChanges();
-            return RedirectToAction("Index");
+
+            List<Group> _groups = new List<Group>();
+            string userid = User.Identity.GetUserId();
+            var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
+            if (Groups != null)
+            {
+                foreach (var item in Groups)
+                {
+                    var GName = context.GetGroups.FirstOrDefault(e => e.Code == item.GroupId);
+                    _groups.Add(GName);
+                }
+            }
+            return RedirectToAction("Index", _groups);
         }
         public ActionResult DeleteGroup(string GCode)
         {
@@ -327,17 +413,30 @@ namespace EduZone.Controllers
             if (Group != null)
             {
                 var MembersINGroupe = context.GetGroupsMembers.Where(e => e.GroupId == GCode).ToList();
-                foreach (var Member in MembersINGroupe)
-                {
-                    context.GetGroupsMembers.Remove(Member);
-                    context.SaveChanges();
-                }
+                context.GetGroupsMembers.RemoveRange(MembersINGroupe);
+                context.SaveChanges();
                 context.GetGroups.Remove(Group);
+                context.SaveChanges();
+                
+                var PostsINGroupe = context.PostInGroups.Where(e => e.GroupId == GCode).ToList();
+                context.PostInGroups.RemoveRange(PostsINGroupe);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            var Group1 = context.GetGroups.FirstOrDefault(e => e.Code == GCode);
 
-            return RedirectToAction("Group_Post", new { GroupCode = GCode });
+            List <Group> _groups = new List<Group>();
+            string userid = User.Identity.GetUserId();
+            var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
+            if (Groups != null)
+            {
+                foreach (var item in Groups)
+                {
+                    var GName = context.GetGroups.FirstOrDefault(e => e.Code == item.GroupId);
+                    _groups.Add(GName);
+                }
+            }
+            return RedirectToAction("index", _groups);
         }
         public ActionResult ShowDegreeOfExam(string GroupCode)
         {

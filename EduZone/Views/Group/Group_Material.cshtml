@@ -7,10 +7,10 @@
 
 <div class="tab-content p-3 my-3">
     <div class="tab-pane active" id="Materials">
-        <form action="@Url.Action("SaveMaterial", "Group", new { GCode = ViewBag.GC })" method="post" enctype="multipart/form-data">
+        <form action="@Url.Action("SaveMaterial", "Group", new { GCode = ViewBag.GC })"  id = "fileupload"  method="post" enctype="multipart/form-data">
             <div class="input-group mb-3 col-10">
 
-                <input type="file" class="form-control w-100" name="file" required>
+                <input type="file" class="form-control w-100" name="file" required  multiple = "multiple">
                 <input type="submit" class="btn btn-sm btn-outline-primary col-2 mt-1" value="Upload">
 
             </div>
@@ -47,3 +47,17 @@
         </table>
     </div>
 </div>
+<script>
+    $(function () {
+        $('#fileupload').fileupload({
+            dataType: 'json',
+            done: function (e, data) {
+                // Handle the response from the server
+            },
+            progressall: function (e, data) {
+                var progress = parseInt(data.loaded / data.total * 100, 10);
+                // Update the progress bar
+            }
+        });
+    });
+</script>

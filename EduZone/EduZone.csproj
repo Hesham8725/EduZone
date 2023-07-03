@@ -245,24 +245,19 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306301309589_x.cs" />
-    <Compile Include="Migrations\202306301309589_x.Designer.cs">
-      <DependentUpon>202306301309589_x.cs</DependentUpon>
+    <Compile Include="Migrations\202307022042193_x.cs" />
+    <Compile Include="Migrations\202307022042193_x.Designer.cs">
+      <DependentUpon>202307022042193_x.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202306301455331_xn.cs" />
-    <Compile Include="Migrations\202306301455331_xn.Designer.cs">
-      <DependentUpon>202306301455331_xn.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202306302030317_d.cs" />
-    <Compile Include="Migrations\202306302030317_d.Designer.cs">
-      <DependentUpon>202306302030317_d.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202307010917592_ww.cs" />
-    <Compile Include="Migrations\202307010917592_ww.Designer.cs">
-      <DependentUpon>202307010917592_ww.cs</DependentUpon>
+    <Compile Include="Migrations\202307030132441_sd.cs" />
+    <Compile Include="Migrations\202307030132441_sd.Designer.cs">
+      <DependentUpon>202307030132441_sd.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\ChatIndividual.cs" />
     <Compile Include="Models\ChatGroup.cs" />
+    <Compile Include="Models\UserInNotificationPage.cs" />
+    <Compile Include="Models\Notifications.cs" />
+    <Compile Include="Models\P_Registration.cs" />
     <Compile Include="Models\Course.cs" />
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\CurrantUserIsOnline.cs" />
@@ -280,12 +275,14 @@
     <Compile Include="Models\StudentAnswer.cs" />
     <Compile Include="Models\StudentExamDegree.cs" />
     <Compile Include="Models\ViewModels\AddAdminViewModel.cs" />
+    <Compile Include="Models\ViewModels\NotificationViewModel.cs" />
     <Compile Include="Models\ViewModels\ExtraInfoOfDegreeOfExam.cs" />
     <Compile Include="Models\ViewModels\ShowProfileViewModel.cs" />
     <Compile Include="Models\ViewModels\ExtraInfoOfMailOfDoctorViewModel.cs" />
     <Compile Include="Models\ViewModels\UsersAndLastSeenViewModel.cs" />
     <Compile Include="Models\ViewModels\StudentAnswerDegreeViewModel.cs" />
     <Compile Include="MyHubs\ChatIndividualHub.cs" />
+    <Compile Include="MyHubs\NotificationHub.cs" />
     <Compile Include="MyHubs\OnlineUserHub.cs" />
     <Compile Include="MyHubs\HubClass.cs" />
     <Compile Include="MyHubs\ChatGroupHub.cs" />
@@ -344,6 +341,7 @@
     <Content Include="Content\StyleSheet\math-2.css" />
     <Content Include="Content\StyleSheet\new-group.css" />
     <Content Include="Content\StyleSheet\normalize.css" />
+    <Content Include="Content\StyleSheet\notification.css" />
     <Content Include="Content\StyleSheet\profile.css" />
     <Content Include="Content\StyleSheet\ProfileCSS.css" />
     <Content Include="Content\StyleSheet\RegisterStyle.css" />
@@ -442,6 +440,18 @@
     <Content Include="Scripts\jquery-3.6.4.slim.js" />
     <Content Include="Scripts\jquery-3.6.4.slim.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery-ui-1.9.0.js" />
+    <Content Include="Scripts\jquery-ui-1.9.0.min.js" />
+    <Content Include="Scripts\jQuery.FileUpload\cors\jquery.postmessage-transport.js" />
+    <Content Include="Scripts\jQuery.FileUpload\cors\jquery.xdr-transport.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-audio.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-image.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-process.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-ui.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-validate.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload-video.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.fileupload.js" />
+    <Content Include="Scripts\jQuery.FileUpload\jquery.iframe-transport.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.js" />
     <Content Include="Scripts\jquery.signalR-2.4.3.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
@@ -497,8 +507,8 @@
     <Content Include="Scripts\jquery-3.6.4.min.map" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Educator\Index.cshtml" />
-    <Content Include="Views\Admin\Index.cshtml" />
-    <Content Include="Views\Student\Index.cshtml" />
+    <Content Include="Views\Admin\dashboard.cshtml" />
+    <Content Include="Views\Student\dashboard.cshtml" />
     <Content Include="Views\Shared\_PartialPage1.cshtml" />
     <Content Include="Views\Profile\_ViewStart.cshtml" />
     <Content Include="Views\Shared\_ProfileLayout.cshtml" />
@@ -537,23 +547,20 @@
     <Content Include="Views\Group\ShowDegreeOfExam.cshtml" />
     <Content Include="Views\Admin\AddAdmin.cshtml" />
     <Content Include="Views\Profile\EducatorInfo.cshtml" />
+    <Content Include="Views\Student\Pre_Registration.cshtml" />
+    <Content Include="Views\Educator\dashboard.cshtml" />
+    <Content Include="Views\Student\Notification.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\Uploads\" />
     <Folder Include="Views\api\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202306301309589_x.resx">
-      <DependentUpon>202306301309589_x.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202307022042193_x.resx">
+      <DependentUpon>202307022042193_x.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306301455331_xn.resx">
-      <DependentUpon>202306301455331_xn.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202306302030317_d.resx">
-      <DependentUpon>202306302030317_d.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202307010917592_ww.resx">
-      <DependentUpon>202307010917592_ww.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202307030132441_sd.resx">
+      <DependentUpon>202307030132441_sd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

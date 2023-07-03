@@ -9,6 +9,10 @@
 }
 @using (Html.BeginForm("UpdatePost", "Timeline", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data" }))
 {
+    string val = @Model.ContentOfPost;
+    val = val.Replace("</p>", "\n");
+    val = val.Replace("<p class=\" news-ar\" >", "");
+    val = val.Replace("<p class=\" news-en\" >", "");
     <div class="timeline ">
         <div class="photo-name">
             <img class="photo-profile" src="~/Images/@context.Users.FirstOrDefault(e => e.Id == UserID).Image" alt="doctor" />
@@ -17,10 +21,10 @@
             </div>
         </div>
         @Html.AntiForgeryToken()
-        <textarea class="m-3" name="content" id="content" placeholder="Write new announcement...">  @Model.ContentOfPost </textarea>
+        <textarea class="m-3" name="content" id="content" placeholder="Write new announcement...">  @val </textarea>
         <div class="w-100">
             <input type="file" name="File" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
-            @if (Model.ImageUrl != "")
+            @if (Model.ImageUrl!=null&&Model.ImageUrl != "")
             {
                 <img src="~/Images/@Model.ImageUrl" id="PostImage" class="w-100 m-1" style="height:500px" />
             }

@@ -47,7 +47,7 @@ namespace EduZone.Models
             }
         }
 
-        public ActionResult Index()
+        public ActionResult dashboard()
         {
             return View();
         }

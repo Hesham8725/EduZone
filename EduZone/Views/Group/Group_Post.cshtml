@@ -62,7 +62,7 @@
             <div class="photo-name">
                 <img class="photo-profile" src="~/Images/@Image" alt="">
                 <div class="info">
-                    <a data-user-id=@item.UserId data-item-id=@item.Id href="/Profile/ShowProfile/@item.Id"><h6 class="info-name">@name </h6></a>
+                    <a data-user-id=@item.UserId data-item-id=@item.Id href="/Profile/ShowProfile/@item.UserId"><h6 class="info-name">@name </h6></a>
                     <p class="info-date">@item.Date</p>
                 </div>
             </div>
@@ -140,7 +140,7 @@
                                     <div class="photo-name">
                                         <img class="photo-profile" src="/Images/${Image}" alt="">
                                         <div class="info">
-                                            <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href=""><h6 class="info-name">${name}</h6></a>
+                                            <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href="href="/Profile/ShowProfile/${NewPost.UserId}""><h6 class="info-name">${name}</h6></a>
                                             <p class="info-dt">    </p>
                                         </div>
                                     </div>

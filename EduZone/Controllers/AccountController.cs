@@ -136,15 +136,15 @@ namespace EduZone.Controllers
         {
             if (role=="Admin")
             {
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("dashboard", "Admin");
             }
             else if(role == "Student")
             {
-                return RedirectToAction("TimeLine", "Timeline");
+                return RedirectToAction("dashboard", "Student");
             }
             else if(role == "Educator")
             {
-                return RedirectToAction("TimeLine", "Timeline");
+                return RedirectToAction("dashboard", "Educator");
             }
             else
             {

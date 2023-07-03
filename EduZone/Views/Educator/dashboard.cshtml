@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "dashboard";
+}
+
+<h2>Educator dashboard</h2>
+
+<div id="div">
+
+</div>
+
+
+@section bottom_Link{
+    <script>
+        
+        fetch('/api/Numbers', { method: 'POST' }).then(res => res.json()).then(data => {
+            console.log(data);
+            //console.log(data.SizeOfDate);
+            //data.forEach(emp => {
+              //  document.querySelector("#div").append(`<h5>` + emp.NumberOfAdmins + `</h5>`)
+            //})
+        })
+    </script>
+}

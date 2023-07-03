@@ -51,6 +51,7 @@ namespace EduZone.Controllers
 
         public ActionResult Chat_with_one(string id )
         {
+            ViewBag.Con = "No";
             ViewBag.id = id;
             otherIIID = id;
             FormatOtherUser formatOtherUser = new FormatOtherUser();

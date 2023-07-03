@@ -126,7 +126,7 @@
                         <li><a href="/Student/GetBatches">Batches</a></li>
                         @if (User.IsInRole("Student"))
                         {
-                            <li><a href="/Student/CourseEnrollment">Courses Enrollment</a></li>
+                            <li><a href="/Student/Pre_Registration">Courses Enrollment</a></li>
                         }
                         @if (User.IsInRole("Admin"))
                         {
@@ -206,12 +206,12 @@
                     </ul>
                 </li>
                 <li>
-                    <a href="#">
+                    <a href="/student/Notification">
                         <i class="bx bx-bell"></i>
                         <span class="link_name">Notifications</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Notifications</a></li>
+                        <li><a class="link_name" href="/student/Notification">Notifications</a></li>
                     </ul>
                 </li>
 

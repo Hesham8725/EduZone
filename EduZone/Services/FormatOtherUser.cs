@@ -61,54 +61,54 @@ namespace EduZone.Services
             {
                 for (int j = 0; j < lastMessages.Count; j++)
                 {
-                    if (users[i].Id != currentUserId)
-                    {
-                        if (users[i].Id == lastMessages[j].ReseverID || users[i].Id == lastMessages[j].SendId)
+                   
+                        if (users[i].Id != currentUserId)
                         {
+                            if (users[i].Id == lastMessages[j].ReseverID || users[i].Id == lastMessages[j].SendId)
+                            {
 
-                            var lastAnduser = new UsersAndLastSeenViewModel();
-                            lastAnduser.Name = users[i].Name;
-                            lastAnduser.Image = users[i].Image;
-                            lastAnduser.Id = users[i].Id;
-                            var id = users[i].Id;
-                            var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
-                            if (t != null)
-                            {
-                                lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
+                                var lastAnduser = new UsersAndLastSeenViewModel();
+                                lastAnduser.Name = users[i].Name;
+                                lastAnduser.Image = users[i].Image;
+                                lastAnduser.Id = users[i].Id;
+                                var id = users[i].Id;
+                                var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
+                                if (t != null)
+                                {
+                                    lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
+                                }
+                                lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
+                                lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
+                                usersAndLasts.Add(lastAnduser);
                             }
-                            lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
-                            lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
-                            usersAndLasts.Add(lastAnduser);
                         }
-                    }
-                    else
-                    {
-                        if (cont == 0 && lastMessages[j].ReseverID == lastMessages[j].SendId)
+                        else
                         {
-                            var lastAnduser = new UsersAndLastSeenViewModel();
-                            lastAnduser.Name = users[i].Name;
-                            lastAnduser.Image = users[i].Image;
-                            lastAnduser.Id = users[i].Id;
-                            var id = users[i].Id;
-                            var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
-                            if (t != null)
+                            if (cont == 0 && lastMessages[j].ReseverID == lastMessages[j].SendId)
                             {
-                                lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
+                                var lastAnduser = new UsersAndLastSeenViewModel();
+                                lastAnduser.Name = users[i].Name;
+                                lastAnduser.Image = users[i].Image;
+                                lastAnduser.Id = users[i].Id;
+                                var id = users[i].Id;
+                                var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
+                                if (t != null)
+                                {
+                                    lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
+                                }
+                                lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
+                                lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
+                                usersAndLasts.Add(lastAnduser);
+                                cont++;
                             }
-                            lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
-                            lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
-                            usersAndLasts.Add(lastAnduser);
-                            cont++;
                         }
-                    }
+                    
                 }
             }
             usersAndLasts = usersAndLasts.OrderByDescending(x => x.TimeOfLastSeenTi).ToList();
             return usersAndLasts;
 
         }
-
-
         public string FormatTimeOfLastSeen(DateTime time)
         {
             string timeFormat = "";
@@ -144,6 +144,74 @@ namespace EduZone.Services
             }
             return timeFormat;
         }
+        public string FormatTimeOfNotification(DateTime time)
+        {
+            string timeFormat = "";
+            if (DateTime.Now.Day - time.Day == 0
+                    && DateTime.Now.Month - time.Month == 0
+                    && DateTime.Now.Year - time.Year == 0)
+            {
+                if (DateTime.Now.Hour - time.Hour == 0)
+                {
+                    if (time.Minute - DateTime.Now.Minute == 0)
+                    {
+                        timeFormat = "Just Now";
+                    }
+                    else
+                    {
+                        timeFormat = (DateTime.Now.Minute - time.Minute).ToString() + " minutes ago";
+                    }
+                }
+                else
+                {
+                    timeFormat = (DateTime.Now.Hour - time.Hour).ToString() + " Hours ago";
+                }
+            }
+            else if (DateTime.Now.Day - time.Day == 1
+                         && DateTime.Now.Month - time.Month == 0
+                         && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt") + " Yestarday";
+            }
+            else if (time.Day - DateTime.Now.Day == 29
+                     && (time.Month == 4 || time.Month == 6 || time.Month == 9 || time.Month == 11)
+                     && DateTime.Now.Month - time.Month == 1
+                     && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt") + " Yestarday";
+            }
 
+            else if (time.Day - DateTime.Now.Day == 30
+                     && (time.Month == 1 || time.Month == 3 || time.Month == 5 ||
+                         time.Month == 7 || time.Month == 8 || time.Month == 10 || time.Month == 12)
+                     && DateTime.Now.Month - time.Month == 1
+                     && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt") + " Yestarday";
+            }
+            else if (time.Day - DateTime.Now.Day == 28 && (time.Month == 2)
+                        && DateTime.Now.Month - time.Month == 1
+                        && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt") + " Yestarday";
+            }
+
+            else if (DateTime.Now.Day - time.Day >= 2 && DateTime.Now.Day - time.Day <= 7
+                         && DateTime.Now.Month - time.Month == 0
+                         && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt ") + time.DayOfWeek;
+            }
+            else if (DateTime.Now.Month - time.Month != 0
+                         && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("dddd, dd MMMM hh: mm tt");
+            }
+            else
+            {
+                timeFormat = time.ToString("dddd, dd MMMM yyyy hh: mm tt");
+            }
+            return timeFormat;
+        }
     }
 }

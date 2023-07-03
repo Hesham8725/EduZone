@@ -19,7 +19,6 @@ namespace EduZone.Models
         [StringLength(500, ErrorMessage = "Content must be between 1 and 500 characters", MinimumLength = 1)]
         public string ContentOfPost { get; set; }
 
-
         [Display(Name = "UserName")]
         public string UserName { get; set; }
 
@@ -29,13 +28,8 @@ namespace EduZone.Models
         [Display(Name = "Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
-
-        [ForeignKey("Group")]
         public string GroupId { get; set; }
         public string ImageUrl { get; set; }
-
-        public Group Group { get; set; }
-
         [Display(Name = "Likes")]
         public virtual ICollection<LikeForPostInGroup> LikeForPostInGroup { get; set; }
 
