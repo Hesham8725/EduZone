@@ -224,78 +224,6 @@ namespace EduZone.Controllers
             //End abdallah
             return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
         }
-
-
-
-            //Beign abdallah
-            var postNotify = context.PostInGroups.FirstOrDefault(e => e.ContentOfPost == post.ContentOfPost && e.GroupId == GrpCode && e.UserId == post.UserId );
-
-            var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == post.GroupId).ToList();
-            foreach (var item in GroupMembers)
-            {
-                if(item.MemberId==post.UserId)
-                {
-                    continue;
-                }
-                Notifications notifications = new Notifications()
-                {
-                    PostId = postNotify.Id,
-                    SenderId = post.UserId,
-                    TimeOfNotify = DateTime.Now,
-                    GroupCode = GrpCode,
-                    userId = item.MemberId,
-                    IsReaded = false,
-                    TypeOfPost ="group",
-                };
-                context.GetNotifications.Add(notifications);
-                context.SaveChanges();
-            }
-
-
-            var usersInNorificationPage = context.GetUserInNotificationPages.OrderByDescending(e => e.TimeOfLastOpen).ToList();
-            List<UserInNotificationPage> ListOfUserInNotificationPagesNow = new List<UserInNotificationPage>();
-            foreach (var item in usersInNorificationPage)
-            {
-                if (DateTime.Now - item.TimeOfLastOpen <= TimeSpan.FromMinutes(3))
-                {
-                    foreach (var u in GroupMembers)
-                    {
-                        if(u.MemberId==item.UserId)
-                        {
-                            UserInNotificationPage userin = new UserInNotificationPage()
-                            {
-                                Id = item.Id,
-                                TimeOfLastOpen = item.TimeOfLastOpen,
-                                ConnectionID = item.ConnectionID,
-                                UserId = item.UserId
-                            };
-                            ListOfUserInNotificationPagesNow.Add(userin);
-                        }
-                    }     
-                }
-                else
-                {
-                    break;
-                }
-            }
-            var notificationInDB = context.GetNotifications.OrderByDescending(t => t.TimeOfNotify).Take(1).ToArray();
-            IHubContext Notivication = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-            FormatOtherUser formatOtherUser = new FormatOtherUser();
-            var GroupName = context.GetGroups.FirstOrDefault(c => c.Code == GrpCode);
-            foreach (var item in ListOfUserInNotificationPagesNow)
-            {
-                if (postNotify.Id == notificationInDB[0].PostId)
-                {
-                    var time = formatOtherUser.FormatTimeOfNotification(notificationInDB[0].TimeOfNotify);
-                    var CreatorOfPost = context.Users.FirstOrDefault(e => e.Id == post.UserId);
-                    Notivication.Clients.Client(item.ConnectionID).NewNotificationFromGrop(postNotify.Id, CreatorOfPost.Name, CreatorOfPost.Image, time, GroupName.GroupName, "Timeline");
-
-                }
-            }
-            //End abdallah
-
-            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
-        }
         public ActionResult Group_Material(string GroupCode)
         {
             // first Get Group
@@ -521,35 +449,7 @@ namespace EduZone.Controllers
 
         }
 
-        public ActionResult ShowDegreeOfExam(string GroupCode)
-        {
-            List<ExtraInfoOfDegreeOfExam> extraInfoOfDegreeOfExams = new List<ExtraInfoOfDegreeOfExam>();
-            var userid=User.Identity.GetUserId();
-            var ListOfDegreeOfExam = context.GetSudentExamDegrees.Where(e => e.GroupCode == GroupCode && e.StudentID == userid).ToList();
-            foreach (var item in ListOfDegreeOfExam)
-            {
-                var doctorID = context.GetExams.FirstOrDefault(e=>e.Id==item.ExamID);
-                var doctorName = context.Users.FirstOrDefault(e => e.Id == doctorID.CreatorID);
-                var listOfQustions=context.GetQuestions.Where(e=>e.ExamId==item.ExamID).ToList();
-                var examName= context.GetExams.FirstOrDefault(e=>e.Id == item.ExamID);
-                int toteldegreeofEzam = 0;
-                foreach (var q in listOfQustions)
-                {
-                    toteldegreeofEzam += q.Point;
-                }
-                ExtraInfoOfDegreeOfExam extraInfoOfDegree = new ExtraInfoOfDegreeOfExam();
-                extraInfoOfDegree.TotalDegreeOfExam = toteldegreeofEzam;
-                extraInfoOfDegree.ExamDegree = item.Degree;
-                extraInfoOfDegree.ExamName = examName.FormTitle;
-                extraInfoOfDegree.DoctorCreate = doctorName.Name;
-                extraInfoOfDegreeOfExams.Add(extraInfoOfDegree);
-
-            }
-
-        return View(extraInfoOfDegreeOfExams);
-
-        }
-
+ 
 
         public ActionResult ShowPostInNewPage(int id)
         {

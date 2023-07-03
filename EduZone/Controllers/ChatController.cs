@@ -13,6 +13,7 @@ using System.Web.Script.Serialization;
 
 namespace EduZone.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
@@ -49,9 +50,13 @@ namespace EduZone.Controllers
             return Messages;
         }
 
-        public ActionResult Chat_with_one(string id )
+        public ActionResult Chat_with_one(string id)
         {
-            ViewBag.Con = "No";
+            var userid = User.Identity.GetUserId();
+            if(id==null)
+            {
+                id = userid;
+            }
             ViewBag.id = id;
             otherIIID = id;
             FormatOtherUser formatOtherUser = new FormatOtherUser();
@@ -61,13 +66,13 @@ namespace EduZone.Controllers
                 ViewBag.online = formatOtherUser.FormatTimeOfLastSeen(usr.CreatedAt);
             }
             ViewBag.OtherUser = context.Users.FirstOrDefault(x => x.Id == id);
-            var userid = User.Identity.GetUserId();
+            
 
             var lastMessage = context.GetLastMessage.
                 Where(e => e.SendId == userid).
                 ToList();
 
-            ViewBag.users = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage,userid);
+            ViewBag.users = formatOtherUser.UsersAndLastSeens(formatOtherUser.OtherUsers(userid), lastMessage, userid);
 
             var Messages = context.GetChatIndividual.Where(e => e.SenderId == userid && e.ReceiverId == id || e.SenderId == id && e.ReceiverId == userid).OrderBy(e => e.CreatedAt).ToList();
             Messages = FormatTime(Messages);

@@ -246,14 +246,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202307022042193_x.cs" />
-    <Compile Include="Migrations\202307022042193_x.Designer.cs">
-      <DependentUpon>202307022042193_x.cs</DependentUpon>
+    <Compile Include="Migrations\202307031005076_a1.cs" />
+    <Compile Include="Migrations\202307031005076_a1.designer.cs">
+      <DependentUpon>202307031005076_a1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202307030132441_sd.cs" />
-    <Compile Include="Migrations\202307030132441_sd.Designer.cs">
-      <DependentUpon>202307030132441_sd.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\ChatIndividual.cs" />
     <Compile Include="Models\ChatGroup.cs" />
     <Compile Include="Models\UserInNotificationPage.cs" />
@@ -559,16 +556,8 @@
     <Folder Include="Views\api\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202307022042193_x.resx">
-      <DependentUpon>202307022042193_x.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202307030132441_sd.resx">
-      <DependentUpon>202307030132441_sd.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\202307010834030_a1.resx">
-      <DependentUpon>202307010834030_a1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202307031005076_a1.resx">
+      <DependentUpon>202307031005076_a1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

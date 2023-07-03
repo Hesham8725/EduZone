@@ -100,13 +100,15 @@ namespace EduZone.MyHubs
             var connectionIdForotherUserToformatUsers = db.GetOnlineUSers.Where(e => e.UserId == otherUserId).OrderByDescending(e => e.TimeOfOpen).Select(e => e.ConnectionID);
 
             var connID = connectionIdForotherUserToformatUsers.FirstOrDefault();
-
-            foreach (var user in userAfterFormatFromResever)
+            if (connID != null)
             {
-                if (connectionId != connID)
+                foreach (var user in userAfterFormatFromResever)
                 {
-                    Clients.Client(connID).otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr, user.OnLineOrNot, x); x++;
+                    if (connectionId != connID)
+                    {
+                        Clients.Client(connID).otherUsers(user.Id, user.Image, user.Name, user.TimeOfLastSeenStr, user.OnLineOrNot, x); x++;
 
+                    }
                 }
             }
 
