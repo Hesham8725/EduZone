@@ -22,10 +22,6 @@ namespace EduZone.Models
         [Display(Name = "Date")]
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime Date { get; set; }
-
-        [ForeignKey("Post")]
         public int PostID { get; set; }
-
-        public virtual Post Post { get; set; }
     }
 }

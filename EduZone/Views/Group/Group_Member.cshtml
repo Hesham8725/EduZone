@@ -15,43 +15,31 @@
         <div class="d-flex flex-row flex-wrap">
             @foreach (var item in Model)
             {
+
                 if (item.MemberId != User.Identity.GetUserId() )
                 {
                     ApplicationDbContext context = new ApplicationDbContext();
                     ApplicationUser user = context.Users.FirstOrDefault(c => c.Id == item.MemberId);
-
                     var currentUser = User.Identity.GetUserId();
-
-                    var roleID = user.Roles.FirstOrDefault();
-                    var role = context.Roles.FirstOrDefault(c => c.Id == roleID.RoleId);
-                    var role2 = role.Name;
-
+                    if (user != null)
+                    {
                     <div class="card m-3 ">
                         <a href="/Profile/Educator_profile/@user.Id">
                             <div class="card-body p-4 d-flex flex-column justify-content-center align-items-center">
                                 <img src="~/Images/@user.Image" width="150px" height="150px" class="photo-profile" alt="...">
-                                @if (role2 == "Student")
-                                {
                                     <h6 class="card-title my-2">
-                                        <a href="/Profile/std_profile/@user.Id"><span class="badge rounded-pill text-bg-info">@user.Name</span></a>
+                                        <a href="/Profile/ShowProfile/@user.Id"><span class="badge rounded-pill text-bg-info">@user.Name</span></a>
                                     </h6>
-                                }
-                                else if (role2 == "Educator")
-                                {
-                                    <h6 class="card-title my-2">
-                                        <span class="badge rounded-pill text-bg-info">@user.Name</span>
-
-                                    </h6>
-                                }
                             </div>
                         </a>
-                        @if (ViewBag.GCR7 == User.Identity.GetUserId() || User.IsInRole("Admin"))
+                        @if (ViewBag.GCR7 == currentUser || User.IsInRole("Admin"))
                         {
                             <div class="card-footer d-flex justify-content-center">
                                 <a href="/Group/Delete_Member/@user.Id" class="btn btn-sm btn-outline-danger w-100"> Remove </a>
                             </div>
                         }
                     </div>
+                    }
                 }
             }
         </div>

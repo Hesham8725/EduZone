@@ -1,0 +1,216 @@
+﻿@using EduZone.Models
+@using Microsoft.AspNet.Identity;
+@model List<P_Registration>
+@{
+    ViewBag.Title = "Pre_Registration";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ApplicationDbContext context = new ApplicationDbContext();
+    var currentUser = User.Identity.GetUserId();
+    var user = context.Users.FirstOrDefault(c => c.Id == currentUser);
+    SelectList selectListItems = new SelectList(ViewBag.courses, "Id", "CourseName");
+    var counter = 1;
+    bool asd;
+    int year;
+    if (DateTime.Now.Month >= 9 && DateTime.Now.Month <= 12)
+    {
+        asd = true;
+        year = ViewBag.Year + 1;
+    }
+    else
+    {
+        asd = false;
+
+        year = ViewBag.Year - 1;
+    }
+}
+
+<link href="~/Content/StyleSheet/courses.css" rel="stylesheet" />
+
+<div class="cont" id="preregistration">
+
+    <header>
+        <h3>Pre-Registration Form</h3>
+
+    </header>
+    <button onclick="printDiv('preregistration')">print</button>
+
+
+    <nav>
+        <label for="name">Level: </label>
+        @if (@ViewBag.Batch == 1)
+        {
+
+
+            <div>First</div>
+        }
+        else if (@ViewBag.Batch == 2)
+        {
+            <div>Second</div>
+
+        }
+        else if (@ViewBag.Batch == 3)
+        {
+            <div>Third</div>
+
+        }
+        else if (@ViewBag.Batch == 4)
+        {
+            <div>Fourth</div>
+
+
+        }
+        @*<select name="year"
+                    id="year"
+                    style="padding: 5px; width: 100px; text-align: center">
+                <option value="1">First</option>
+                <option value="2">Second</option>
+                <option value="3">Third</option>
+                <option value="4">Fourth</option>
+            </select>*@
+        <label for="name">Semester: </label>
+        <div>@ViewBag.Semester</div>
+        <label for="name">Year: </label>
+        @if (asd)
+        {
+            <div>@ViewBag.Year - @year</div>
+
+        }
+        else
+        {
+            <div>@year - @ViewBag.Year</div>
+
+        }
+    </nav>
+    <form action="">
+        <div class="inputbox">
+            <input type="text" id="stname" required value="@ViewBag.studentName" />
+            <span>Name</span>
+        </div>
+        <div class="inputbox">
+            <input type="text" id="stID" required value="@ViewBag.studentId" />
+            <span>ID</span>
+        </div>
+        <div class="inputbox">
+            <label>Department</label>
+            <input type="text" id="department" required value="@ViewBag.Department" />
+            <span>Department</span>
+        </div>
+        <div class="inputbox">
+            <input type="number" id="coursHours" required value="18" />
+            <span>Cours Hours</span>
+        </div>
+        <div class="inputbox">
+            <input type="text" id="phone" required value="@ViewBag.PhoneNumber" />
+            <span>PhoneNumber</span>
+        </div>
+        <div class="inputbox">
+            <input type="email" id="email" required value="@ViewBag.Email" />
+            <span>Email</span>
+        </div>
+        <label for="name">Courses</label>
+        @Html.DropDownList("Courses Id", selectListItems, new { @id = "mydropdownlist" })
+
+        @*<button><i class="bx bx-plus-circle" id="send"></i></button>*@
+        <a href="#"><i class="bx bx-plus-circle" id="send"></i></a>
+    </form>
+
+    <script>
+        //function myfunction() {
+        //    window.print();
+        //}
+
+
+        function printDiv(divId) {
+            var content = document.getElementById(divId).outerHTML;
+            var myWindow = window.open('', '', 'height=500,width=800');
+            myWindow.document.write('<html><head><title>Print Div</title>');
+            myWindow.document.write('<link href="~/Content/StyleSheet/courses.css" rel="stylesheet" />');
+            myWindow.document.write('</head><body>');
+            myWindow.document.write(content);
+            myWindow.document.write('</body></html>');
+            myWindow.document.close();
+            myWindow.focus();
+            myWindow.print();
+            myWindow.close();
+        }
+    </script>
+    <table id="myTable">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Course Name</th>
+                <th>DoctorOfCourse</th>
+                <th>Course Hours</th>
+                <th>Delete Course</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (ViewBag.P_RegistrationsBefor == true)
+            {
+                foreach (var item in Model)
+                {
+                    var course = context.GetCourses.FirstOrDefault(c => c.Id == item.CourseId);
+                    <tr>
+                        <td>@counter</td>
+                        <td>@course.CourseName</td>
+                        <td>@course.DoctorOfCourse</td>
+                        <td>@course.NumberOfHours</td>
+                        <td><i class="fa fa-window-close" aria-hidden="true"></i></td>
+                    </tr>
+                    counter++;
+                }
+
+            }
+
+
+
+        </tbody>
+    </table>
+
+</div>
+@section scripts{
+    <script src="~/lib/jquery/jquery.js"></script>
+    <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
+    <script src="~/signalr/js"></script>
+    <script>
+        var proxy = $.connection.PreRegistrationHub;
+        $.connection.hub.start().done(function () {
+            console.log("succeded");
+            $("#send").click(function () {
+                proxy.server.Add($("#mydropdownlist").val(),'@currentUser');
+            })
+        });
+        proxy.client.clientAdd = function (course) {
+            var dropdown = $('#mydropdownlist');
+            var selectedValue = dropdown.val();
+            dropdown.find('option[value="' + selectedValue + '"]').remove();
+
+
+            var sasa = {
+                "Id": course.Id,
+                "CourseName": course.CourseName,
+                "Description": course.Description,
+                "DoctorOfCourse": course.DoctorOfCourse,
+                "NumberOfHours": course.NumberOfHours,
+                "DepartmentId": course.DepartmentId,
+            }
+
+            var table = document.getElementById("myTable");
+            var row = table.insertRow();
+
+            var cell0 = row.insertCell(0);
+            var cell1 = row.insertCell(1);
+            var cell2 = row.insertCell(2);
+            var cell3 = row.insertCell(3);
+            var cell4 = row.insertCell(4);
+
+            cell0.innerHTML = '@counter';
+            cell1.innerHTML = sasa.CourseName;
+            cell2.innerHTML = sasa.DoctorOfCourse;
+            cell3.innerHTML = sasa.NumberOfHours;
+            cell4.innerHTML = '<i class="fa fa-window-close" aria-hidden="true"></i>';
+            counter++;
+        }
+
+    </script>
+}

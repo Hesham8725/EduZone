@@ -17,7 +17,7 @@
             var idx = User.Identity.GetUserId();
             var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
             var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
-            using (Html.BeginForm("AddPost", "Group", FormMethod.Post, new { @class = "mt-5" }))
+            using (Html.BeginForm("AddPost", "Group", FormMethod.Post, new { @class = "mt-5", enctype = "multipart/form-data", onsubmit = "return validateForm()" }))
             {
                 <div class="timeline ">
                     <div class="photo-name">
@@ -28,14 +28,21 @@
                     </div>
                     @Html.AntiForgeryToken()
                     <input type="hidden" name="GrpCode" value=@ViewBag.GC />
-                    <textarea class="m-3" name="ContentOfPost" id="ContentOfPost" placeholder="Write new announcement...">Title: </textarea>
+                    <textarea class="m-3" id="ContentOfPost" placeholder="Write new announcement..."></textarea>
+                    <div class="w-100">
+                        <input type="file" name="File" id="fileInput" style="display: none;" accept="image/*,video/*" onchange="onFileSelected(event)" />
+                        <img id="PostImage" class="w-100 m-1" />
+                    </div>
                     <div class="line"></div>
+                    <input type="text" id="Hiddenitem" name="ContentOfPost" style="display: none;" />
+
                     <div class="like-comment live-photo">
                         <div>
-                            <a href=""> <i class="fa-solid fa-photo-film"></i> </a>
-                            <span class="text-secondary ms-2">Photo/video</span>
+                            <span style="cursor: pointer;" onclick=" document.getElementById('fileInput').click();" class="text-secondary ms-2"> <i class="fa-solid fa-photo-film"></i>Photo</span>
                         </div>
-                        <button type="submit" class="btn btn-success ms-3"> POST </button>
+
+                        <button type="button" onclick="Del_image()" class="btn btn-outline-success" id="ClearImage" style="display:none;"> Clear image </button>
+                        <button type="submit" onmouseover="ChangeText()" class="btn btn-outline-success"> POST </button>
                     </div>
                 </div>
             }
@@ -45,52 +52,75 @@
         @foreach (var item in Model)
         {
             var idx = item.UserId;
-            var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
-            var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
-            <div class="timeline">
-                <div class="photo-name">
-                    <img class="photo-profile" src="~/Images/@Image" alt="">
-                    <div class="info">
-                        <a data-user-id=@item.UserId data-item-id=@item.Id href=""><h6 class="info-name">@name </h6></a>
-                        <p class="info-date">@item.Date</p>
-                    </div>
-                </div>
-                <div data-user-id=@item.UserId data-item-id=@item.Id>
-                    <pre class="news news-en">
-                   @item.ContentOfPost
-                </pre>
-                </div>
-                <div class="line"></div>
-                <div class="like-comment-p">
-                    <div class="like-comment">
-                        @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
-                        {
-                            <div style="cursor: pointer;">
-                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
-                                    <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
-                                    <span class="text-secondary">Like</span>
-                                </a>
-                            </div>
-                        }
-                        else
-                        {
-                            <div style="cursor: pointer;">
-                                <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
-                                    <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary"></i>
-                                    <span class="text-secondary">Like</span>
-                                </a>
-                            </div>
-                        }
-                    </div>
-                    <div class="number-like-comment">
-                        @{
-                            int numcom = context.LikeForPostInGroups.Where(p => p.PostId == item.Id).Count();
-                        }
-                        <div data-user-id="@item.Id"><b class="lik">@numcom</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
-                    </div>
+            if (context.Users.FirstOrDefault(e => e.Id == idx) != null)
+            {
+
+                var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
+                var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
+    <div class="timeline" id="@item.Id">
+        <div class="d-flex justify-content-between">
+            <div class="photo-name">
+                <img class="photo-profile" src="~/Images/@Image" alt="">
+                <div class="info">
+                    <a data-user-id=@item.UserId data-item-id=@item.Id href="/Profile/ShowProfile/@item.UserId"><h6 class="info-name">@name </h6></a>
+                    <p class="info-date">@item.Date</p>
                 </div>
             </div>
+            <div>
+                @if (item.UserId == User.Identity.GetUserId())
+                {
+                    <li class="nav-item dropdown list-unstyled">
+                        <a class="active dropdown-toggle" href="#"  data-bs-toggle="dropdown" aria-expanded="false">
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item text-success" href="@Url.Action("UpdatePost", "Group", new { id = item.Id, GrpCode = ViewBag.GC })"> <i class="fa-solid fa-pencil me-2"></i> Update</a></li>
+                            <li><a class="dropdown-item text-danger" onclick="DeletePst(@item.Id)"> <i class="fa-solid fa-trash me-2"></i> Delete</a></li>
+                        </ul>
+                    </li>
+                }
+            </div>
+        </div>
+        <div data-user-id=@item.UserId data-item-id=@item.Id class="p-2" id="PostText">
+            @Html.Raw(item.ContentOfPost)
+        </div>
+        @if (item.ImageUrl != "" && item.ImageUrl != null)
+        {
+            <div class="w-100">
+                <img src="/Images/@item.ImageUrl" class="w-100 m-1" style="height:500px;" />
+            </div>
         }
+        <div class="line"></div>
+        <div class="like-comment-p">
+            <div class="like-comment">
+                @if (context.LikeForPostInGroups.ToList().FirstOrDefault(id => id.UserID == User.Identity.GetUserId() && id.PostId == item.Id) != null)
+                {
+                    <div style="cursor: pointer;">
+                        <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, true)">
+                            <i class="fa-solid fa-thumbs-up chngcmnt me-2 text-success"></i>
+                            <span class="text-secondary">Like</span>
+                        </a>
+                    </div>
+                }
+                else
+                {
+                    <div style="cursor: pointer;">
+                        <a data-user-id="@User.Identity.GetUserId()" data-item-id="@item.Id" onclick="funlike('@User.Identity.GetUserId()', @item.Id, false)">
+                            <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary"></i>
+                            <span class="text-secondary">Like</span>
+                        </a>
+                    </div>
+                }
+            </div>
+            <div class="number-like-comment">
+                @{
+                    int numcom = context.LikeForPostInGroups.Where(p => p.PostId == item.Id).Count();
+                }
+                <div data-user-id="@item.Id"><b class="lik">@numcom</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+            </div>
+        </div>
+    </div>
+                                }
+                            }
         @section bottom_Link
         {
             <script src="~/Scripts/jquery.signalR-2.4.3.min.js"></script>
@@ -103,19 +133,19 @@
                     proxy = con.createHubProxy("HubClass");
                     con.start();
                     // new post subscribtion
-                    proxy.on("NewPostAddedInGroup", function (NewPost,Image,name) {
-                        var con = `
-                                    <div class="timeline">
+                    proxy.on("NewPostAddedInGroup", function (NewPost, Image, name, PostImage) {
+                        if (PostImage == "") {
+                            var con = `
+                                    <div class="timeline" id = "${NewPost.Id}">
                                     <div class="photo-name">
                                         <img class="photo-profile" src="/Images/${Image}" alt="">
                                         <div class="info">
-                                            <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href=""><h6 class="info-name">${name}</h6></a>
+                                            <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href="href="/Profile/ShowProfile/${NewPost.UserId}""><h6 class="info-name">${name}</h6></a>
                                             <p class="info-dt">    </p>
                                         </div>
                                     </div>
-                                    <div  data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id}>
-                                        <pre class="news news-en">
-                                        </pre>
+                                    <div class="p-2" data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id}>
+                                        ${NewPost.ContentOfPost}
                                     </div>
                                     <div class="line"></div>
                                     <div class="like-comment-p">
@@ -133,10 +163,42 @@
                                     </div>
                                 </div>
                                 `
+                            $('#here').prepend(con);
+                        }
+                        else {
+                            var con = `
+                                    <div class="timeline" id = "${NewPost.Id}">
+                                    <div class="photo-name">
+                                        <img class="photo-profile" src="/Images/${Image}" alt="">
+                                        <div class="info">
+                                            <a data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id} href=""><h6 class="info-name">${name}</h6></a>
+                                            <p class="info-dt">    </p>
+                                        </div>
+                                    </div>
+                                    <div class="p-2"  data-user-id=${NewPost.UserId} data-item-id=${NewPost.Id}>
+                                        ${NewPost.ContentOfPost}
+                                    </div>
+                                    <div class="w-100">
+                                          <img src="/Images/`+ PostImage +`" class="w-100 m-1" style="height:500px;" />
+                                    </div
+                                    <div class="line"></div>
+                                    <div class="like-comment-p">
+                                        <div class="like-comment">
+                                            <div  style="cursor: pointer;">
+                                                <a data-user-id="@User.Identity.GetUserId()"  data-item-id="${NewPost.Id}" onclick="funlike('@User.Identity.GetUserId()', ${NewPost.Id}, false)">
+                                                    <i class="fa-solid fa-thumbs-up me-2 chngcmnt text-secondary"></i>
+                                                    <span class="text-secondary">Like</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="number-like-comment">
+                                            <div data-user-id=${NewPost.Id}><b class="lik">0</b> <span class="ms-2 text-secondary likes-span">Like</span> </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                `
                         $('#here').prepend(con);
-                        //CONTENT
-                        var contentPost = $("div[data-user-id='" + NewPost.UserId + "'][data-item-id='" + NewPost.Id + "']").find("pre.news");
-                        contentPost.append(NewPost.ContentOfPost);
+                        }
 
                         //DATE
                         let num = Math.floor(Math.random() * 100000) + 1;
@@ -153,12 +215,67 @@
                         $("div[data-user-id='" + pid + "']").find(".lik").text(numLikss);
 
                     });
+                    proxy.on("DeletePostGroup", function (PostId) {
+                        document.getElementById(PostId).remove();
+                    });
+                    proxy.on("EditPostGroup", function (PostId, content) {
+                        var contentPost = $("div[data-item-id='" + PostId + "']").find("pre.news");
+                        contentPost.html(content);
+                    });
                 });
                 // call server method
                 function funlike(uid, pid, flag) {
-                    proxy.invoke("Addlike", uid, pid, flag,false);
-                    console.log(1);
-                };
+                    proxy.invoke("Addlike", uid, pid, flag, false);
+                }
+
+                function DeletePst(idPost) {
+                    proxy.invoke("DeletePostInGroup", idPost)
+                }
+                function onFileSelected(event) {
+                    var selectedFile = event.target.files[0];
+                    var reader = new FileReader();
+                    var imgtag = document.getElementById("PostImage");
+                    var ClearImage = document.getElementById("ClearImage");
+                    imgtag.title = selectedFile.name;
+                    reader.onload = function (event) {
+                        imgtag.src = event.target.result;
+                        imgtag.height = 500;
+                        ClearImage.style.display = "block";
+                    };
+                    reader.readAsDataURL(selectedFile);
+                }
+                function Del_image() {
+                    var imgtag = document.getElementById("PostImage");
+                    imgtag.height = 0;
+                    const fileInput = document.getElementById("fileInput");
+                    const ClearImage = document.getElementById("ClearImage");
+                    fileInput.value = "";
+                    ClearImage.style.display = "none";
+                }
+                function ChangeText() {
+                    var textarea = document.getElementById("ContentOfPost");
+                    var HiddenInput = document.getElementById("Hiddenitem");
+                    const lines = textarea.value.split("\n");
+                    var Resualt = "";
+                    for (const line of lines) {
+                        const arabicRegex = /[\u0600-\u06FF]/;
+                        if (arabicRegex.test(line)) {
+                            Resualt += "<p class=\" news-ar\" >" + line + "</p>";
+                        } else {
+                            Resualt += "<p class=\" news-en\" >" + line + "</p>";
+                        }
+
+                    }
+                    HiddenInput.value = Resualt;
+                }
+                function validateForm() {
+                    var input = document.getElementById("ContentOfPost");
+                    if (input.value === "") {
+                        event.preventDefault();
+                        return false;
+                    }
+                    return true;
+                }
             </script>
             
         }

@@ -86,7 +86,7 @@ else if (ViewBag.curd == "delete")
                         <td>
                             <a href="@Url.Action("UpdateDepartment","Department",new { depId=item.Id })" class="btn btn-outline-success">Update</a>
                             @*<a href="@Url.Action("DeleteDepartment","Department",new { depId=item.Id },)" class="btn btn-danger">Delete</a>*@
-                        <a href="#" class="btn btn-outline-danger " onclick="toggle(@item.Id)" style="">Delete</a>
+                            <a href="#" class="btn btn-outline-danger " onclick="toggle('@item.Id')" style="">Delete</a>
 
                         </td>
                     </tr>
@@ -105,7 +105,8 @@ else if (ViewBag.curd == "delete")
     <script src="~/Scripts/jquery.validate.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
-    <script>var btn = document.getElementById("BtnYes");
+    <script>
+var btn = document.getElementById("BtnYes");
         // toggle blur and popup
         function toggle(val) {
             btn.href = '/Department/DeleteDepartment/' + val;

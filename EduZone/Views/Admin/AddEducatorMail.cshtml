@@ -1,6 +1,6 @@
 ﻿﻿
 @section Top_Link{
-   
+
     <link href="~/Content/StyleSheet/addCourses.css" rel="stylesheet" />
 }
 @using EduZone.Models.ViewModels
@@ -65,10 +65,9 @@ else if (ViewBag.curd == "delete")
                     <tr>
                         <th scope="row">@cont</th>
                         <td>@item.DoctorMail</td>
-                        <td>@item.DoctorName</td>
+                       
                         <td>
                             <a href="@Url.Action("UpdateEducatorMail","admin",new { mailId=item.ID })" class="btn btn-outline-success">Update</a>
-                            @* <a href="@Url.Action("DeleteEducatorMail","admin",new { mailId=item.ID })" class="btn btn-danger">Delete</a>*@
                             <a href="#" class="btn btn-outline-danger " onclick="toggle(@item.ID)" style="">Delete</a>
 
                         </td>

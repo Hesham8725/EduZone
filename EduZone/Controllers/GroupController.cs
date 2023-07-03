@@ -22,6 +22,7 @@ namespace EduZone.Controllers
         // GET: Group
         public ActionResult Index()
         {
+            ViewBag.Con = "No";
             List<Group> _groups = new List<Group>();
             string userid = User.Identity.GetUserId();
             var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
@@ -39,14 +40,18 @@ namespace EduZone.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Index(string GroupName,string Description, HttpPostedFileBase file)
         {
-            //Add Group
+            //Add Group 
             Group group = new Group();
             group.GroupName = GroupName;
             group.Description = Description;
-            var fileName = Path.GetFileName(file.FileName);
-            var path = Path.Combine(Server.MapPath("~/Images"), fileName);
-            file.SaveAs(path);
-            group.image = file.FileName;
+            group.image = "GroupImage.jfif";
+            if (file != null)
+            {
+                var fileName = Path.GetFileName(file.FileName);
+                var path = Path.Combine(Server.MapPath("~/Images"), fileName);
+                file.SaveAs(path);
+                group.image = file.FileName;
+            }
             group.DateOfCreate = DateTime.Now.Date;
             group.CreatorID = User.Identity.GetUserId();
             string codex = RandomGroupCode.GetCode();
@@ -66,6 +71,7 @@ namespace EduZone.Controllers
             GM.IsCreate = true;
             GM.TimeGoin= DateTime.Now;
             GM.MemberId = User.Identity.GetUserId();
+            GM.TimeGoin = DateTime.Now;
             context.GetGroupsMembers.Add(GM);
             context.SaveChanges();
 
@@ -118,13 +124,13 @@ namespace EduZone.Controllers
             ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
-            var data = await context.PostInGroups.OrderByDescending(x => x.Date).ToListAsync();
+            var data = await context.PostInGroups.Where(e=>e.GroupId==GroupCode).OrderByDescending(x => x.Date).ToListAsync();
 
             return View(data);
         }
-        [HttpPost]
+        [HttpPost,ValidateInput(false)]
         [ValidateAntiForgeryToken]
-        public ActionResult AddPost(PostInGroup post, string GrpCode)
+        public ActionResult AddPost(PostInGroup post, string GrpCode, HttpPostedFileBase File)
         {
             post.UserName = User.Identity.Name;
             post.UserId = User.Identity.GetUserId();
@@ -134,13 +140,91 @@ namespace EduZone.Controllers
             {
                 return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
             }
+            string PostImage = "";
+            if (File != null)
+            {
+                string path = Path.Combine(Server.MapPath("~/Images"), Path.GetFileName(File.FileName));
+                File.SaveAs(path);
+                post.ImageUrl = File.FileName;
+                PostImage = File.FileName;
+            }
             context.PostInGroups.Add(post);
             context.SaveChanges();
+
             var idx = post.UserId;
             var Image = context.Users.FirstOrDefault(e => e.Id == idx).Image;
             var name = context.Users.FirstOrDefault(e => e.Id == idx).Name;
             IHubContext adminhubcontext = GlobalHost.ConnectionManager.GetHubContext<HubClass>();
-                adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name);
+            adminhubcontext.Clients.All.NewPostAddedInGroup(post, Image,name, PostImage);
+            //Beign abdallah
+            var postNotify = context.PostInGroups.FirstOrDefault(e => e.ContentOfPost == post.ContentOfPost && e.GroupId == GrpCode && e.UserId == post.UserId);
+
+            var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == post.GroupId).ToList();
+            foreach (var item in GroupMembers)
+            {
+                if (item.MemberId == post.UserId)
+                {
+                    continue;
+                }
+                Notifications notifications = new Notifications()
+                {
+                    PostId = postNotify.Id,
+                    SenderId = post.UserId,
+                    TimeOfNotify = DateTime.Now,
+                    GroupCode = GrpCode,
+                    userId = item.MemberId,
+                    IsReaded = false,
+                    TypeOfPost = "group",
+                };
+                context.GetNotifications.Add(notifications);
+                context.SaveChanges();
+            }
+
+
+            var usersInNorificationPage = context.GetUserInNotificationPages.OrderByDescending(e => e.TimeOfLastOpen).ToList();
+            List<UserInNotificationPage> ListOfUserInNotificationPagesNow = new List<UserInNotificationPage>();
+            foreach (var item in usersInNorificationPage)
+            {
+                if (DateTime.Now - item.TimeOfLastOpen <= TimeSpan.FromMinutes(3))
+                {
+                    foreach (var u in GroupMembers)
+                    {
+                        if (u.MemberId == item.UserId)
+                        {
+                            UserInNotificationPage userin = new UserInNotificationPage()
+                            {
+                                Id = item.Id,
+                                TimeOfLastOpen = item.TimeOfLastOpen,
+                                ConnectionID = item.ConnectionID,
+                                UserId = item.UserId
+                            };
+                            ListOfUserInNotificationPagesNow.Add(userin);
+                        }
+                    }
+                }
+                else
+                {
+                    break;
+                }
+            }
+            var notificationInDB = context.GetNotifications.OrderByDescending(t => t.TimeOfNotify).Take(1).ToArray();
+            IHubContext Notivication = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+            FormatOtherUser formatOtherUser = new FormatOtherUser();
+            var GroupName = context.GetGroups.FirstOrDefault(c => c.Code == GrpCode);
+            foreach (var item in ListOfUserInNotificationPagesNow)
+            {
+                if (postNotify.Id == notificationInDB[0].PostId)
+                {
+                    var time = formatOtherUser.FormatTimeOfNotification(notificationInDB[0].TimeOfNotify);
+                    var CreatorOfPost = context.Users.FirstOrDefault(e => e.Id == post.UserId);
+                    Notivication.Clients.Client(item.ConnectionID).NewNotificationFromGrop(postNotify.Id, CreatorOfPost.Name, CreatorOfPost.Image, time, GroupName.GroupName, "Timeline");
+
+                }
+            }
+            //End abdallah
+            return RedirectToAction(nameof(Group_Post), new { GroupCode = GrpCode });
+        }
+
 
 
             //Beign abdallah
@@ -282,7 +366,7 @@ namespace EduZone.Controllers
             // first Get Group
             var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
             ViewBag.GN = GroupValue.GroupName;
-            //ViewBag.GC = GroupValue.Code;
+            ViewBag.GC = GroupValue.Code;
             ViewBag.GD = GroupValue.Description;
             ViewBag.GCR7 = GroupValue.CreatorID;
             var GroupMembers = context.GetGroupsMembers.Where(c => c.GroupId == GroupCode).ToList();
@@ -356,7 +440,19 @@ namespace EduZone.Controllers
             var MyGroup = context.GetGroupsMembers.FirstOrDefault(e => e.GroupId == GroupCode && e.MemberId == userId);
             context.GetGroupsMembers.Remove(MyGroup);
             context.SaveChanges();
-            return RedirectToAction("Index");
+
+            List<Group> _groups = new List<Group>();
+            string userid = User.Identity.GetUserId();
+            var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
+            if (Groups != null)
+            {
+                foreach (var item in Groups)
+                {
+                    var GName = context.GetGroups.FirstOrDefault(e => e.Code == item.GroupId);
+                    _groups.Add(GName);
+                }
+            }
+            return RedirectToAction("Index", _groups);
         }
         public ActionResult DeleteGroup(string GCode)
         {
@@ -365,17 +461,64 @@ namespace EduZone.Controllers
             if (Group != null)
             {
                 var MembersINGroupe = context.GetGroupsMembers.Where(e => e.GroupId == GCode).ToList();
-                foreach (var Member in MembersINGroupe)
-                {
-                    context.GetGroupsMembers.Remove(Member);
-                    context.SaveChanges();
-                }
+                context.GetGroupsMembers.RemoveRange(MembersINGroupe);
+                context.SaveChanges();
                 context.GetGroups.Remove(Group);
+                context.SaveChanges();
+                
+                var PostsINGroupe = context.PostInGroups.Where(e => e.GroupId == GCode).ToList();
+                context.PostInGroups.RemoveRange(PostsINGroupe);
                 context.SaveChanges();
                 return RedirectToAction("Index");
             }
+            var Group1 = context.GetGroups.FirstOrDefault(e => e.Code == GCode);
 
-            return RedirectToAction("Group_Post", new { GroupCode = GCode });
+            List <Group> _groups = new List<Group>();
+            string userid = User.Identity.GetUserId();
+            var Groups = context.GetGroupsMembers.Where(e => e.MemberId == userid);
+            if (Groups != null)
+            {
+                foreach (var item in Groups)
+                {
+                    var GName = context.GetGroups.FirstOrDefault(e => e.Code == item.GroupId);
+                    _groups.Add(GName);
+                }
+            }
+            return RedirectToAction("index", _groups);
+        }
+        public ActionResult ShowDegreeOfExam(string GroupCode)
+        {
+            var GroupValue = context.GetGroups.FirstOrDefault(e => e.Code == GroupCode);
+            ViewBag.GN = GroupValue.GroupName;
+            ViewBag.GC = GroupValue.Code;
+            ViewBag.GD = GroupValue.Description;
+            ViewBag.GCR7 = GroupValue.CreatorID;
+
+            List<ExtraInfoOfDegreeOfExam> extraInfoOfDegreeOfExams = new List<ExtraInfoOfDegreeOfExam>();
+            var userid = User.Identity.GetUserId();
+            var ListOfDegreeOfExam = context.GetSudentExamDegrees.Where(e => e.GroupCode == GroupCode && e.StudentID == userid).ToList();
+            foreach (var item in ListOfDegreeOfExam)
+            {
+                var doctorID = context.GetExams.FirstOrDefault(e => e.Id == item.ExamID);
+                var doctorName = context.Users.FirstOrDefault(e => e.Id == doctorID.CreatorID);
+                var listOfQustions = context.GetQuestions.Where(e => e.ExamId == item.ExamID).ToList();
+                var examName = context.GetExams.FirstOrDefault(e => e.Id == item.ExamID);
+                int toteldegreeofEzam = context.GetQuestions.Where(e => e.ExamId == item.ExamID)
+                                                            .Select(e=>e.Point).Sum();
+                ExtraInfoOfDegreeOfExam extraInfoOfDegree = new ExtraInfoOfDegreeOfExam()
+                {
+                    TotalDegreeOfExam = toteldegreeofEzam,
+                    ExamDegree = item.Degree,
+                    ExamName = examName.FormTitle,
+                    DoctorCreate = doctorName.Name,
+                    ExamID = item.ExamID,
+                    StudentID = item.StudentID
+                };
+
+                extraInfoOfDegreeOfExams.Add(extraInfoOfDegree);
+            }
+            return View(extraInfoOfDegreeOfExams);
+
         }
 
         public ActionResult ShowDegreeOfExam(string GroupCode)

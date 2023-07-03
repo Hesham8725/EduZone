@@ -11,6 +11,10 @@ namespace EduZone.Controllers
     public class EducatorController : Controller
     {
         ApplicationDbContext context = new ApplicationDbContext();
+        public ActionResult dashboard()
+        {
+            return View();
+        }
         // GET: Educator
         public ActionResult Index()
         {

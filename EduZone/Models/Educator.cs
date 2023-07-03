@@ -10,11 +10,10 @@ namespace EduZone.Models
     {
         [Key]
         public int ID { get; set; }
-
-
-        [Required]
         public string AcademicDegree { get; set; }
-
+        public string CVURL { get; set; }
+        public string Available { get; set; }
+        public string office { get; set; }
         // for connect tables
         public string AccountID { get; set; }
     }

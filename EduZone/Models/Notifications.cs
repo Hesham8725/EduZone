@@ -14,8 +14,8 @@ namespace EduZone.Models
         public string GroupCode { get; set;}
         public DateTime TimeOfNotify { get; set; }
         public string  TypeOfPost { get; set; }
-         public bool IsReaded { get; set; }
-       
+        public bool IsReaded { get; set; }
+
 
     }
 }

@@ -32,16 +32,7 @@
                 </div>
                 <div class="header d-flex justify-content-start mb-5">
                     <button type='button' class='btn btn-sm btn-outline-info mx-1' onclick="add_Q()" ; id='add_question'> Add Question </button>
-                    <div class="btn-group" id="q_types" role="group">
-                        <div class="m-1">
-                            <input type="radio" name="btnradio" id="btnradio1" value="M-C" autocomplete="off" checked>
-                            <label for="btnradio1">Multi-Choices</label>
-                        </div>
-                        <div class="m-1">
-                            <input type="radio" name="btnradio" id="btnradio2" value="M-R" autocomplete="off">
-                            <label for="btnradio2">Multi-Responses</label>
-                        </div>
-                    </div>
+                    
                 </div>
             </div>
             <!-- All-Q  -->
@@ -60,12 +51,18 @@
                         <!-- O-n-  -->
                         <div class='m-3'>
                             <div id="Q0O">
-                                <input type="text" style="display: none;" value="1" id="ON0">
+                                <input type="text" style="display: none;" value="2" id="ON0">
                                 <div class="input-group mb-3 option" id="O00">
                                     <div class="input-group-text">
                                         <input class=" mt-0 p-0" value="0" id="Q0R0" type="radio" name="QR0" required>
                                     </div>
                                     <input id="Q0I0" name="Q0I0" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
+                                </div>
+                                <div class="input-group mb-3 option" id="O01">
+                                    <div class="input-group-text">
+                                        <input class=" mt-0 p-0" value="1" id="Q0R1" type="radio" name="QR0" required>
+                                    </div>
+                                    <input id="Q0I1" name="Q0I1" class="form-control option_title" type="text" required placeholder='Enter the option title...'>
                                 </div>
                             </div>
                             <button type="button" id="btn_add0" onclick="add_option(0)" class="btn btn-sm btn-outline-info px-2 me-2">Add Option</button>

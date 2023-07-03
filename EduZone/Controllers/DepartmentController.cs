@@ -37,7 +37,7 @@ namespace EduZone.Controllers
 
         public ActionResult NewDepartment(string name, string description, string DepartmentID)
         {
-            
+
             Department department = new Department();
             department.Name = name;
             department.Description = description;

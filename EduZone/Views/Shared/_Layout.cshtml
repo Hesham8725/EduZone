@@ -21,14 +21,12 @@
     @RenderSection("Top_Link", false)
 </head>
 
-<body>
+<body class="bg">
     @{
         string path = "s";
         if (User.Identity.IsAuthenticated)
         {
-
             ApplicationDbContext context = new ApplicationDbContext();
-
             string id = "s";
             var claimsIdentity = User.Identity as ClaimsIdentity;
             if (claimsIdentity != null)
@@ -53,7 +51,8 @@
         }
 
 
-        <!-- Sidebar Section --><div class="sidebar closee">
+<!-- Sidebar Section -->
+    <div class="sidebar closee">
             <!-- logo -->
             <div class="logo-details">
                 <i class='bx bxs-graduation'></i>
@@ -62,22 +61,56 @@
             <!-- logo -->
             <!-- Sidebar nav links -->
             <ul class="nav-links">
+
+                @if (User.IsInRole("Admin"))
+                {
+                    <li>
+                        <a href="/Admin/Index">
+                            <i class='bx bx-home'></i>
+                            <span class="link_name">Dashboard</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="/Admin/Index">Dashboard</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/Admin/AddEducatorMail">
+                            <i class="bx bx-group"></i>
+                            <span class="link_name">Educator</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="/Admin/AddEducatorMail">Educator</a></li>
+                        </ul>
+                    </li>
+                }
+                else
+                {
+                    <li>
+                        <a href="/Timeline/TimeLine">
+                            <i class='bx bx-home'></i>
+                            <span class="link_name">Timeline</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="/Timeline/TimeLine">Timeline</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/Group/Index">
+                            <i class="bx bx-group"></i>
+                            <span class="link_name">Groups</span>
+                        </a>
+                        <ul class="sub-menu blank">
+                            <li><a class="link_name" href="/Group/Index">Groups</a></li>
+                        </ul>
+                    </li>
+                }
                 <li>
-                    <a href="/Timeline/TimeLine">
-                        <i class='bx bx-home'></i>
-                        <span class="link_name">Timeline</span>
+                    <a href="/Chat/Chat_with_one">
+                        <i class='bx bxs-chat'></i>
+                        <span class="link_name">Chat</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="/Timeline/TimeLine">Timeline</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="/Group/Index">
-                        <i class="bx bx-group"></i>
-                        <span class="link_name">Groups</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="/Group/Index">Groups</a></li>
+                        <li><a class="link_name" href="/Chat/Chat_with_one/@User.Identity.GetUserId()">Chat</a></li>
                     </ul>
                 </li>
                 <li>
@@ -93,7 +126,11 @@
                         <li><a href="/Student/GetBatches">Batches</a></li>
                         @if (User.IsInRole("Student"))
                         {
-                            <li><a href="/Student/CourseEnrollment">Courses Enrollment</a></li>
+                            <li><a href="/Student/Pre_Registration">Courses Enrollment</a></li>
+                        }
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <li><a href="/Course/index">Courses</a></li>
                         }
                     </ul>
                 </li>
@@ -136,6 +173,20 @@
                 else
                 {
                     <li>
+                        <div class="iocn-link">
+                            <a href="">
+                                <i class="fa-solid fa-users-gear me-4 ms-4" style="color: #eaeef5;"></i>
+                                <span class="link_name">Manage Users</span>
+                            </a>
+                            <i class="bx bxs-chevron-down arrow"></i>
+                        </div>
+                        <ul class="sub-menu">
+                            <li><a class="link_name" href="">Manage Users</a></li>
+                            <li><a href="/Admin/ManageUserStudent">Students</a></li>
+                            <li><a href="/Admin/ManageUserDoctor">Doctors</a></li>
+                        </ul>
+                    </li>
+                    <li>
                         <a href="/Role/NewRole">
                             <i class="bx bx-calendar-check"></i>
                             <span class="link_name">Roles</span>
@@ -160,20 +211,12 @@
                         <span class="link_name">Notifications</span>
                     </a>
                     <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Notifications</a></li>
+                        <li><a class="link_name" href="/student/Notification">Notifications</a></li>
                     </ul>
                 </li>
+
                 <li>
-                    <a href="#">
-                        <i class="bx bx-cog"></i>
-                        <span class="link_name">Settings</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                        <li><a class="link_name" href="#">Settings</a></li>
-                    </ul>
-                </li>
-                <li>
-                    <a href="#">
+                    <a href="/Account/LogOff">
                         <i class='bx bx-log-out'></i>
                         <span class="link_name">Logout</span>
                     </a>
@@ -215,9 +258,18 @@
             </div>
             <!-- End -->
             <!-- Render Section (: -->
-            <main class="container ">
-                @RenderBody()
-            </main>
+            @if (ViewBag.Con== "No")
+            {
+                <main >
+                    @RenderBody()
+                </main>
+            }
+            else
+            {
+                <main class="container ">
+                    @RenderBody()
+                </main>
+            }
             <!-- End Section -->
         </section>
         <!-- End -->

@@ -69,7 +69,7 @@
             var con = $.hubConnection();
             prox3 = con.createHubProxy("NotificationHub");
             con.start();
-            
+
             prox3.on("NewNotificationFromGrop", function (postId, NameofPostCreator, image, time, groupName, typeOfpost) {
 
                 var newNotification = document.createElement("div");
@@ -111,7 +111,7 @@
                 var newValue = currentValue + 1;
                 NumOfNotification.innerText = newValue;
                 console.log(newValue)
-        
+
             })
 
             prox3.on("NotificationAfterMarkRead", function (postId, NameofPostCreator, image, time, groupName,x) {
@@ -155,7 +155,7 @@
 
                 var NumOfNotification = document.getElementById("notifications");
                 NumOfNotification.innerText = "0";
-                
+
 
                 console.log(NumOfNotification.innerText)
                 //list.insertBefore(newnotification, list.firstChild);

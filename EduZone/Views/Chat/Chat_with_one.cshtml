@@ -6,12 +6,12 @@
 }
 @section Top_Link{
     <link href="~/Content/StyleSheet/chat2.css" rel="stylesheet" />
-
+    <link href="~/Content/StyleSheet/input.css" rel="stylesheet" />
 }
 
 <div class="card chat-app">
-    <div id="plist" class="people-list">
-       
+    <div id="plist" style="min-height:550px" class="people-list">
+
         <div class="input-group mb-2">
             <div class="input-group-text">
                 <i class="fa fa-search"></i>
@@ -92,105 +92,117 @@
 
         </ul>
     </div>
-    <div class="chat">
-        <div class="chat-header clearfix">
-            <div class="row">
-                <div class="col-lg-6">
-                    <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
-                        @if (@ViewBag.OtherUser.Image == null)
-                        {
-                            <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
-                        }
 
-                        else
-                        {
-                            <img src="~/Images/@ViewBag.OtherUser.Image" alt="avatar" />
-                        }
-                    </a>
-                    <div class="chat-about">
-                        <h6 class="m-b-0">@ViewBag.OtherUser.Name</h6>
-                        @if (ViewBag.online != null)
-                        {
-                            if (ViewBag.online == "Online")
+    @if (ViewBag.id != null)
+    {
+        <div class="chat">
+            <div class="chat-header clearfix">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <a href="javascript:void(0);" data-toggle="modal" data-target="#view_info">
+                            @if (@ViewBag.OtherUser.Image == null)
                             {
-                                <small>@ViewBag.online</small>
-
+                                <img src="https://bootdey.com/img/Content/avatar/avatar2.png" alt="avatar" />
                             }
+
                             else
                             {
-                                <small>Last seen: @ViewBag.online</small>
+                                <img src="~/Images/@ViewBag.OtherUser.Image" alt="avatar" />
                             }
-                        }
+                        </a>
+                        <div class="chat-about">
+                            <h6 class="m-b-0">@ViewBag.OtherUser.Name</h6>
+                            @if (ViewBag.online != null)
+                            {
+                                if (ViewBag.online == "Online")
+                                {
+                                    <small>@ViewBag.online</small>
 
+                                }
+                                else
+                                {
+                                    <small>Last seen: @ViewBag.online</small>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                    <div class="col-lg-6 hidden-sm text-end">
+                        <a href="javascript:void(0);" class="btn btn-outline-info">
+                            <i class="fa fa-cogs"></i>
+                        </a>
                     </div>
                 </div>
-                <div class="col-lg-6 hidden-sm text-end">
-                    <a href="javascript:void(0);" class="btn btn-outline-info">
-                        <i class="fa fa-cogs"></i>
-                    </a>
-                </div>
             </div>
-        </div>
-        <div class="chat-history">
-            @*<div class="message-previous previous">
-                    <a onclick="previous(this)" id="ankitjain28" name="20">
-                        Show Previous Message!
-                    </a>
-                </div>*@
-            <ul class="m-b-0" id="mess">
-                @if (Model != null)
-                {
-                    string userid = User.Identity.GetUserId();
-                    foreach (var item in Model)
+            <div class="chat-history">
+               
+                <ul class="m-b-0" id="mess">
+                    @if (Model != null)
                     {
-                        if (item.SenderId == userid)
+                        string userid = User.Identity.GetUserId();
+                        foreach (var item in Model)
                         {
-                            if (item.IsImage == true) { }
-                            else
+                            if (item.SenderId == userid)
                             {
-                                <li class="clearfix">
-                                    <div class="message my-message">
-                                        @item.MessageContant
-                                        <span class="message-data-time">@item.Time</span>
-                                    </div>
-                                </li>
+                                if (item.IsImage == true) { }
+                                else
+                                {
+                                    <li class="clearfix">
+                                        <div class="message my-message">
+                                            @item.MessageContant
+                                            <span class="message-data-time">@item.Time</span>
+                                        </div>
+                                    </li>
+                                }
                             }
-                        }
-                        else
-                        {
-                            if (item.IsImage == true) { }
                             else
                             {
-                                <li class="clearfix">
-                                    <div class="message other-message float-end">
-                                        @item.MessageContant
-                                        <span class="message-data-time">@item.Time</span>
-                                    </div>
-                                </li>
+                                if (item.IsImage == true) { }
+                                else
+                                {
+                                    <li class="clearfix">
+                                        <div class="message other-message float-end">
+                                            @item.MessageContant
+                                            <span class="message-data-time">@item.Time</span>
+                                        </div>
+                                    </li>
+                                }
                             }
                         }
                     }
-                }
 
 
 
-            </ul>
-        </div>
-        <div class="chat-message row">
-            <div class="input-group mb-0 col-8">
-                <div class="input-group-text">
-                    <input type="button" value="Send" id="sendButton" onclick="send()">
+                </ul>
+            </div>
+            <div class="chat-message row">
+                <div class="cont">
+                    <div class="input">
+                        <input id="txtMesg" type="text" class="input" placeholder="What's on your mind?" />
+                    </div>
+                    <div class="icon">
+
+                        <i class="fa-regular fa-face-smile fa-lg me-2" style="color: gray; cursor: pointer;"></i>
+                        <i class="fa-regular fa-image fa-lg me-2" style="color: gray; cursor: pointer;"></i>
+                        <i class="fa-solid fa-paper-plane fa-lg " style="color:gray;cursor:pointer;" onclick="send()" id="sendButton"></i>
+                    </div>
                 </div>
-                <input type="text" class="form-control" id="txtMesg" placeholder="Enter text here..." />
-                <label for="file-input">
-                    <a href="#" id="upload-img-btn" class="btn btn-outline-primary">
-                        <i class="fa fa-image"></i>
-                    </a>
-                </label>
+                <!--<div class="input-group mb-0 col-8">
+                    <div class="input-group-text">
+                        <input type="button" value="Send" id="sendButton" onclick="send()">
+                    </div>
+                    <input type="text" class="form-control" id="txtMesg" placeholder="Enter text here..." />
+                    <label for="file-input">
+                        <a href="#" id="upload-img-btn" class="btn btn-outline-primary">
+                            <i class="fa fa-image"></i>
+                        </a>
+                    </label>-->
                 @*<input id="file-input" class="visually-hidden" type="file" accept="image/*" />*@
+                <!--</div>-->
             </div>
         </div>
-    </div>
+    }
+
 </div>
 
 
@@ -302,18 +314,14 @@
                 $("#mess").append(myVar);
             })
         })
-
-        function send() {
-
-            console.log("beign send");
-            var userid = '@User.Identity.GetUserId()';
+         function send() {
             const message = document.getElementById("txtMesg").value;
-            prox.invoke("SendMessage", userid, message, '@ViewBag.OtherUser.Id');
+            if (message!="") {
+            var userid ='@User.Identity.GetUserId()';
+            prox.invoke("SendMessage", userid, message, '@ViewBag.GC');
             document.getElementById("txtMesg").value = "";
-
-            console.log("end send");
+            }
         }
-
         //$('#searchInput').on('input', function () {
         function search() {
             console.log(document.getElementById("searchInput").value)

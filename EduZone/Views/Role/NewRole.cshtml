@@ -87,16 +87,17 @@ else if (ViewBag.curd == "delete")
     var btn = document.getElementById("BtnYes");
         // toggle blur and popup
         function toggle(val) {
-            btn.href = '/Role/DeleteRole/' +  val ;
+            btn.href = '/Role/DeleteRole/' + val;
             let blur = document.getElementById("blur");
             blur.classList.toggle("active");
 
             let popup = document.getElementById("popup");
             popup.classList.toggle("active");
-        }</script>
+        }
+    </script>
 }
 <div id="popup">
     <h3>Do You Want Delete This Course ?</h3>
     <a href="" id="BtnYes" class="btn btn-danger delete">Yes</a>
     <a href="#" class="btn btn-success" onclick="toggle(0)">No</a>
-</div>
+</div>  

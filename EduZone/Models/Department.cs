@@ -21,8 +21,6 @@ namespace EduZone.Models
         [Required(AllowEmptyStrings = false, ErrorMessage = "Enter Description  of Department")]
         public string Description { get; set; }
 
-        [ForeignKey("Admin")]
         public string AdminId { get; set; }
-        public virtual ApplicationUser Admin { get; set; }
     }
 }

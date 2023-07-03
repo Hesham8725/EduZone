@@ -59,6 +59,11 @@ namespace EduZone.Models
         public virtual DbSet<Notifications> GetNotifications { get; set; }
         public virtual DbSet<UserInNotificationPage> GetUserInNotificationPages { get; set; }
 
+        public virtual DbSet<Department> GetDepartments { get; set; }
+        public virtual DbSet<Course> GetCourses { get; set; }
+        public virtual DbSet<P_Registration> GetP_Registrations { get; set; }
+        public virtual DbSet<Notifications> GetNotifications { get; set; }
+        public virtual DbSet<UserInNotificationPage> GetUserInNotificationPages { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

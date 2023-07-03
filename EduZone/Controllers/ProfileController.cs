@@ -216,6 +216,20 @@ namespace EduZone.Controllers
             }
             return View(chanageEmail);
         }
+        public ActionResult EducatorInfo()
+        {
+
+            var idx = User.Identity.GetUserId();
+            var user = context.GetEducators.FirstOrDefault(e => e.AccountID == idx);
+            return View(user);
+        }
+        [HttpPost]
+        public ActionResult EducatorInfo(int id , Educator educator)
+        {
+            ViewBag.Show = true;
+
+            return View(educator);
+        }
         public ActionResult std_profile(string id)
         {
             var user = context.Users.FirstOrDefault(c => c.Id == id);
@@ -238,6 +252,21 @@ namespace EduZone.Controllers
             ViewBag.nationalId = user.NationalID;
             ViewBag.id = user.Id;
             return View(educator);
+        }
+        public ActionResult ShowProfile(string id)
+        {
+            // class Container
+            ViewBag.Con = "No";
+            var _user = context.Users.FirstOrDefault(e => e.Id == id);
+            var _student = context.GetStudents.FirstOrDefault(e => e.AccountID == id);
+            var _educator = context.GetEducators.FirstOrDefault(e => e.AccountID == id);
+            ShowProfileViewModel model = new ShowProfileViewModel()
+            {
+                user = _user,
+                educator = _educator,
+                student = _student
+            };
+            return View(model);
         }
         public string GetUser()
         {

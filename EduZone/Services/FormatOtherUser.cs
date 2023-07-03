@@ -107,8 +107,6 @@ namespace EduZone.Services
             return usersAndLasts;
 
         }
-
-
         public string FormatTimeOfLastSeen(DateTime time)
         {
             string timeFormat = "";
@@ -144,6 +142,42 @@ namespace EduZone.Services
             }
             return timeFormat;
         }
+        public string FormatTimeOfNotification(DateTime time)
+        {
+            string timeFormat = "";
+            if (DateTime.Now.Day - time.Day == 0
+                    && DateTime.Now.Month - time.Month == 0
+                    && DateTime.Now.Year - time.Year == 0)
+            {
+                if (DateTime.Now.Hour - time.Hour == 0)
+                {
+                    if (time.Minute - DateTime.Now.Minute == 0)
+                    {
+                        timeFormat = "Just Now";
+                    }
+                    else
+                    {
+                        timeFormat = (DateTime.Now.Minute - time.Minute).ToString() + " minutes ago";
+                    }
+                }
+                else
+                {
+                    timeFormat = (DateTime.Now.Hour - time.Hour).ToString() + " Hours ago";
+                }
+            }
+            else if (DateTime.Now.Day - time.Day == 1
+                         && DateTime.Now.Month - time.Month == 0
+                         && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt") + " Yestarday";
+            }
+            else if (time.Day - DateTime.Now.Day == 29
+                     && (time.Month == 4 || time.Month == 6 || time.Month == 9 || time.Month == 11)
+                     && DateTime.Now.Month - time.Month == 1
+                     && DateTime.Now.Year - time.Year == 0)
+            {
+                timeFormat = time.ToString("h:mm tt") + " Yestarday";
+            }
 
 
         public string FormatTimeOfNotification(DateTime time)

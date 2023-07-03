@@ -18,8 +18,8 @@ namespace EduZone.MyHubs
         ApplicationDbContext db = new ApplicationDbContext();
         public void onlineUser(string userId,string connectionId)
         {
-            
-            
+
+
             if (userId!="")
             {
                 var user = db.GetUserInNotificationPages.FirstOrDefault(x => x.UserId == userId);
@@ -46,7 +46,7 @@ namespace EduZone.MyHubs
         public void markAllAsRead(string userId)
         {
             var notificationsBeforReaded = db.GetNotifications.Where(e => e.userId == userId).OrderByDescending(e => e.TimeOfNotify).ToList();
-            foreach (var notification in notificationsBeforReaded) 
+            foreach (var notification in notificationsBeforReaded)
             {
                 var notify = db.GetNotifications.FirstOrDefault(e => e.Id == notification.Id);
                 notify.IsReaded = true;
@@ -61,7 +61,7 @@ namespace EduZone.MyHubs
                 var time = formatOtherUser.FormatTimeOfNotification(item.TimeOfNotify);
                 var CreatorOfPost = db.Users.FirstOrDefault(e => e.Id == item.SenderId);
                 if (item.TypeOfPost=="timeline")
-                { 
+                {
                     Clients.Caller.NotificationAfterMarkRead(item.PostId, CreatorOfPost.Name, CreatorOfPost.Image, time, null, x);
                 }
                 else
