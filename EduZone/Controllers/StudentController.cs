@@ -26,7 +26,7 @@ namespace EduZone.Controllers
         {
             return View();
         }
-        public ActionResult GetBatches(int BN=0)
+        public ActionResult GetBatches(int BN=1)
         {
             ViewBag.BN = BN;
             var memberes = context.GetStudents.Where(e => e.Batch == BN);
@@ -256,9 +256,6 @@ namespace EduZone.Controllers
 
             return View(ss);
         }
-
-
-        //Abdallah
         public ActionResult Notification()
         {
             var userid = User.Identity.GetUserId();

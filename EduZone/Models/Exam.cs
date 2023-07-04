@@ -16,6 +16,7 @@ namespace EduZone.Models
         public string FormTitle { get; set; }
         public string CreatorID { get; set; }
         public bool IsStart { get; set; }
+        public bool IsDelete { get; set; }
         public string GroupCode { get; set; }
     }
 }

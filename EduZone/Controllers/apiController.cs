@@ -45,7 +45,7 @@ namespace EduZone.Controllers
             {
                 ans+= Get_Kb_Size(item.Size);
             }
-            pairs["SizeOfDate"] = ans;
+            pairs["SizeOfData"] = ans;
             return Json(pairs,JsonRequestBehavior.AllowGet);
         }
         public JsonResult StudentCourses()
@@ -94,16 +94,35 @@ namespace EduZone.Controllers
         public JsonResult BatchNumbers()
         {
             Dictionary<string, int> pairs = new Dictionary<string, int>();
-            pairs["Batch1"] = context.GetStudents.Where(e => e.Batch == 1).Count();
-            pairs["Batch2"] = context.GetStudents.Where(e => e.Batch == 2).Count();
-            pairs["Batch3"] = context.GetStudents.Where(e => e.Batch == 3).Count();
-            pairs["Batch4"] = context.GetStudents.Where(e => e.Batch == 4).Count();
+            pairs["Batch1CS"] = context.GetStudents.Where(e => e.Batch == 1&&e.Department == "CS").Count();
+            pairs["Batch1IS"] = context.GetStudents.Where(e => e.Batch == 1&&e.Department == "IS").Count();
+            pairs["Batch1IT"] = context.GetStudents.Where(e => e.Batch == 1&&e.Department == "IT").Count();
+
+            pairs["Batch2CS"] = context.GetStudents.Where(e => e.Batch == 2 && e.Department == "CS").Count();
+            pairs["Batch2IS"] = context.GetStudents.Where(e => e.Batch == 2 && e.Department == "IS").Count();
+            pairs["Batch2IT"] = context.GetStudents.Where(e => e.Batch == 2 && e.Department == "IT").Count();
+
+            pairs["Batch3CS"] = context.GetStudents.Where(e => e.Batch == 3 && e.Department == "CS").Count();
+            pairs["Batch3IS"] = context.GetStudents.Where(e => e.Batch == 3 && e.Department == "IS").Count();
+            pairs["Batch3IT"] = context.GetStudents.Where(e => e.Batch == 3 && e.Department == "IT").Count();
+
+            pairs["Batch4CS"] = context.GetStudents.Where(e => e.Batch == 4 && e.Department == "CS").Count();
+            pairs["Batch4IS"] = context.GetStudents.Where(e => e.Batch == 4 && e.Department == "IS").Count();
+            pairs["Batch4IT"] = context.GetStudents.Where(e => e.Batch == 4 && e.Department == "IT").Count();
+
             return Json(pairs, JsonRequestBehavior.AllowGet);
         }
         public JsonResult PostNumber()
         {
             Dictionary<string, int> pairs = new Dictionary<string, int>();
             var post = context.Posts;
+            pairs["Sunday"] = 0;
+            pairs["Monday"] = 0;
+            pairs["Tuesday"] = 0;
+            pairs["Wednesday"] = 0;
+            pairs["Thursday"] = 0;
+            pairs["Friday"] = 0;
+            pairs["Saturday"] = 0;
             foreach (var item in post)
             {
                 string s = GetDay(item.Date.ToString());
@@ -116,6 +135,7 @@ namespace EduZone.Controllers
                     pairs[s] = 1;
                 }
             }
+
             pairs.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
             return Json(pairs, JsonRequestBehavior.AllowGet);
         }
@@ -123,6 +143,13 @@ namespace EduZone.Controllers
         {
             Dictionary<string, int> pairs = new Dictionary<string, int>();
             var post = context.PostInGroups;
+            pairs["Sunday"] = 0;
+            pairs["Monday"] = 0;
+            pairs["Tuesday"] = 0;
+            pairs["Wednesday"] = 0;
+            pairs["Thursday"] = 0;
+            pairs["Friday"] = 0;
+            pairs["Saturday"] = 0;
             foreach (var item in post)
             {
                 string s = GetDay(item.Date.ToString());
@@ -138,7 +165,29 @@ namespace EduZone.Controllers
             pairs.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
             return Json(pairs, JsonRequestBehavior.AllowGet);
         }
-
+        public JsonResult DataUploadInMonth()
+        {
+            Dictionary<string, long> pairs = new Dictionary<string, long>();
+            pairs["Jan"] = 0;
+            pairs["Feb"] = 0;
+            pairs["Mar"] = 0;
+            pairs["Apr"] = 0;
+            pairs["May"] = 0;
+            pairs["Jun"] = 0;
+            pairs["Jul"] = 0;
+            pairs["Aug"] = 0;
+            pairs["Sep"] = 0;
+            pairs["Oct"] = 0;
+            pairs["Nov"] = 0;
+            pairs["Dec"] = 0;
+            var mat = context.GetMaterials.ToList();
+            foreach (var item in mat)
+            {
+                string val = item.Date.ToString("MMM");
+                pairs[val] += Get_Kb_Size(item.Size);
+            }
+            return Json(pairs, JsonRequestBehavior.AllowGet);
+        }
         private string GetRole(string id)
         {
             var userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));

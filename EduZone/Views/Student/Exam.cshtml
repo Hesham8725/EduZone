@@ -25,7 +25,12 @@
                                                    .Select(e => e.Point)
                                                    .Sum();
             }
-            var name = context.Users.FirstOrDefault(e => e.Id == item.CreatorID).Name;
+            string name = "";
+            var userx = context.Users.FirstOrDefault(e => e.Id == item.CreatorID);
+            if (userx != null)
+            {
+                name = userx.Name;
+            }
             <div class="col">
                 <div class="card h-100">
                     <div class="card-body">

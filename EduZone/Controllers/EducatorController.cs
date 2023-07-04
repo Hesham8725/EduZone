@@ -19,7 +19,7 @@ namespace EduZone.Controllers
         public ActionResult Index()
         {
             string id = User.Identity.GetUserId();
-            var Exams = context.GetExams.Where(e => e.CreatorID == id).ToList();
+            var Exams = context.GetExams.Where(e => e.CreatorID == id&&e.IsDelete == false).ToList();
             return View(Exams);
         }
 
@@ -71,7 +71,9 @@ namespace EduZone.Controllers
                 CreatorID = User.Identity.GetUserId(),
                 GroupName = GN,
                 FormTitle = Form_Title,
-                GroupCode = Group_Name
+                GroupCode = Group_Name,
+                IsDelete = false,
+                IsStart = false
             };
             context.GetExams.Add(exam);
             context.SaveChanges();
@@ -143,20 +145,10 @@ namespace EduZone.Controllers
         private void Del_Exam(int id)
         {
             //Exam
-            var exam = context.GetExams.Where(e => e.Id == id);
-            context.GetExams.RemoveRange(exam);
+            var exam = context.GetExams.FirstOrDefault(e => e.Id == id);
+            exam.IsDelete = true;
+            exam.IsStart = false;
             context.SaveChanges();
-
-            //Questions
-            var Quest = context.GetQuestions.Where(e => e.ExamId == id);
-            context.GetQuestions.RemoveRange(Quest);
-            context.SaveChanges();
-
-            //Questions Options
-            var QOption = context.GetQuestionOptions.Where(e => e.ExamId == id);
-            context.GetQuestionOptions.RemoveRange(QOption);
-            context.SaveChanges();
-
         }
     }
 }

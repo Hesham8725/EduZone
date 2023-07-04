@@ -2,23 +2,30 @@
 @{
     ViewBag.Title = "dashboard";
 }
-
-<h2>Educator dashboard</h2>
-
-<div id="div">
-
-</div>
-
+<main class="container my-3 pb-4">
+    <div class="row my-5">
+        <div class="col-lg-6 col-12">
+            <canvas id="chart-line" height="200px">
+            </canvas>
+        </div>
+        <div class="col-lg-6 col-12">
+            <canvas id="my-chart" height="200px">
+            </canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-12">
+            <canvas id="chart-bar" height="200px">
+            </canvas>
+        </div>
+        <div class=" col-lg-6 col-12">
+            <canvas id="chart-pie" height="200px">
+            </canvas>
+        </div>
+    </div>
+</main>
 
 @section bottom_Link{
-    <script>
-        
-        fetch('/api/Numbers', { method: 'POST' }).then(res => res.json()).then(data => {
-            console.log(data);
-            //console.log(data.SizeOfDate);
-            //data.forEach(emp => {
-              //  document.querySelector("#div").append(`<h5>` + emp.NumberOfAdmins + `</h5>`)
-            //})
-        })
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+    <script src="~/Scripts/dashboard1.js"></script>
 }

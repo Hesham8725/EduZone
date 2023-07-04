@@ -61,54 +61,54 @@ namespace EduZone.Services
             {
                 for (int j = 0; j < lastMessages.Count; j++)
                 {
-                   
-                        if (users[i].Id != currentUserId)
+                    if ( users[i].Id != currentUserId)
+                    {
+                        if (users[i].Id == lastMessages[j].ReseverID || users[i].Id == lastMessages[j].SendId)
                         {
-                            if (users[i].Id == lastMessages[j].ReseverID || users[i].Id == lastMessages[j].SendId)
-                            {
 
-                                var lastAnduser = new UsersAndLastSeenViewModel();
-                                lastAnduser.Name = users[i].Name;
-                                lastAnduser.Image = users[i].Image;
-                                lastAnduser.Id = users[i].Id;
-                                var id = users[i].Id;
-                                var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
-                                if (t != null)
-                                {
-                                    lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
-                                }
-                                lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
-                                lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
-                                usersAndLasts.Add(lastAnduser);
-                            }
-                        }
-                        else
-                        {
-                            if (cont == 0 && lastMessages[j].ReseverID == lastMessages[j].SendId)
+                            var lastAnduser = new UsersAndLastSeenViewModel();
+                            lastAnduser.Name = users[i].Name;
+                            lastAnduser.Image = users[i].Image;
+                            lastAnduser.Id = users[i].Id;
+                            var id = users[i].Id;
+                            var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
+                            if (t != null)
                             {
-                                var lastAnduser = new UsersAndLastSeenViewModel();
-                                lastAnduser.Name = users[i].Name;
-                                lastAnduser.Image = users[i].Image;
-                                lastAnduser.Id = users[i].Id;
-                                var id = users[i].Id;
-                                var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
-                                if (t != null)
-                                {
-                                    lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
-                                }
-                                lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
-                                lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
-                                usersAndLasts.Add(lastAnduser);
-                                cont++;
+                                lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
                             }
+                            lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
+                            lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
+                            usersAndLasts.Add(lastAnduser);
                         }
-                    
+                    }
+                    else
+                    {
+                        if (cont == 0 && lastMessages[j].ReseverID == lastMessages[j].SendId)
+                        {
+                            var lastAnduser = new UsersAndLastSeenViewModel();
+                            lastAnduser.Name = users[i].Name;
+                            lastAnduser.Image = users[i].Image;
+                            lastAnduser.Id = users[i].Id;
+                            var id = users[i].Id;
+                            var t = context.GetIsOnlines.FirstOrDefault(e => e.UserId == id);
+                            if (t != null)
+                            {
+                                lastAnduser.OnLineOrNot = FormatTimeOfLastSeen(t.CreatedAt);
+                            }
+                            lastAnduser.TimeOfLastSeenTi = lastMessages[j].LastMessage;
+                            lastAnduser.TimeOfLastSeenStr = FormatTimeOfLastMessage(lastMessages[j].LastMessage);
+                            usersAndLasts.Add(lastAnduser);
+                            cont++;
+                        }
+                    }
                 }
             }
             usersAndLasts = usersAndLasts.OrderByDescending(x => x.TimeOfLastSeenTi).ToList();
             return usersAndLasts;
 
         }
+
+
         public string FormatTimeOfLastSeen(DateTime time)
         {
             string timeFormat = "";
@@ -144,6 +144,8 @@ namespace EduZone.Services
             }
             return timeFormat;
         }
+
+
         public string FormatTimeOfNotification(DateTime time)
         {
             string timeFormat = "";

@@ -11,7 +11,12 @@
     var Num = context.GetQuestions.Where(e => e.ExamId == Model.Id).Count();
     var Qestions = context.GetQuestions.Where(e => e.ExamId == Model.Id).ToList();
     var idx = Model.CreatorID;
-
+    var Userx = context.Users.FirstOrDefault(e => e.Id == idx);
+    string name = "";
+    if (Userx != null)
+    {
+        name = Userx.Name;
+    }
 }
 
 @section Top_Link{
@@ -29,7 +34,8 @@
                         <h4>Exam Title : <span class="badge text-bg-light">@Model.FormTitle</span> </h4>
                     </li>
                     <li class="list-group-item">
-                        <h4>Doctor : <span class="badge text-bg-light">@context.Users.FirstOrDefault(e => e.Id == idx).Name</span> </h4>
+                        
+                        <h4>Doctor : <span class="badge text-bg-light">@name</span> </h4>
                     </li>
                     <li class="list-group-item">
                         <h4>Group Name : <span class="badge text-bg-light">@Model.GroupName</span> </h4>

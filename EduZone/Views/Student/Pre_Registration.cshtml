@@ -33,58 +33,42 @@
         <h3>Pre-Registration Form</h3>
 
     </header>
-    <button onclick="printDiv('preregistration')">print</button>
+    @*<button onclick="printDiv('preregistration')">print</button>*@
 
 
     <nav>
         <label for="name">Level: </label>
         @if (@ViewBag.Batch == 1)
         {
-
-
             <div>First</div>
         }
         else if (@ViewBag.Batch == 2)
         {
             <div>Second</div>
-
         }
         else if (@ViewBag.Batch == 3)
         {
             <div>Third</div>
-
         }
         else if (@ViewBag.Batch == 4)
         {
             <div>Fourth</div>
-
-
         }
-        @*<select name="year"
-                    id="year"
-                    style="padding: 5px; width: 100px; text-align: center">
-                <option value="1">First</option>
-                <option value="2">Second</option>
-                <option value="3">Third</option>
-                <option value="4">Fourth</option>
-            </select>*@
         <label for="name">Semester: </label>
         <div>@ViewBag.Semester</div>
         <label for="name">Year: </label>
         @if (asd)
         {
             <div>@ViewBag.Year - @year</div>
-
         }
         else
         {
             <div>@year - @ViewBag.Year</div>
-
         }
     </nav>
     <form action="">
         <div class="inputbox">
-            <input type="text" id="stname" required value="@ViewBag.studentName" />
+            <input type="text" id="stname"  required value="@ViewBag.studentName" />
             <span>Name</span>
         </div>
         <div class="inputbox">
@@ -112,7 +96,7 @@
         @Html.DropDownList("Courses Id", selectListItems, new { @id = "mydropdownlist" })
 
         @*<button><i class="bx bx-plus-circle" id="send"></i></button>*@
-        <a href="#"><i class="bx bx-plus-circle" id="send"></i></a>
+        <a role="button" href="#"><i class="bx bx-plus-circle" id="send"></i></a>
     </form>
     <table id="myTable">
         <thead>
@@ -135,7 +119,7 @@
                         <td>@course.CourseName</td>
                         <td>@context.Users.FirstOrDefault(e=>e.Id == course.DoctorOfCourse).Name</td>
                         <td>@course.NumberOfHours</td>
-                        <td><i class="fa fa-window-close" aria-hidden="true" id="Delete" onmouseover="change(@item.ID)"></i></td>
+                        <td><i class="fa fa-window-close" style="cursor:pointer;" aria-hidden="true" id="Delete" onmouseover="change(@item.ID)"></i></td>
                     </tr>
                     counter++;
                 }
@@ -196,7 +180,7 @@
             cell1.innerHTML = sasa.CourseName;
             cell2.innerHTML = sasa.DoctorOfCourse;
             cell3.innerHTML = sasa.NumberOfHours;
-            cell4.innerHTML = `<i class="fa fa-window-close" id="Delete" onmouseover="change(${idx})" aria-hidden="true"></i>`;
+            cell4.innerHTML = `<i class="fa fa-window-close" style="cursor:pointer;" id="Delete" onmouseover="change(${idx})" aria-hidden="true"></i>`;
             counter++;
             console.log(counter)
         }
