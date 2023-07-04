@@ -41,9 +41,10 @@ section .card .image {
     }
 
 .card {
+    height: 50%;
     background-color: #eee;
     border-radius: 20px;
-    margin: 20px 0;
+    margin: 68px 15;
     width: 290px;
 }
 

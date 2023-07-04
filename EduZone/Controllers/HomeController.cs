@@ -10,6 +10,7 @@ namespace EduZone.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Con = "No";
             return View();
         }
 

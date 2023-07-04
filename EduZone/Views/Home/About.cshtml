@@ -1,13 +1,17 @@
 ﻿@{
     ViewBag.Title = "About";
-    Layout = null;
+   
 }
 
-    <!-- Link Swiper's CSS -->
-    <link rel="stylesheet"
-          href="https://unpkg.com/swiper/swiper-bundle.min.css" />
-    <link href="~/Content/StyleSheet/about.css" rel="stylesheet" />
+@section Top_Link{
 
+}
+<link href="~/lib/font-awesome/css/all.css" rel="stylesheet" />
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<!-- Link Swiper's CSS -->
+<link rel="stylesheet"
+      href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+<link href="~/Content/StyleSheet/about.css" rel="stylesheet" />
 <section>
     <div class="swiper mySwiper cont">
         <div class="swiper-wrapper content">
@@ -44,7 +48,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/Rezk.jpeg" alt="avatar" />
+                        <img src="Images/Rezk.jpeg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -61,7 +65,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -74,7 +78,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/Samir.jpeg" alt="avatar" />
+                        <img src="Images/Samir.jpeg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -91,7 +95,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -104,7 +108,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/Abdallah.jpeg" alt="avatar" />
+                        <img src="Images/Abdallah.jpeg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -121,7 +125,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -134,7 +138,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/Farahat.jpeg" alt="avatar" />
+                        <img src="Images/Farahat.jpeg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -151,7 +155,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -164,7 +168,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/Hemdan.jpeg" alt="avatar" />
+                        <img src="Images/Hemdan.jpeg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -181,7 +185,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -194,7 +198,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/Abdox.jpeg" alt="avatar" />
+                        <img src="Images/Abdox.jpeg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -211,7 +215,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -224,7 +228,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/OIP (1).jpg" alt="avatar" />
+                        <img src="Images/OIP (1).jpg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -241,7 +245,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -254,7 +258,7 @@
             <div class="swiper-slide card">
                 <div class="card-content">
                     <div class="image">
-                        <img src="/Images/OIP (1).jpg" alt="avatar" />
+                        <img src="Images/OIP (1).jpg" alt="avatar" />
                     </div>
 
                     <div class="media-icons">
@@ -271,7 +275,7 @@
                             <i class="fa-brands fa-github"></i>
                         </a>
                         <a href="#" target="_blank">
-                            <img src="/Images/cv.png" alt="" />
+                            <img src="Images/cv.png" alt="" />
                         </a>
                     </div>
 
@@ -287,13 +291,13 @@
     <div class="swiper-button-prev"></div>
     <div class="swiper-pagination"></div>
 </section>
+
+
+
 @section bottom_Link{
 
-    <!-- Swiper JS -->
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-    <!-- Initialize Swiper -->
-    @*<script>
+    <script>
         var swiper = new Swiper(".mySwiper", {
             slidesPerView: 3,
             spaceBetween: 30,
@@ -315,6 +319,6 @@
         let refreshSlider = setInterval(() => {
             next.click();
         }, 4000);
-    </script>*@
-    <!-- End -->
+    </script>
+
 }
